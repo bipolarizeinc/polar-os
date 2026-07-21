@@ -1,0 +1,17 @@
+# dependencies
+/node_modules/
+
+# Next.js build output and generated types
+/.next/
+/out/
+/next-env.d.ts
+
+# local environment files
+.env*
+!.env.example
+
+# tooling and operating-system noise
+*.tsbuildinfo
+.DS_Store
+npm-debug.log*
+
