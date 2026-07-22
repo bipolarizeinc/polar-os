@@ -1,59 +1,10 @@
 import Image from "next/image";
-import Link from "next/link";
+import { PageShell } from "../components/SiteChrome";
 
 export default function AboutPage() {
-  return (
-    <main className="min-h-screen bg-black text-white">
-      <header className="border-b border-white/10">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
-          <Link href="/" className="font-black text-cyan-400">
-            BI POLARIZE
-          </Link>
-
-          <Link href="/" className="text-sm text-gray-300 hover:text-cyan-400">
-            Back Home
-          </Link>
-        </div>
-      </header>
-
-      <section className="mx-auto grid max-w-7xl gap-14 px-6 py-24 lg:grid-cols-2">
-        <div>
-          <p className="text-sm font-black uppercase tracking-[0.3em] text-cyan-400">
-            About BI POLARIZE
-          </p>
-
-          <h1 className="mt-6 text-5xl font-black leading-tight sm:text-7xl">
-            Infrastructure for ideas that do not fit the usual mold.
-          </h1>
-
-          <p className="mt-8 text-lg leading-8 text-gray-400">
-            BI POLARIZE ENTERPRISES, INC. helps founders transform unconventional
-            concepts into structured, operational businesses.
-          </p>
-
-          <p className="mt-5 text-lg leading-8 text-gray-400">
-            We combine strategic research, business architecture, artificial
-            intelligence, automation, and disciplined execution to move ideas
-            from imagination into reality.
-          </p>
-        </div>
-
-        <div className="relative min-h-[560px] overflow-hidden rounded-3xl border border-white/10">
-          <Image
-            src="/founder.jpg"
-            alt="Douglas Arnold Long Jr."
-            fill
-            className="object-cover"
-          />
-
-          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black to-transparent p-8 pt-32">
-            <h2 className="text-3xl font-black">Douglas Arnold Long Jr.</h2>
-            <p className="mt-2 text-gray-300">
-              Founder &amp; Director of Operations
-            </p>
-          </div>
-        </div>
-      </section>
-    </main>
-  );
+  return <PageShell>
+    <section className="page-hero"><div className="section-index">ABOUT // CORPORATE IDENTITY</div><p className="eyebrow">BUILT FOR WHAT DOES NOT FIT</p><h1>VISION DESERVES<br /><em>ARCHITECTURE.</em></h1><p>BI POLARIZE ENTERPRISES, INC. is a business infrastructure and AI systems company engineered for founders, creators, and unconventional visionaries.</p></section>
+    <section className="section-shell values-section"><div className="split-heading"><h2>WE SEE WHAT<br />OTHERS DISMISS.</h2><div><p>Our mission is to identify unrealized potential within people, ideas, and emerging markets—and engineer the infrastructure needed to move beyond the limitations of any single individual.</p><p>Our vision is an entrepreneurial ecosystem where unconventional concepts are protected, documented, automation-ready, and positioned for sustainable growth.</p></div></div><div className="value-grid"><article><span>01</span><h3>Creativity + discipline</h3><p>Original thought gets room to breathe and a structure strong enough to carry it.</p></article><article><span>02</span><h3>Spirit + strategy</h3><p>Purpose can guide the work without replacing research, evidence, or execution.</p></article><article><span>03</span><h3>Human + machine</h3><p>Knowledge is built for human clarity and clean machine-readable intelligence.</p></article></div></section>
+    <section className="declaration-section"><div className="section-shell"><div className="section-index">FOUNDER // DECLARATION OF INTENT</div><div className="declaration-grid"><div className="declaration-copy"><p className="eyebrow">FOUNDER&apos;S DECLARATION</p><h2>FROM MISUNDERSTOOD<br />TO <em>UNDENIABLE.</em></h2><p>BI POLARIZE ENTERPRISES, INC. was built for the thinkers, creators, builders, and visionaries whose ideas refuse to fit inside somebody else&apos;s little-ass box.</p><p>I know what it means to see what others cannot yet understand—to carry a vision so unconventional that people mistake its complexity for confusion. But complexity is not failure, and chaos is not always disorder. Sometimes chaos is raw intelligence waiting to be extracted, challenged, organized, and transformed into something undeniable.</p><p className="declaration-punch">That is what we do.</p><p>We do not water down powerful ideas to make conventional minds comfortable. We examine both sides, expose the weaknesses, protect the value, strengthen the foundation, and engineer the infrastructure required to make the vision functional, profitable, and sustainable.</p><p>BI POLARIZE exists where creativity meets discipline, spirituality meets strategy, and imagination meets execution. The person carrying the vision may not yet possess every document, system, connection, or resource needed to build it. That does not make the vision less valuable. It means the right architecture has not been built around it yet.</p><p className="declaration-punch">We are here to build that architecture.</p><p>This company stands for the founder who was underestimated, the creator who was misunderstood, the problem-solver who never followed the traditional path, and the innovator holding something the market does not yet know how to name.</p><p>Originality should never be punished for refusing to imitate what already exists. Vision should never die because it arrived before its instructions. Great ideas deserve more than encouragement, generic templates, and pretty-ass reports that collect digital dust. They deserve research, structure, protection, execution, and a legitimate path to revenue.</p><p>So bring us the raw thought. Bring us the complicated problem, unfinished concept, strange invention, unconventional solution, or big-ass vision nobody else understands.</p><p>We will question it. We will challenge it. We will polarize it. Then we will help build the systems required to make it real.</p><blockquote>Tell Us About Your Thing.<br /><span>From idea to functional. From misunderstood to undeniable.</span></blockquote></div><aside className="founder-aside"><div className="founder-frame"><Image src="/founder.jpg" alt="Founder and Director of Operations" fill sizes="(max-width: 900px) 90vw, 32vw" /></div><Image className="founder-signature" src="/brand/founder-signature.png" alt="Founder signature" width={340} height={140} /><Image className="founder-seal" src="/brand/corporate-seal.png" alt="Official corporate seal" width={150} height={150} /><div className="founder-bio"><small>FOUNDER // DIRECTOR OF OPERATIONS</small><h3>Architect of the Bipolarization Method</h3><p>A multidisciplinary business architect, researcher, creative producer, and unconventional problem-solver based in Ogden, Utah.</p><p>With a B.S. in Audio Production, an A.S. in Business, and multiple business-management certifications, the Founder combines formal education with lived experience, spiritual intelligence, creative instinct, strategic research, and streetwise execution.</p></div></aside></div></div></section>
+  </PageShell>;
 }

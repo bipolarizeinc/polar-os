@@ -19,6 +19,12 @@ export const metadata: Metadata = {
   },
   description:
     "Innovation infrastructure for transforming unconventional ideas into functional businesses.",
+  metadataBase: new URL("https://PolarPaw.Online"),
+  openGraph: {
+    title: "BI POLARIZE ENTERPRISES, INC.",
+    description: "From misunderstood to undeniable. Tell us about your thing.",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
