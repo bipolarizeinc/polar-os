@@ -1,0 +1,16 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "polarpaw.online"
+        }
+      ],
+      "destination": "https://www.polarpaw.online/:path*",
+      "permanent": true
+    }
+  ]
+}
