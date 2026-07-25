@@ -10,6 +10,14 @@ const method = [
   ["04", "Deploy", "We move the architecture into real operations with a practical path toward revenue."],
 ];
 
+const ticker = [
+  "BI POLARIZE ENTERPRISES, INC.",
+  "VISION INTELLIGENCE",
+  "SYSTEM ARCHITECTURE",
+  "P.O.L.A.R. ONLINE",
+  "UNCONVENTIONAL IDEAS. OPERATIONAL REALITY.",
+];
+
 export default function Home() {
   return (
     <PageShell>
@@ -17,7 +25,7 @@ export default function Home() {
         <div className="hero-energy fire" /><div className="hero-energy ice" />
         <div className="hero-grid">
           <div className="hero-copy">
-            <p className="eyebrow"><span>BP-WEB-7709</span> INNOVATION INFRASTRUCTURE</p>
+            <p className="eyebrow"><span>BP-WEB-7709</span> BI POLARIZE ENTERPRISES, INC.</p>
             <h1>OFF THE WALL.<br /><em>OUT OF THE BOX.</em></h1>
             <p className="hero-lede">We transform raw, unconventional ideas into structured, protected, automation-ready enterprises.</p>
             <div className="hero-actions">
@@ -32,6 +40,12 @@ export default function Home() {
         </div>
         <div className="scroll-cue">SCROLL TO ENTER THE SYSTEM <span>↓</span></div>
       </section>
+
+      <div className="brand-ticker" aria-hidden="true">
+        <div className="brand-ticker-track">
+          {[...ticker, ...ticker].map((item, index) => <span key={`${item}-${index}`}><strong>◆</strong> {item}</span>)}
+        </div>
+      </div>
 
       <section className="manifesto-band">
         <span>RAW THOUGHT</span><i>×</i><span>STRATEGIC FRICTION</span><i>×</i><span>SYSTEM ARCHITECTURE</span><i>=</i><strong>FUNCTIONAL ENTERPRISE</strong>
@@ -52,7 +66,7 @@ export default function Home() {
       <section className="method-section">
         <div className="section-shell">
           <div className="section-index">02 // THE BIPOLARIZATION METHOD</div>
-          <div className="method-head"><h2>CHAOS, ENGINEERED<br />INTO <em>CLARITY.</em></h2><p>Not motivational theater. Not another pretty-ass report collecting digital dust. A disciplined method for making original ideas functional.</p></div>
+          <div className="method-head"><h2>CHAOS, ENGINEERED<br />INTO <em>CLARITY.</em></h2><p>Not motivational theater. Not another polished report collecting digital dust. A disciplined method for making original ideas functional.</p></div>
           <div className="method-grid">{method.map(([n,t,d]) => <article key={n}><span>{n}</span><h3>{t}</h3><p>{d}</p></article>)}</div>
         </div>
       </section>
@@ -75,8 +89,8 @@ export default function Home() {
       <section className="cta-section">
         <div className="cta-mark"><Image src="/brand/bipolarization-symbol.png" alt="" fill /></div>
         <p className="eyebrow">TRANSMISSION OPEN // 24 HOURS</p>
-        <h2>BRING US THE<br /><em>BIG-ASS VISION.</em></h2>
-        <p>Complicated problem. Strange invention. Unfinished concept. Unconventional solution. Tell us about your thing.</p>
+        <h2>BRING US THE<br /><em>UNFILTERED VISION.</em></h2>
+        <p>Complicated problem. Strange invention. Unfinished concept. Unconventional solution. Tell us what you see that the market has not caught up to yet.</p>
         <Link href="/contact" className="primary-action">INITIALIZE EXTRACTION <span>↗</span></Link>
       </section>
     </PageShell>
