@@ -4,7 +4,9 @@ import { IntakeLink } from "./IntakeLink";
 
 const links = [
   ["Home", "/"],
-  ["Services", "/services"],
+  ["Products", "/#products"],
+  ["Solutions", "/services"],
+  ["P.O.L.A.R.", "/#polar"],
   ["About", "/about"],
   ["Contact", "/contact"],
 ] as const;
@@ -37,12 +39,12 @@ export function SiteFooter() {
       <div className="footer-grid">
         <div>
           <Image src="/brand/primary-logo.png" alt="BI POLARIZE ENTERPRISES, INC." width={250} height={110} />
-          <p>Innovation infrastructure for unconventional vision.</p>
+          <p>Turning fragile human knowledge into durable institutional intelligence.</p>
         </div>
-        <div><b>Navigate</b><Link href="/services">Services</Link><Link href="/about">About</Link><Link href="/contact">Contact</Link></div>
+        <div><b>Explore</b><Link href="/#products">Products</Link><Link href="/services">Solutions</Link><Link href="/#polar">P.O.L.A.R.</Link><Link href="/about">About</Link></div>
         <div><b>Connect</b><a href="tel:+18016868143">801-686-8143</a><a href="mailto:YourThing@PolarPaw.Online">YourThing@PolarPaw.Online</a><span>Open 24 / 7</span></div>
       </div>
-      <div className="footer-base"><span>© {new Date().getFullYear()} BI POLARIZE ENTERPRISES, INC.</span><span>OGDEN, UTAH · POWERED BY P.O.L.A.R. OS</span></div>
+      <div className="footer-base"><span>© {new Date().getFullYear()} BI POLARIZE ENTERPRISES, INC.</span><span>OGDEN, UTAH · POWERED BY POLAR OS</span></div>
     </footer>
   );
 }
