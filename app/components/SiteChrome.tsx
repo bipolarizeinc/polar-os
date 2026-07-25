@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { IntakeLink } from "./IntakeLink";
 
 const links = [
   ["Home", "/"],
@@ -24,7 +25,7 @@ export function SiteHeader() {
         <nav aria-label="Primary navigation">
           {links.map(([label, href]) => <Link key={href} href={href}>{label}</Link>)}
         </nav>
-        <Link className="nav-cta" href="/contact">Initialize <span>→</span></Link>
+        <IntakeLink className="nav-cta" />
       </div>
     </header>
   );
