@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { PageShell } from "./components/SiteChrome";
 import { PolarConsole } from "./components/PolarConsole";
+import { IntakeLink } from "./components/IntakeLink";
 
 const method = [
   ["01", "Extract", "We get the whole idea out of your head—mess, brilliance, contradictions and all."],
@@ -29,7 +30,7 @@ export default function Home() {
             <h1>OFF THE WALL.<br /><em>OUT OF THE BOX.</em></h1>
             <p className="hero-lede">We transform raw, unconventional ideas into structured, protected, automation-ready enterprises.</p>
             <div className="hero-actions">
-              <Link href="/contact" className="primary-action">INITIALIZE BLUEPRINT EXTRACTION <span>↗</span></Link>
+              <IntakeLink />
               <Link href="/services" className="text-action">EXPLORE THE SYSTEM <span>→</span></Link>
             </div>
             <div className="hero-metrics">
@@ -91,7 +92,7 @@ export default function Home() {
         <p className="eyebrow">TRANSMISSION OPEN // 24 HOURS</p>
         <h2>BRING US THE<br /><em>UNFILTERED VISION.</em></h2>
         <p>Complicated problem. Strange invention. Unfinished concept. Unconventional solution. Tell us what you see that the market has not caught up to yet.</p>
-        <Link href="/contact" className="primary-action">INITIALIZE EXTRACTION <span>↗</span></Link>
+        <IntakeLink />
       </section>
     </PageShell>
   );
