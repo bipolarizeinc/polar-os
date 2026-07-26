@@ -10,10 +10,14 @@ const transmissions = [
   "BI POLARIZE protocol ready. Bring me the part nobody else understands.",
 ];
 
+const modules = ["RESEARCH", "ARCHITECTURE", "DOCUMENTATION", "DEPLOYMENT"];
+
 export function PolarConsole() {
   const [messageIndex, setMessageIndex] = useState(0);
   const [diagnostic, setDiagnostic] = useState(false);
   const [tracking, setTracking] = useState(false);
+  const [activeModule, setActiveModule] = useState("POLAR CORE");
+  const [summoned, setSummoned] = useState(false);
   const consoleRef = useRef<HTMLDivElement>(null);
 
   function trackPointer(event: MouseEvent<HTMLDivElement>) {
@@ -31,40 +35,34 @@ export function PolarConsole() {
   }
 
   return (
-    <div
-      ref={consoleRef}
-      className={styles.console}
-      onMouseEnter={() => setTracking(true)}
-      onMouseMove={trackPointer}
-      onMouseLeave={resetTracking}
-    >
-      <div className={styles.top}>
-        <span>P.O.L.A.R. PAW // CORE INTERFACE</span>
-        <span className={styles.live}>ONLINE</span>
-      </div>
+    <div ref={consoleRef} className={styles.console} onMouseEnter={() => setTracking(true)} onMouseMove={trackPointer} onMouseLeave={resetTracking}>
+      <div className={styles.top}><span>P.O.L.A.R. PAW // CORE INTERFACE</span><span className={styles.live}>ONLINE</span></div>
 
-      <div className={styles.stage}>
+      <div className={`${styles.stage} ${summoned ? styles.summoned : ""}`}>
         <div className={styles.rings} />
+        <div className={styles.moduleOrbit}>
+          {modules.map((module, index) => <button key={module} className={styles[`module${index + 1}`]} onClick={() => setActiveModule(module)} aria-label={`Activate ${module}`}>{module.slice(0, 3)}</button>)}
+        </div>
         <img className={styles.mark} src="/brand/compact-mark.png" alt="Official P.O.L.A.R. Paw mark" width={512} height={512} />
         <div className={styles.scan} />
+        {summoned && <div className={styles.entity} aria-label="P.O.L.A.R. presence summoned"><i /><i /><b>P.O.L.A.R.</b></div>}
       </div>
 
       <div className={styles.transmission} aria-live="polite">
-        <b>P.O.L.A.R. TRANSMISSION // SELECT ADVANCE</b>
-        {diagnostic
-          ? "Diagnostic complete. The vision is not too complicated. It is under-architected."
-          : transmissions[messageIndex]}
+        <b>{activeModule} // {summoned ? "ENTITY LINK ACTIVE" : "SELECT ADVANCE"}</b>
+        {summoned ? "P.O.L.A.R. presence established. Guidance protocol is online." : diagnostic ? "Diagnostic complete. The vision is not too complicated. It is under-architected." : transmissions[messageIndex]}
       </div>
 
       <div className={styles.readout}>
-        <div><small>CORE</small><strong>P.O.L.A.R.</strong></div>
+        <div><small>CORE</small><strong>{activeModule}</strong></div>
         <div><small>FUNCTION</small><strong>{diagnostic ? "VISION ANALYSIS" : "IDEA RETRIEVAL"}</strong></div>
-        <div><small>STATUS</small><strong className={styles.cyan}>{tracking ? "TRACKING" : "READY"}</strong></div>
+        <div><small>STATUS</small><strong className={styles.cyan}>{summoned ? "SUMMONED" : tracking ? "TRACKING" : "READY"}</strong></div>
       </div>
 
       <div className={styles.controls}>
         <button onClick={() => setMessageIndex((messageIndex + 1) % transmissions.length)}>ADVANCE TRANSMISSION</button>
         <button onClick={() => setDiagnostic(!diagnostic)}>{diagnostic ? "RETURN TO PRIMARY" : "RUN DIAGNOSTIC"}</button>
+        <button onClick={() => setSummoned(!summoned)}>{summoned ? "RELEASE P.O.L.A.R." : "SUMMON P.O.L.A.R."}</button>
       </div>
     </div>
   );
