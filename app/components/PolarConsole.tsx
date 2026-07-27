@@ -8,6 +8,7 @@ const transmissions = [
   "Vision integrity stable. Operational architecture is the next requirement.",
   "Contradictions are not defects. They are coordinates. I am mapping them now.",
   "BI POLARIZE protocol ready. Bring me the part nobody else understands.",
+  "Institutional memory link established. Your intelligence does not have to disappear when you leave the room.",
 ];
 
 const modules = ["RESEARCH", "ARCHITECTURE", "DOCUMENTATION", "DEPLOYMENT"];
@@ -34,18 +35,20 @@ export function PolarConsole() {
     setTracking(false);
   }
 
+  const polarImage = diagnostic || summoned ? "/brand/polar-activated.png" : "/brand/polar-primary.png";
+
   return (
     <div ref={consoleRef} className={styles.console} onMouseEnter={() => setTracking(true)} onMouseMove={trackPointer} onMouseLeave={resetTracking}>
-      <div className={styles.top}><span>P.O.L.A.R. PAW // CORE INTERFACE</span><span className={styles.live}>ONLINE</span></div>
+      <div className={styles.top}><span>P.O.L.A.R. // PERSONALIZED OPERATIONS LIAISON</span><span className={styles.live}>ONLINE</span></div>
 
       <div className={`${styles.stage} ${summoned ? styles.summoned : ""}`}>
         <div className={styles.rings} />
         <div className={styles.moduleOrbit}>
           {modules.map((module, index) => <button key={module} className={styles[`module${index + 1}`]} onClick={() => setActiveModule(module)} aria-label={`Activate ${module}`}>{module.slice(0, 3)}</button>)}
         </div>
-        <img className={styles.mark} src="/brand/compact-mark.png" alt="Official P.O.L.A.R. Paw mark" width={512} height={512} />
+        <img className={styles.entityImage} key={polarImage} src={polarImage} alt="P.O.L.A.R., the BI POLARIZE enterprise intelligence companion" width={1536} height={1024} />
         <div className={styles.scan} />
-        {summoned && <div className={styles.entity} aria-label="P.O.L.A.R. presence summoned"><i /><i /><b>P.O.L.A.R.</b></div>}
+        <div className={styles.identityTag}><b>P.O.L.A.R.</b><span>PROTECT · GUIDE · RETRIEVE · BUILD</span></div>
       </div>
 
       <div className={styles.transmission} aria-live="polite">
