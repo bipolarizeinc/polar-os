@@ -35,7 +35,11 @@ export function PolarConsole() {
     setTracking(false);
   }
 
-  const polarImage = diagnostic || summoned ? "/brand/polar-activated.png" : "/brand/polar-primary.png";
+  const polarImage = diagnostic
+    ? "/brand/polar/deep-scan.png"
+    : summoned
+      ? "/brand/polar/speaking.png"
+      : "/brand/polar/listening.png";
 
   return (
     <div ref={consoleRef} className={styles.console} onMouseEnter={() => setTracking(true)} onMouseMove={trackPointer} onMouseLeave={resetTracking}>
