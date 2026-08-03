@@ -28,8 +28,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+          registry-url: https://registry.npmjs.org
 
       - name: Install HyperFrames CLI
+        env:
+          NPM_CONFIG_REGISTRY: https://registry.npmjs.org
         run: npm install --no-audit --no-fund
 
       - name: Verify CLI
