@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { AmbientAudio } from "./components/AmbientAudio";
+import { PolarExperience } from "./components/PolarExperience";
 import "./globals.css";
 import "./brand-enhancements.css";
 
@@ -41,6 +42,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <PolarExperience />
         {children}
         <AmbientAudio />
         <Analytics />
