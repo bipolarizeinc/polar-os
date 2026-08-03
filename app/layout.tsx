@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { AmbientAudio } from "./components/AmbientAudio";
 import { PolarExperience } from "./components/PolarExperience";
+import { PolarIntroAutoRelease } from "./components/PolarIntroAutoRelease";
 import "./globals.css";
 import "./brand-enhancements.css";
 
@@ -43,6 +44,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <PolarExperience />
+        <PolarIntroAutoRelease />
         {children}
         <AmbientAudio />
         <Analytics />
