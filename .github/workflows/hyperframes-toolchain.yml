@@ -43,25 +43,37 @@ jobs:
           npx hyperframes info
           npx hyperframes doctor
 
-      - name: Generate standalone transition compositions
+      - name: Generate render projects
         run: node scripts/prepare-renders.mjs
 
-      - name: Lint and inspect source compositions
+      - name: Lint generated projects
         run: |
-          npx hyperframes lint . --verbose
-          npx hyperframes inspect . --samples 15
+          for project in generated/*; do
+            npx hyperframes lint "$project" --verbose
+          done
 
       - name: Render all eight final clips
+        env:
+          OUTPUT_DIR: ${{ github.workspace }}/public/media/polar
         run: |
-          mkdir -p ../../public/media/polar
-          npx hyperframes render compositions/greeting.html --output ../../public/media/polar/01-polar-greeting.mp4 --quality high --fps 30 --strict
-          npx hyperframes render generated/products-transition.html --output ../../public/media/polar/02-products-transition.mp4 --quality high --fps 30 --strict
-          npx hyperframes render generated/blueprint-transition.html --output ../../public/media/polar/03-blueprint-transition.mp4 --quality high --fps 30 --strict
-          npx hyperframes render generated/drdocx-transition.html --output ../../public/media/polar/04-drdocx-transition.mp4 --quality high --fps 30 --strict
-          npx hyperframes render generated/nexus-transition.html --output ../../public/media/polar/05-nexus-transition.mp4 --quality high --fps 30 --strict
-          npx hyperframes render generated/about-transition.html --output ../../public/media/polar/06-about-transition.mp4 --quality high --fps 30 --strict
-          npx hyperframes render generated/intake-transition.html --output ../../public/media/polar/07-intake-transition.mp4 --quality high --fps 30 --strict
-          npx hyperframes render compositions/idle-inquiry.html --output ../../public/media/polar/08-polar-idle-inquiry.mp4 --quality high --fps 30 --strict
+          mkdir -p "$OUTPUT_DIR"
+          render_project() {
+            project="$1"
+            output="$2"
+            (
+              cd "generated/$project"
+              npx hyperframes render --output "$OUTPUT_DIR/$output" --quality high --fps 30 --strict
+            )
+          }
+          render_project greeting 01-polar-greeting.mp4
+          render_project products-transition 02-products-transition.mp4
+          render_project blueprint-transition 03-blueprint-transition.mp4
+          render_project drdocx-transition 04-drdocx-transition.mp4
+          render_project nexus-transition 05-nexus-transition.mp4
+          render_project about-transition 06-about-transition.mp4
+          render_project intake-transition 07-intake-transition.mp4
+          render_project idle-inquiry 08-polar-idle-inquiry.mp4
+          test "$(find "$OUTPUT_DIR" -maxdepth 1 -name '*.mp4' | wc -l)" -eq 8
 
       - name: Upload final video pack
         uses: actions/upload-artifact@v4
