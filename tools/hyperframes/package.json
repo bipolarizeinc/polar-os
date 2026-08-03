@@ -1,0 +1,21 @@
+{
+  "name": "polar-os-hyperframes",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Dedicated HyperFrames video composition and rendering toolchain for POLAR OS.",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "hf:info": "hyperframes info",
+    "hf:doctor": "hyperframes doctor",
+    "hf:lint": "hyperframes lint .",
+    "hf:inspect": "hyperframes inspect .",
+    "hf:preview": "hyperframes preview --port 3002",
+    "hf:render": "hyperframes render --quality high",
+    "hf:compositions": "hyperframes compositions"
+  },
+  "devDependencies": {
+    "hyperframes": "0.7.77"
+  }
+}
