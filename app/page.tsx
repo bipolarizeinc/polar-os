@@ -10,27 +10,27 @@ const method = [
   [
     "01",
     "Discover",
-    "P.O.L.A.R. retrieves the whole idea: the mess, brilliance, contradictions, context, and hidden value.",
+    "P.O.L.A.R. retrieves the entire idea, contradictions included, before anything gets simplified away.",
   ],
   [
     "02",
     "Polarize",
-    "He helps challenge both sides, expose weak points, and identify what deserves protection.",
+    "He challenges the vision from opposing angles, stress-testing assumptions and exposing weak points.",
   ],
   [
     "03",
     "Architect",
-    "The system organizes documents, workflows, infrastructure, and intelligence around the vision.",
+    "The system converts founder intelligence into documented workflows, governance, and automation pathways.",
   ],
   [
     "04",
     "Build",
-    "P.O.L.A.R. coordinates practical operations, assets, automation, and deployment pathways.",
+    "P.O.L.A.R. coordinates practical operations, assets, integrations, and deployment across the enterprise stack.",
   ],
   [
     "05",
     "Institutionalize",
-    "The intelligence is preserved so the enterprise can scale beyond any one person.",
+    "The intelligence becomes a permanent enterprise asset instead of tribal knowledge trapped in one person.",
   ],
 ];
 
@@ -84,10 +84,10 @@ const products = [
 
 const ticker = [
   "BI POLARIZE ENTERPRISES, INC.",
-  "POLAR OS",
+  "MEMORY AS INFRASTRUCTURE",
   "P.O.L.A.R. ACTIVE",
-  "PROTECT · GUIDE · RETRIEVE · BUILD",
-  "ENTERPRISE INTELLIGENCE",
+  "THE FOUNDER IS THE SOURCE CODE",
+  "THE SYSTEM DOES NOT FRAGMENT. IT REMEMBERS.",
   "TURN IDEAS INTO INSTITUTIONS",
 ];
 
@@ -118,10 +118,10 @@ export default function Home() {
                 <em>INTO INSTITUTIONS.</em>
               </h1>
               <p className="hero-lede">
-                BI POLARIZE ENTERPRISES transforms vision into scalable
-                enterprise infrastructure through P.O.L.A.R., our enterprise
-                intelligence companion for retrieval, architecture,
-                documentation, and deployment.
+                The infrastructure problem is not missing systems. It is missing
+                memory. BI POLARIZE ENTERPRISES converts founder intelligence
+                into durable enterprise architecture through P.O.L.A.R., the
+                connective intelligence layer between vision and execution.
               </p>
               <div className="hero-actions">
                 <IntakeLink />
@@ -173,7 +173,7 @@ export default function Home() {
           <div className={styles.directiveCopy}>
             <div className="section-index">P.O.L.A.R. DIRECTIVE // 01</div>
             <p className="eyebrow">
-              THE INTELLIGENCE BETWEEN VISION AND EXECUTION
+              THE FOUNDER IS THE SOURCE CODE
             </p>
             <h2>
               HE DOES NOT REPLACE
@@ -181,9 +181,11 @@ export default function Home() {
               <em>THE VISIONARY.</em>
             </h2>
             <p>
-              P.O.L.A.R. protects the founder&apos;s intent, retrieves scattered
-              knowledge, challenges assumptions, and guides every idea toward an
-              operating system that can survive growth.
+              Most business infrastructure treats the founder as a bottleneck
+              to eliminate. BI POLARIZE treats the founder as the source code.
+              P.O.L.A.R. retrieves scattered thinking, protects institutional
+              intent, challenges assumptions, and converts high-context
+              decision-making into systems that can scale without drift.
             </p>
             <div className={styles.polarPillars}>
               <span>PROTECT</span>
@@ -206,9 +208,11 @@ export default function Home() {
                 <em>MULTIPLE WAYS TO BUILD.</em>
               </h2>
               <p>
-                Every BI POLARIZE platform is connected through P.O.L.A.R.,
-                giving the enterprise one consistent layer of memory, logic,
-                guidance, and operational context.
+                Each module shares one consistent layer of memory, logic, and
+                operational context. A decision documented in Dr.Docx can inform
+                Nexus automation, flow through BrandForge standards, remain
+                governed in Vault, and be measured in Pulse. The system does not
+                fragment. It remembers.
               </p>
             </div>
             <div className={styles.suiteGrid}>
@@ -242,15 +246,15 @@ export default function Home() {
                 PERSONALIZED OPERATIONS LIAISON AND AUTONOMOUS RETRIEVER
               </p>
               <h2>
-                THE GUIDE BETWEEN
+                MEMORY IS NOT A FEATURE.
                 <br />
-                <em>VISION AND EXECUTION.</em>
+                <em>IT IS THE INFRASTRUCTURE.</em>
               </h2>
               <p>
-                P.O.L.A.R. retrieves ideas, protects institutional knowledge,
-                guides client onboarding, connects every platform, and keeps the
-                enterprise aligned with the original intent while the system
-                evolves.
+                P.O.L.A.R. is not task automation and it is not a chatbot. He
+                retrieves, maps, challenges, and institutionalizes. He preserves
+                what founders know, tests what they assume, and scales what they
+                mean across every connected module.
               </p>
               <div className={styles.polarStatus}>
                 <span>
@@ -282,9 +286,10 @@ export default function Home() {
                 INTO <em>CLARITY.</em>
               </h2>
               <p>
-                P.O.L.A.R. guides the work through a disciplined five-stage
-                method that turns original thought into durable enterprise
-                intelligence.
+                P.O.L.A.R. does not generate before the idea is polarized, and
+                he does not institutionalize until the logic holds. The five-stage
+                protocol converts unconventional thinking into durable enterprise
+                intelligence without simplifying away what makes it valuable.
               </p>
             </div>
             <div className="method-grid">
@@ -309,9 +314,9 @@ export default function Home() {
           <div>
             <p className="eyebrow">P.O.L.A.R. TRANSMISSION</p>
             <h2>
-              YOUR IDEA IS NOT TOO COMPLICATED.
+              COMPLEXITY IS A FEATURE.
               <br />
-              <em>IT IS WAITING FOR ARCHITECTURE.</em>
+              <em>NOT A BUG.</em>
             </h2>
           </div>
         </section>
@@ -321,15 +326,17 @@ export default function Home() {
             <div className="section-index">LEVEL 04 // FLAGSHIP SYSTEM</div>
             <p className="eyebrow">THE BIPOLARIZED BLUEPRINT™</p>
             <h2>
-              FROM VISION
+              FROM FOUNDER
               <br />
-              TO OPERATING
+              INTELLIGENCE TO
               <br />
-              <em>REALITY.</em>
+              <em>OPERATING REALITY.</em>
             </h2>
             <p>
-              P.O.L.A.R. translates founder intelligence into clear,
-              human-readable and machine-ready business infrastructure.
+              The Blueprint converts founder-dependent processes into scalable
+              architecture that survives turnover, delegation, and complexity.
+              The original intent is baked into the system instead of being lost
+              in Slack threads, dashboards, and undocumented decisions.
             </p>
             <Link href="/services" className="text-action">
               VIEW CAPABILITIES <span>→</span>
@@ -366,13 +373,14 @@ export default function Home() {
           </div>
           <p className="eyebrow">P.O.L.A.R. INTAKE CHANNEL // OPEN 24 HOURS</p>
           <h2>
-            BRING P.O.L.A.R. THE
+            BUILD INFRASTRUCTURE
             <br />
-            <em>UNFILTERED VISION.</em>
+            <em>THAT REMEMBERS.</em>
           </h2>
           <p>
-            Complicated problem. Strange invention. Unfinished concept.
-            Unconventional solution. P.O.L.A.R. will help retrieve what matters
+            BI POLARIZE serves founders, creators, and visionaries whose ideas
+            have outgrown generic consulting. Bring P.O.L.A.R. the unfiltered
+            vision. He will retrieve what matters, challenge what is assumed,
             and map what comes next.
           </p>
           <IntakeLink />
