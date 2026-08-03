@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import styles from "./PolarExperience.module.css";
+import videoStyles from "./PolarVideo.module.css";
 
 type ModuleKey = "products" | "blueprint" | "drdocx" | "nexus" | "about" | "intake";
 
@@ -22,36 +23,12 @@ const INTRO_VIDEO = "/media/polar/01_POLAR_Greeting.mp4";
 const IDLE_VIDEO = "/media/polar/08_POLAR_Idle_Inquiry.mp4";
 
 const TRANSITIONS: Record<ModuleKey, Transition> = {
-  products: {
-    title: "P.O.L.A.R. MODULE NETWORK",
-    subtitle: "ACCESSING PRODUCT SYSTEMS",
-    video: "/media/polar/02_Products_Transition.mp4",
-  },
-  blueprint: {
-    title: "BLUEPRINT™",
-    subtitle: "ARCHITECTURE PROTOCOL INITIALIZED",
-    video: "/media/polar/03_Blueprint_Transition.mp4",
-  },
-  drdocx: {
-    title: "DR.DOCX™",
-    subtitle: "DOCUMENTATION CORE ONLINE",
-    video: "/media/polar/04_DrDocx_Transition.mp4",
-  },
-  nexus: {
-    title: "NEXUS™",
-    subtitle: "AUTOMATION PATHWAYS CONNECTING",
-    video: "/media/polar/05_Nexus_Transition.mp4",
-  },
-  about: {
-    title: "FOUNDER INTELLIGENCE",
-    subtitle: "ACCESSING ORIGIN RECORD",
-    video: "/media/polar/06_About_Transition.mp4",
-  },
-  intake: {
-    title: "P.O.L.A.R. INTAKE",
-    subtitle: "SECURE TRANSMISSION CHANNEL OPEN",
-    video: "/media/polar/07_Intake_Transition.mp4",
-  },
+  products: { title: "P.O.L.A.R. MODULE NETWORK", subtitle: "ACCESSING PRODUCT SYSTEMS", video: "/media/polar/02_Products_Transition.mp4" },
+  blueprint: { title: "BLUEPRINT™", subtitle: "ARCHITECTURE PROTOCOL INITIALIZED", video: "/media/polar/03_Blueprint_Transition.mp4" },
+  drdocx: { title: "DR.DOCX™", subtitle: "DOCUMENTATION CORE ONLINE", video: "/media/polar/04_DrDocx_Transition.mp4" },
+  nexus: { title: "NEXUS™", subtitle: "AUTOMATION PATHWAYS CONNECTING", video: "/media/polar/05_Nexus_Transition.mp4" },
+  about: { title: "FOUNDER INTELLIGENCE", subtitle: "ACCESSING ORIGIN RECORD", video: "/media/polar/06_About_Transition.mp4" },
+  intake: { title: "P.O.L.A.R. INTAKE", subtitle: "SECURE TRANSMISSION CHANNEL OPEN", video: "/media/polar/07_Intake_Transition.mp4" },
 };
 
 function resolveModule(target: HTMLAnchorElement): ModuleKey | null {
@@ -175,19 +152,10 @@ export function PolarExperience() {
   return (
     <>
       {introOpen && (
-        <section className={`${styles.overlay} ${styles.videoOverlay} ${reducedMotion ? styles.reduced : ""}`} aria-label="P.O.L.A.R. introduction">
-          <video
-            key={`intro-${introReplayKey}`}
-            className={styles.fullVideo}
-            src={INTRO_VIDEO}
-            autoPlay
-            playsInline
-            muted={!soundEnabled}
-            preload="auto"
-            onEnded={closeIntro}
-          />
-          <div className={styles.videoShade} aria-hidden="true" />
-          <div className={styles.videoStatus}>POLAR OS // SYSTEM READY</div>
+        <section className={`${styles.overlay} ${videoStyles.videoOverlay} ${reducedMotion ? styles.reduced : ""}`} aria-label="P.O.L.A.R. introduction">
+          <video key={`intro-${introReplayKey}`} className={videoStyles.fullVideo} src={INTRO_VIDEO} autoPlay playsInline muted={!soundEnabled} preload="auto" onEnded={closeIntro} />
+          <div className={videoStyles.videoShade} aria-hidden="true" />
+          <div className={videoStyles.videoStatus}>POLAR OS // SYSTEM READY</div>
           <div className={styles.controls}>
             {!soundEnabled && <button type="button" onClick={enableSound}>ENABLE SOUND + REPLAY</button>}
             <button type="button" onClick={closeIntro}>ENTER WEBSITE</button>
@@ -196,19 +164,10 @@ export function PolarExperience() {
       )}
 
       {activeTransition && (
-        <section className={`${styles.overlay} ${styles.videoOverlay} ${reducedMotion ? styles.reduced : ""}`} aria-live="polite">
-          <video
-            className={styles.fullVideo}
-            src={activeTransition.video}
-            autoPlay
-            playsInline
-            muted={!soundEnabled}
-            preload="auto"
-            onEnded={completeNavigation}
-            onError={completeNavigation}
-          />
-          <div className={styles.videoShade} aria-hidden="true" />
-          <div className={styles.moduleLabel}>
+        <section className={`${styles.overlay} ${videoStyles.videoOverlay} ${reducedMotion ? styles.reduced : ""}`} aria-live="polite">
+          <video className={videoStyles.fullVideo} src={activeTransition.video} autoPlay playsInline muted={!soundEnabled} preload="auto" onEnded={completeNavigation} onError={completeNavigation} />
+          <div className={videoStyles.videoShade} aria-hidden="true" />
+          <div className={videoStyles.moduleLabel}>
             <small>POLAR OS // MODULE ACCESS</small>
             <strong>{activeTransition.title}</strong>
             <span>{activeTransition.subtitle}</span>
@@ -219,14 +178,7 @@ export function PolarExperience() {
       {idleOpen && !introOpen && !activeTransition && (
         <aside className={styles.idle} role="status">
           <button type="button" aria-label="Dismiss P.O.L.A.R. check-in" onClick={resetIdle}>×</button>
-          <video
-            className={styles.idleVideo}
-            src={IDLE_VIDEO}
-            autoPlay
-            playsInline
-            muted={!soundEnabled}
-            preload="metadata"
-          />
+          <video className={videoStyles.idleVideo} src={IDLE_VIDEO} autoPlay playsInline muted={!soundEnabled} preload="metadata" />
           <small>P.O.L.A.R. // PRESENCE CHECK</small>
           <h2>UMMM… ARE YOU OKAY?</h2>
           <p>Is everything alright? You can always tell me about your thing, idea, or issue directly.</p>
