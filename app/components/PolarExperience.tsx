@@ -6,48 +6,51 @@ import styles from "./PolarExperience.module.css";
 
 type ModuleKey = "products" | "blueprint" | "drdocx" | "nexus" | "about" | "intake";
 
-type TransitionCopy = {
+type Transition = {
   title: string;
   subtitle: string;
-  speech: string;
+  video: string;
 };
 
 const STORAGE = {
-  introSeen: "polar:intro-seen:v1",
-  voice: "polar:voice-enabled:v1",
+  introSeen: "polar:intro-seen:v2",
+  sound: "polar:video-sound-enabled:v1",
   reducedMotion: "polar:reduced-motion:v1",
 };
 
-const TRANSITIONS: Record<ModuleKey, TransitionCopy> = {
+const INTRO_VIDEO = "/media/polar/01_POLAR_Greeting.mp4";
+const IDLE_VIDEO = "/media/polar/08_POLAR_Idle_Inquiry.mp4";
+
+const TRANSITIONS: Record<ModuleKey, Transition> = {
   products: {
     title: "P.O.L.A.R. MODULE NETWORK",
     subtitle: "ACCESSING PRODUCT SYSTEMS",
-    speech: "Accessing product systems.",
+    video: "/media/polar/02_Products_Transition.mp4",
   },
   blueprint: {
     title: "BLUEPRINT™",
     subtitle: "ARCHITECTURE PROTOCOL INITIALIZED",
-    speech: "Blueprint architecture protocol initialized.",
+    video: "/media/polar/03_Blueprint_Transition.mp4",
   },
   drdocx: {
     title: "DR.DOCX™",
     subtitle: "DOCUMENTATION CORE ONLINE",
-    speech: "Doctor Doc X documentation core online.",
+    video: "/media/polar/04_DrDocx_Transition.mp4",
   },
   nexus: {
     title: "NEXUS™",
     subtitle: "AUTOMATION PATHWAYS CONNECTING",
-    speech: "Nexus automation pathways connecting.",
+    video: "/media/polar/05_Nexus_Transition.mp4",
   },
   about: {
     title: "FOUNDER INTELLIGENCE",
     subtitle: "ACCESSING ORIGIN RECORD",
-    speech: "Accessing founder origin record.",
+    video: "/media/polar/06_About_Transition.mp4",
   },
   intake: {
     title: "P.O.L.A.R. INTAKE",
     subtitle: "SECURE TRANSMISSION CHANNEL OPEN",
-    speech: "Secure transmission channel open.",
+    video: "/media/polar/07_Intake_Transition.mp4",
   },
 };
 
@@ -58,10 +61,10 @@ function resolveModule(target: HTMLAnchorElement): ModuleKey | null {
   const href = target.getAttribute("href")?.toLowerCase() ?? "";
   const text = target.textContent?.toLowerCase() ?? "";
 
-  if (href.includes("#products") || href.includes("/services") || text.includes("product")) return "products";
   if (text.includes("blueprint")) return "blueprint";
   if (text.includes("dr.docx") || text.includes("doctor doc")) return "drdocx";
   if (text.includes("nexus")) return "nexus";
+  if (href.includes("#products") || href.includes("/services") || text.includes("product")) return "products";
   if (href.includes("/about") || text.includes("founder")) return "about";
   if (href.includes("/contact") || href.includes("/intake") || text.includes("intake") || text.includes("tell us")) return "intake";
   return null;
@@ -71,49 +74,50 @@ export function PolarExperience() {
   const router = useRouter();
   const pathname = usePathname();
   const idleTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const transitionTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const transitionFallback = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pendingHref = useRef<string | null>(null);
 
   const [introOpen, setIntroOpen] = useState(false);
-  const [voiceEnabled, setVoiceEnabled] = useState(false);
+  const [soundEnabled, setSoundEnabled] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
-  const [activeTransition, setActiveTransition] = useState<TransitionCopy | null>(null);
+  const [activeTransition, setActiveTransition] = useState<Transition | null>(null);
   const [idleOpen, setIdleOpen] = useState(false);
-
-  const speak = useCallback((message: string) => {
-    if (!voiceEnabled || typeof window === "undefined" || !("speechSynthesis" in window)) return;
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(message);
-    utterance.rate = 1.03;
-    utterance.pitch = 1.35;
-    utterance.volume = 0.92;
-    window.speechSynthesis.speak(utterance);
-  }, [voiceEnabled]);
+  const [introReplayKey, setIntroReplayKey] = useState(0);
 
   const closeIntro = useCallback(() => {
     setIntroOpen(false);
     localStorage.setItem(STORAGE.introSeen, "true");
   }, []);
 
+  const completeNavigation = useCallback(() => {
+    if (transitionFallback.current) clearTimeout(transitionFallback.current);
+    const destination = pendingHref.current;
+    pendingHref.current = null;
+    setActiveTransition(null);
+    if (!destination) return;
+
+    if (destination.startsWith("#")) {
+      document.querySelector(destination)?.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth" });
+      history.replaceState(null, "", `${pathname}${destination}`);
+    } else if (destination.startsWith("/")) {
+      router.push(destination);
+    } else {
+      window.location.assign(destination);
+    }
+  }, [pathname, reducedMotion, router]);
+
   const resetIdle = useCallback(() => {
     if (idleTimer.current) clearTimeout(idleTimer.current);
     setIdleOpen(false);
-    idleTimer.current = setTimeout(() => {
-      setIdleOpen(true);
-      speak("Ummm, are you okay? Is everything alright? You can always tell me about your thing, idea, or issue directly.");
-    }, 180_000);
-  }, [speak]);
+    idleTimer.current = setTimeout(() => setIdleOpen(true), 180_000);
+  }, []);
 
   useEffect(() => {
     const systemReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const storedReduced = localStorage.getItem(STORAGE.reducedMotion);
-    const shouldReduce = storedReduced === null ? systemReduced : storedReduced === "true";
-    const storedVoice = localStorage.getItem(STORAGE.voice) === "true";
-    const seen = localStorage.getItem(STORAGE.introSeen) === "true";
-
-    setReducedMotion(shouldReduce);
-    setVoiceEnabled(storedVoice);
-    setIntroOpen(!seen);
+    setReducedMotion(storedReduced === null ? systemReduced : storedReduced === "true");
+    setSoundEnabled(localStorage.getItem(STORAGE.sound) === "true");
+    setIntroOpen(localStorage.getItem(STORAGE.introSeen) !== "true");
   }, []);
 
   useEffect(() => {
@@ -142,47 +146,24 @@ export function PolarExperience() {
       if (!href || href.startsWith("mailto:") || href.startsWith("tel:")) return;
 
       event.preventDefault();
-      const copy = TRANSITIONS[moduleKey];
-      setActiveTransition(copy);
-      speak(copy.speech);
-
-      const duration = reducedMotion ? 160 : 880;
-      if (transitionTimer.current) clearTimeout(transitionTimer.current);
       pendingHref.current = href;
-      transitionTimer.current = setTimeout(() => {
-        const destination = pendingHref.current;
-        pendingHref.current = null;
-        setActiveTransition(null);
-        if (!destination) return;
+      setActiveTransition(TRANSITIONS[moduleKey]);
 
-        if (destination.startsWith("#")) {
-          document.querySelector(destination)?.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth" });
-          history.replaceState(null, "", `${pathname}${destination}`);
-        } else if (destination.startsWith("/")) {
-          router.push(destination);
-        } else {
-          window.location.assign(destination);
-        }
-      }, duration);
+      if (transitionFallback.current) clearTimeout(transitionFallback.current);
+      transitionFallback.current = setTimeout(completeNavigation, reducedMotion ? 300 : 6000);
     };
 
     document.addEventListener("click", onClick);
     return () => {
       document.removeEventListener("click", onClick);
-      if (transitionTimer.current) clearTimeout(transitionTimer.current);
+      if (transitionFallback.current) clearTimeout(transitionFallback.current);
     };
-  }, [pathname, reducedMotion, router, speak]);
+  }, [completeNavigation, reducedMotion]);
 
-  const enableVoice = () => {
-    setVoiceEnabled(true);
-    localStorage.setItem(STORAGE.voice, "true");
-    if ("speechSynthesis" in window) {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance("Voice channel enabled.");
-      utterance.rate = 1.03;
-      utterance.pitch = 1.35;
-      window.speechSynthesis.speak(utterance);
-    }
+  const enableSound = () => {
+    setSoundEnabled(true);
+    localStorage.setItem(STORAGE.sound, "true");
+    setIntroReplayKey((key) => key + 1);
   };
 
   const toggleMotion = () => {
@@ -194,35 +175,43 @@ export function PolarExperience() {
   return (
     <>
       {introOpen && (
-        <section className={`${styles.overlay} ${styles.intro} ${reducedMotion ? styles.reduced : ""}`} aria-label="P.O.L.A.R. introduction">
-          <div className={styles.energy} aria-hidden="true" />
-          <div className={styles.scanline} aria-hidden="true" />
-          <div className={styles.silhouette} aria-hidden="true">P</div>
-          <div className={styles.introCopy}>
-            <span>BI POLARIZE ENTERPRISES, INC.</span>
-            <h1>WELCOME.</h1>
-            <h2>I’M P.O.L.A.R.</h2>
-            <p>TELL ME WHAT YOU’RE BUILDING.</p>
-            <div className={styles.caption}>Welcome to BI POLARIZE ENTERPRISES. I’m P.O.L.A.R. Tell me what you’re building.</div>
-            <strong>POLAR OS // SYSTEM READY</strong>
-          </div>
+        <section className={`${styles.overlay} ${styles.videoOverlay} ${reducedMotion ? styles.reduced : ""}`} aria-label="P.O.L.A.R. introduction">
+          <video
+            key={`intro-${introReplayKey}`}
+            className={styles.fullVideo}
+            src={INTRO_VIDEO}
+            autoPlay
+            playsInline
+            muted={!soundEnabled}
+            preload="auto"
+            onEnded={closeIntro}
+          />
+          <div className={styles.videoShade} aria-hidden="true" />
+          <div className={styles.videoStatus}>POLAR OS // SYSTEM READY</div>
           <div className={styles.controls}>
-            {!voiceEnabled && <button type="button" onClick={enableVoice}>ENABLE VOICE</button>}
-            <button type="button" onClick={closeIntro}>SKIP INTRODUCTION</button>
+            {!soundEnabled && <button type="button" onClick={enableSound}>ENABLE SOUND + REPLAY</button>}
+            <button type="button" onClick={closeIntro}>ENTER WEBSITE</button>
           </div>
         </section>
       )}
 
       {activeTransition && (
-        <section className={`${styles.overlay} ${styles.transition} ${reducedMotion ? styles.reduced : ""}`} aria-live="polite">
-          <div className={styles.energy} aria-hidden="true" />
-          <div className={styles.scanline} aria-hidden="true" />
-          <div className={styles.moduleCopy}>
+        <section className={`${styles.overlay} ${styles.videoOverlay} ${reducedMotion ? styles.reduced : ""}`} aria-live="polite">
+          <video
+            className={styles.fullVideo}
+            src={activeTransition.video}
+            autoPlay
+            playsInline
+            muted={!soundEnabled}
+            preload="auto"
+            onEnded={completeNavigation}
+            onError={completeNavigation}
+          />
+          <div className={styles.videoShade} aria-hidden="true" />
+          <div className={styles.moduleLabel}>
             <small>POLAR OS // MODULE ACCESS</small>
-            <h2>{activeTransition.title}</h2>
-            <p>{activeTransition.subtitle}</p>
-            <span>MODULE CODE // POL-7709</span>
-            <i aria-hidden="true"><b /></i>
+            <strong>{activeTransition.title}</strong>
+            <span>{activeTransition.subtitle}</span>
           </div>
         </section>
       )}
@@ -230,6 +219,14 @@ export function PolarExperience() {
       {idleOpen && !introOpen && !activeTransition && (
         <aside className={styles.idle} role="status">
           <button type="button" aria-label="Dismiss P.O.L.A.R. check-in" onClick={resetIdle}>×</button>
+          <video
+            className={styles.idleVideo}
+            src={IDLE_VIDEO}
+            autoPlay
+            playsInline
+            muted={!soundEnabled}
+            preload="metadata"
+          />
           <small>P.O.L.A.R. // PRESENCE CHECK</small>
           <h2>UMMM… ARE YOU OKAY?</h2>
           <p>Is everything alright? You can always tell me about your thing, idea, or issue directly.</p>
@@ -238,8 +235,8 @@ export function PolarExperience() {
       )}
 
       <div className={styles.utility}>
-        <button type="button" onClick={() => setIntroOpen(true)}>REPLAY INTRO</button>
-        {!voiceEnabled && <button type="button" onClick={enableVoice}>ENABLE VOICE</button>}
+        <button type="button" onClick={() => { setIntroReplayKey((key) => key + 1); setIntroOpen(true); }}>REPLAY INTRO</button>
+        {!soundEnabled && <button type="button" onClick={enableSound}>ENABLE SOUND</button>}
         <button type="button" onClick={toggleMotion}>{reducedMotion ? "ENABLE MOTION" : "REDUCE MOTION"}</button>
       </div>
     </>
