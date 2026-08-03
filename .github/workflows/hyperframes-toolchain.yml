@@ -1,0 +1,41 @@
+name: HyperFrames Toolchain
+
+on:
+  push:
+    paths:
+      - "tools/hyperframes/**"
+      - ".github/workflows/hyperframes-toolchain.yml"
+  pull_request:
+    paths:
+      - "tools/hyperframes/**"
+      - ".github/workflows/hyperframes-toolchain.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-hyperframes:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: tools/hyperframes
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: tools/hyperframes/package-lock.json
+
+      - name: Install HyperFrames CLI
+        run: npm install --no-audit --no-fund
+
+      - name: Verify CLI
+        run: npx hyperframes info
+
+      - name: Diagnose runtime
+        run: npx hyperframes doctor
