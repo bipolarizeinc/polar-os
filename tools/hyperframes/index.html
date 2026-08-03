@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>POLAR OS Module Transition</title>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<style>
+html,body{margin:0;background:#020409;overflow:hidden}
+[data-composition-id="polar-os-module"]{position:relative;width:1280px;height:720px;overflow:hidden;background:#020409;color:#EFF8FF;font-family:Arial,sans-serif}
+[data-composition-id="polar-os-module"]::before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 0 36%,rgba(0,229,255,.2) 48%,transparent 58%),linear-gradient(65deg,transparent 0 42%,rgba(255,38,74,.18) 52%,transparent 62%)}
+.grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,229,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,.05) 1px,transparent 1px);background-size:64px 64px}
+.scan{position:absolute;left:0;right:0;height:3px;background:#00E5FF;box-shadow:0 0 28px #00E5FF}
+.scene-content{position:relative;width:100%;height:100%;padding:72px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;gap:18px}
+.kicker{color:#00E5FF;font-size:24px;font-weight:700;letter-spacing:.14em}
+.title{max-width:860px;font-size:58px;line-height:1.02;font-weight:800}
+.subtitle{max-width:860px;color:#00E5FF;font-size:28px;font-weight:700;letter-spacing:.08em}
+.code{color:#8BA8B7;font-size:18px;letter-spacing:.12em}
+.progress{width:760px;height:8px;background:#142830}.progress span{display:block;width:100%;height:100%;background:#00E5FF;transform-origin:left}
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="polar-os-module" data-start="0" data-duration="1.05" data-width="1280" data-height="720" data-track-index="0">
+  <div class="grid"></div>
+  <div class="scan"></div>
+  <div class="scene-content">
+    <div class="kicker">POLAR OS // MODULE ACCESS</div>
+    <div class="title">P.O.L.A.R. MODULE NETWORK</div>
+    <div class="subtitle">ACCESSING PRODUCT SYSTEMS</div>
+    <div class="code">MODULE CODE // POL-7709</div>
+    <div class="progress"><span></span></div>
+  </div>
+</div>
+<script>
+window.__timelines=window.__timelines||{};
+const tl=gsap.timeline({paused:true});
+tl.from(".grid",{opacity:0,duration:.2,ease:"power1.out"},0);
+tl.from(".scan",{y:-720,duration:.9,ease:"power1.inOut"},0);
+tl.from(".kicker",{opacity:0,y:18,duration:.25,ease:"power2.out"},0);
+tl.from(".title",{opacity:0,x:55,duration:.35,ease:"power3.out"},.08);
+tl.from(".subtitle",{opacity:0,x:35,duration:.3,ease:"power2.out"},.18);
+tl.from(".code",{opacity:0,y:12,duration:.24,ease:"power2.out"},.24);
+tl.from(".progress span",{scaleX:0,duration:.72,ease:"power2.inOut"},.16);
+tl.to(".scene-content",{opacity:0,duration:.16,ease:"power1.in"},.89);
+window.__timelines["polar-os-module"]=tl;
+</script>
+</body>
+</html>
