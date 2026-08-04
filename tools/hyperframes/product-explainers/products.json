@@ -1,0 +1,74 @@
+[
+  {
+    "slug": "sav-vidzgen",
+    "code": "SVG-001",
+    "name": "Sav.VidzGen™",
+    "tagline": "Your idea, turned into watchable momentum.",
+    "benefits": ["Commercials and reels", "Explainers and branded media", "Fast, consistent production"],
+    "narration": "I’m P.O.L.A.R. Sav.VidzGen turns your business idea into branded video people can actually understand and remember. From commercials and reels to explainers and campaign content, the system combines strategy, visuals, narration, and production into one coordinated workflow. You bring the thing. We turn it into media that moves." 
+  },
+  {
+    "slug": "dr-docx",
+    "code": "DOC-001",
+    "name": "Dr.Docx™",
+    "tagline": "Documentation that works like infrastructure.",
+    "benefits": ["SOPs and policies", "Agreements and manuals", "AI-ready knowledge systems"],
+    "narration": "I’m P.O.L.A.R. Dr.Docx converts scattered business knowledge into documents your organization can actually use. SOPs, policies, agreements, manuals, proposals, and knowledge systems are structured, governed, and ready for people or AI to retrieve. Your documents stop being paperwork and start functioning like operational infrastructure." 
+  },
+  {
+    "slug": "blueprint",
+    "code": "BLP-001",
+    "name": "Blueprint™",
+    "tagline": "Founder intelligence, engineered into operating reality.",
+    "benefits": ["Business architecture", "Roles and workflows", "Revenue deployment pathways"],
+    "narration": "I’m P.O.L.A.R. Blueprint is the flagship architecture system of BI Polarize Enterprises. It retrieves how the founder thinks, challenges weak assumptions, and converts the vision into roles, workflows, documentation, automation pathways, and a practical route to revenue. The idea stops living only in your head and becomes an enterprise that can run." 
+  },
+  {
+    "slug": "brandforge",
+    "code": "BRF-001",
+    "name": "BrandForge™",
+    "tagline": "Build a brand system, not a pile of graphics.",
+    "benefits": ["Identity engineering", "Brand standards", "Campaign and production assets"],
+    "narration": "I’m P.O.L.A.R. BrandForge builds more than a logo. It engineers the identity, visual language, voice, standards, and production assets that keep your business recognizable everywhere it appears. From brand kits and campaigns to templates and media systems, every element is designed to work together instead of wandering off on its own." 
+  },
+  {
+    "slug": "launchpad",
+    "code": "LCH-001",
+    "name": "LaunchPad™",
+    "tagline": "Start correctly before growth makes mistakes expensive.",
+    "benefits": ["Formation and registration", "Compliance and banking readiness", "Operational setup"],
+    "narration": "I’m P.O.L.A.R. LaunchPad helps founders move from idea to legitimate operating business. Formation, registration, compliance, banking readiness, core documents, and initial systems are coordinated into one launch path. Instead of collecting disconnected filings, you begin with a structure designed to support revenue, funding, and future growth." 
+  },
+  {
+    "slug": "nexus",
+    "code": "NXS-001",
+    "name": "Nexus™",
+    "tagline": "Connect the tools. Automate the movement.",
+    "benefits": ["AI agents and integrations", "CRM and client portals", "Workflow automation"],
+    "narration": "I’m P.O.L.A.R. Nexus connects the systems that keep your business moving. AI agents, APIs, CRM platforms, client portals, forms, and internal workflows are integrated around the way your operation actually functions. Repetitive work gets automated, information moves where it belongs, and your technology finally behaves like one system." 
+  },
+  {
+    "slug": "pulse",
+    "code": "PLS-001",
+    "name": "Pulse™",
+    "tagline": "See what the business is doing before it surprises you.",
+    "benefits": ["Dashboards and KPIs", "Forecasts and reporting", "Executive intelligence"],
+    "narration": "I’m P.O.L.A.R. Pulse turns business activity into decision-ready intelligence. Dashboards, KPIs, forecasts, reporting, and performance signals are organized so leadership can see what is working, what is drifting, and what requires attention. Less guessing. Fewer spreadsheet scavenger hunts. More informed action while it still matters." 
+  },
+  {
+    "slug": "vault",
+    "code": "VLT-001",
+    "name": "Vault™",
+    "tagline": "Your enterprise should remember what it learns.",
+    "benefits": ["Governed archives", "Knowledge graphs", "Version and asset control"],
+    "narration": "I’m P.O.L.A.R. Vault protects the institutional memory of your enterprise. Documents, decisions, assets, versions, and relationships are organized into governed archives and retrievable knowledge systems. When people change roles or technology changes platforms, the business does not forget why decisions were made or where critical information lives." 
+  },
+  {
+    "slug": "cipher",
+    "code": "CPH-001",
+    "name": "Cipher™",
+    "tagline": "Protect the systems your business depends on.",
+    "benefits": ["Identity and access protection", "Compliance architecture", "Monitoring and digital defense"],
+    "narration": "I’m P.O.L.A.R. Cipher strengthens the digital foundation of your business. Identity protection, access controls, monitoring, compliance architecture, and cybersecurity procedures are designed around your actual risk and operations. The goal is not fear. It is controlled access, documented response, and resilient systems that protect what you are building." 
+  }
+]
