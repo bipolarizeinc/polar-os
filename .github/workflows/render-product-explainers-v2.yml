@@ -1,0 +1,91 @@
+name: Render Flagship Product Explainers v2
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'tools/hyperframes/product-explainers/**'
+      - '.github/workflows/render-product-explainers-v2.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg espeak-ng
+
+      - name: Install HyperFrames
+        run: npm install --no-save hyperframes@0.7.77
+
+      - name: Generate compositions
+        run: node tools/hyperframes/product-explainers/generate.mjs
+
+      - name: Prepare approved assets and narration
+        run: |
+          set -euxo pipefail
+          ROOT='tools/hyperframes/product-explainers/generated'
+          test "$(find "$ROOT" -mindepth 1 -maxdepth 1 -type d | wc -l)" -eq 9
+          for PROJECT in "$ROOT"/*; do
+            cp public/brand/official/17_branded_environment.png "$PROJECT/assets/17_branded_environment.png"
+            cp public/brand/polar/full-body-master.png "$PROJECT/assets/full-body-master.png"
+            cp public/brand/bipolarization-symbol.png "$PROJECT/assets/bipolarization-symbol.png"
+            espeak-ng -v en-us+m3 -s 168 -p 76 -a 160 -f "$PROJECT/narration.txt" -w "$PROJECT/audio/narration-raw.wav"
+            ffmpeg -y -i "$PROJECT/audio/narration-raw.wav" -af "highpass=f=85,lowpass=f=12000,acompressor=threshold=-18dB:ratio=2.4:attack=18:release=180,loudnorm=I=-16:TP=-1.5:LRA=10,apad=pad_dur=27" -t 27 "$PROJECT/audio/narration.wav"
+          done
+
+      - name: Render all explainers
+        run: |
+          set -euxo pipefail
+          mkdir -p renders/product-explainers
+          ROOT='tools/hyperframes/product-explainers/generated'
+          for PROJECT in "$ROOT"/*; do
+            SLUG="$(basename "$PROJECT")"
+            (
+              cd "$PROJECT"
+              npx hyperframes lint . --verbose
+              npx hyperframes render --output "../../../../../renders/product-explainers/${SLUG}.mp4" --fps 30 --quality standard
+            )
+          done
+
+      - name: Verify complete set
+        run: |
+          set -euxo pipefail
+          COUNT="$(find renders/product-explainers -maxdepth 1 -name '*.mp4' -size +0c | wc -l)"
+          test "$COUNT" -eq 9
+          for VIDEO in renders/product-explainers/*.mp4; do
+            ffprobe -v error -show_entries format=filename,duration,size -of default=noprint_wrappers=1 "$VIDEO"
+          done
+
+      - name: Upload downloadable collection
+        uses: actions/upload-artifact@v4
+        with:
+          name: BPEI-Flagship-Product-Explainers-v1
+          path: renders/product-explainers/*.mp4
+          retention-days: 30
+
+      - name: Publish website media
+        run: |
+          set -euxo pipefail
+          mkdir -p public/media/polar/products
+          cp renders/product-explainers/*.mp4 public/media/polar/products/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/media/polar/products/*.mp4
+          if ! git diff --cached --quiet; then
+            git commit -m 'Render flagship product explainer videos'
+            git push
+          fi
