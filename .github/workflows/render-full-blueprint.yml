@@ -1,0 +1,96 @@
+name: Render Full Bipolarized Blueprint
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'tools/hyperframes/full-blueprint/**'
+      - '.github/workflows/render-full-blueprint.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install FFmpeg and narration engine
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg espeak-ng
+
+      - name: Prepare approved assets
+        run: |
+          set -euxo pipefail
+          PROJECT='tools/hyperframes/full-blueprint'
+          mkdir -p "$PROJECT/assets" "$PROJECT/audio" renders
+          cp public/brand/official/17_branded_environment.png "$PROJECT/assets/17_branded_environment.png"
+          cp public/brand/polar/full-body-master.png "$PROJECT/assets/full-body-master.png"
+          cp public/brand/polar/deep-scan.png "$PROJECT/assets/deep-scan.png"
+          cp public/brand/bipolarization-symbol.png "$PROJECT/assets/bipolarization-symbol.png"
+
+      - name: Generate P.O.L.A.R. narration
+        run: |
+          cat > /tmp/narration.txt <<'EOF'
+          Your idea is not the problem. The problem is what happens when an unconventional vision gets forced into conventional business systems.
+
+          At BI Polarize Enterprises, the founder is the source code. P.O.L.A.R. retrieves the intent, contradictions, decisions, and hidden logic trapped inside your mind before any of it gets simplified away.
+
+          Then the Bipolarization Method begins. Discover the full vision. Polarize it from opposing angles. Architect the systems. Build the operational assets. Institutionalize the intelligence so the enterprise remembers.
+
+          The Bipolarized Blueprint turns founder intelligence into operating reality. Identity and positioning. Business architecture. Operational documentation. Automation pathways. And a practical revenue deployment plan.
+
+          P.O.L.A.R. is not a chatbot. He is the connective intelligence layer that retrieves what matters, challenges weak assumptions, and coordinates documents, systems, people, and execution.
+
+          The result is a business with clear roles, repeatable workflows, governed documents, institutional memory, and automation that follows the original intent.
+
+          Do not shrink the idea. Engineer the system. Tell P.O.L.A.R. about your thing at Polar Paw dot online.
+          EOF
+          espeak-ng -v en-us+m3 -s 158 -p 72 -a 155 -f /tmp/narration.txt -w tools/hyperframes/full-blueprint/audio/narration-raw.wav
+          ffmpeg -y -i tools/hyperframes/full-blueprint/audio/narration-raw.wav -af "highpass=f=80,lowpass=f=12000,acompressor=threshold=-18dB:ratio=2.5:attack=20:release=200,loudnorm=I=-16:TP=-1.5:LRA=11,apad=pad_dur=72" -t 72 tools/hyperframes/full-blueprint/audio/narration.wav
+
+      - name: Install HyperFrames
+        run: npm install --no-save hyperframes@0.7.77
+
+      - name: Validate composition
+        working-directory: tools/hyperframes/full-blueprint
+        run: |
+          npx hyperframes lint . --verbose
+          npx hyperframes inspect . --samples 20
+
+      - name: Render final MP4
+        working-directory: tools/hyperframes/full-blueprint
+        run: npx hyperframes render . --output ../../../renders/BPEI_The_Bipolarized_Blueprint_v1.mp4 --fps 30 --quality high --strict
+
+      - name: Verify render
+        run: |
+          test -s renders/BPEI_The_Bipolarized_Blueprint_v1.mp4
+          ffprobe -v error -show_entries format=duration,size -of default=noprint_wrappers=1 renders/BPEI_The_Bipolarized_Blueprint_v1.mp4
+
+      - name: Upload downloadable artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: BPEI-The-Bipolarized-Blueprint-v1
+          path: renders/BPEI_The_Bipolarized_Blueprint_v1.mp4
+          retention-days: 30
+
+      - name: Publish website media
+        run: |
+          mkdir -p public/media/polar
+          cp renders/BPEI_The_Bipolarized_Blueprint_v1.mp4 public/media/polar/BPEI_The_Bipolarized_Blueprint_v1.mp4
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/media/polar/BPEI_The_Bipolarized_Blueprint_v1.mp4
+          if ! git diff --cached --quiet; then
+            git commit -m 'Render full Bipolarized Blueprint video'
+            git push
+          fi
