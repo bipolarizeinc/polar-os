@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>BPEI The Bipolarized Blueprint</title>
+  <style>
+    :root{--black:#020409;--gun:#101820;--cyan:#00e5ff;--orange:#ff5500;--gold:#ffb300;--white:#eff8ff;--muted:#9db2bd}
+    *{box-sizing:border-box} html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--black);color:var(--white)}
+    body{font-family:Arial,Inter,sans-serif}.comp{position:relative;width:1920px;height:1080px;overflow:hidden;background:var(--black)}
+    .scene{position:absolute;inset:0;width:100%;height:100%;overflow:hidden;background:var(--black)}
+    .bg{position:absolute;inset:-3%;width:106%;height:106%;object-fit:cover;filter:saturate(.92) contrast(1.08);opacity:.72}
+    .veil{position:absolute;inset:0;background:radial-gradient(circle at 70% 45%,transparent 0 24%,rgba(2,4,9,.34) 55%,rgba(2,4,9,.94) 100%)}
+    .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,229,255,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,.055) 1px,transparent 1px);background-size:72px 72px;mask-image:radial-gradient(circle at center,#000 34%,transparent 92%)}
+    .content{position:relative;z-index:3;display:flex;flex-direction:column;justify-content:center;width:100%;height:100%;padding:110px 140px;gap:24px}
+    .eyebrow{font:800 20px/1.2 'Courier New',monospace;letter-spacing:.22em;color:var(--cyan)}
+    h1,h2{margin:0;max-width:1320px;font-family:'Arial Black',Arial,sans-serif;font-weight:900;line-height:.92;letter-spacing:-.055em;text-transform:uppercase}
+    h1{font-size:132px}h2{font-size:102px}.accent{color:var(--cyan)}.fire{color:var(--orange)}
+    .lede{max-width:1050px;margin:0;font-size:34px;line-height:1.34;color:#d5e0e5}
+    .system{font:700 18px/1.3 'Courier New',monospace;letter-spacing:.15em;color:var(--gold)}
+    .polar{position:absolute;right:50px;bottom:-38px;width:780px;height:970px;object-fit:contain;z-index:2;filter:drop-shadow(-24px 0 65px rgba(255,85,0,.2)) drop-shadow(24px 0 70px rgba(0,229,255,.26))}
+    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1500px;margin-top:22px}.card{padding:30px;border:1px solid rgba(0,229,255,.28);background:rgba(3,9,14,.82)}
+    .card b{display:block;font-size:34px;margin-bottom:12px}.card span{font-size:22px;line-height:1.4;color:#b7c8cf}
+    .steps{display:flex;gap:16px;max-width:1640px;margin-top:20px}.step{flex:1;min-height:240px;padding:28px 24px;border-top:4px solid var(--cyan);background:rgba(7,15,21,.84)}
+    .step:nth-child(even){border-color:var(--orange)}.step small{font:800 17px 'Courier New';color:var(--gold)}.step b{display:block;font-size:30px;margin:28px 0 12px}.step p{margin:0;font-size:20px;line-height:1.38;color:#bcd0d8}
+    .blueprint{display:grid;grid-template-columns:1fr 1.05fr;align-items:center;gap:70px}.terminal{padding:28px;border:1px solid rgba(0,229,255,.38);background:rgba(1,7,12,.92);box-shadow:0 0 90px rgba(0,229,255,.09)}
+    .terminal-head{display:flex;justify-content:space-between;padding-bottom:20px;border-bottom:1px solid rgba(0,229,255,.25);font:700 17px 'Courier New';color:var(--cyan)}
+    .row{display:grid;grid-template-columns:70px 1fr 190px;gap:14px;padding:18px 0;border-bottom:1px solid rgba(255,255,255,.08);font-size:23px}.row i{font:700 15px 'Courier New';color:var(--gold);font-style:normal}
+    .outcomes{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;max-width:1200px;margin-top:25px}.outcome{padding:26px 28px;border-left:5px solid var(--cyan);background:rgba(6,14,20,.86);font-size:28px;font-weight:800}.outcome:nth-child(even){border-color:var(--orange)}
+    .mark{position:absolute;right:140px;top:50%;transform:translateY(-50%);width:620px;height:620px;object-fit:contain;opacity:.55;filter:drop-shadow(0 0 80px rgba(0,229,255,.26))}
+    .sweep{position:absolute;inset:-15%;z-index:20;background:linear-gradient(112deg,transparent 38%,rgba(0,229,255,.9) 47%,rgba(255,85,0,.92) 53%,transparent 62%);filter:blur(14px)}
+    .final .content{align-items:center;text-align:center}.final h2{max-width:1500px}.final .lede{max-width:1200px}.final .seal{width:240px;height:240px;object-fit:contain;margin-bottom:10px;filter:drop-shadow(0 0 40px rgba(255,179,0,.24))}
+  </style>
+</head>
+<body>
+<div class="comp" data-composition-id="bpei-blueprint" data-width="1920" data-height="1080">
+  <section id="s1" class="scene" data-start="0" data-duration="9" data-track-index="1">
+    <img class="bg" src="assets/17_branded_environment.png" alt=""/><div class="veil"></div><div class="grid"></div>
+    <div class="content"><span class="eyebrow">BI POLARIZE ENTERPRISES, INC. // BP-7709</span><h1>YOUR IDEA IS NOT THE PROBLEM.</h1><p class="lede">The problem is what happens when an unconventional vision gets forced into conventional business systems.</p><span class="system">P.O.L.A.R. TRANSMISSION // INITIALIZED</span></div>
+  </section>
+  <div id="t1" class="sweep" data-start="8.5" data-duration="1" data-track-index="2"></div>
+
+  <section id="s2" class="scene" data-start="9" data-duration="10" data-track-index="1">
+    <div class="grid"></div><img class="polar" src="assets/full-body-master.png" alt=""/>
+    <div class="content"><span class="eyebrow">THE FOUNDER IS THE SOURCE CODE</span><h2>WE RETRIEVE WHAT ONLY <span class="accent">YOU KNOW.</span></h2><p class="lede">P.O.L.A.R. captures the intent, contradictions, decisions, and hidden logic trapped inside the founder’s mind before any of it gets simplified away.</p></div>
+  </section>
+  <div id="t2" class="sweep" data-start="18.5" data-duration="1" data-track-index="2"></div>
+
+  <section id="s3" class="scene" data-start="19" data-duration="12" data-track-index="1">
+    <div class="grid"></div><div class="content"><span class="eyebrow">THE BIPOLARIZATION METHOD™</span><h2>CHAOS, ENGINEERED INTO <span class="fire">CLARITY.</span></h2>
+      <div class="steps"><div class="step"><small>01</small><b>DISCOVER</b><p>Extract the full vision without flattening its complexity.</p></div><div class="step"><small>02</small><b>POLARIZE</b><p>Challenge the idea from opposing angles and expose weak logic.</p></div><div class="step"><small>03</small><b>ARCHITECT</b><p>Convert founder intelligence into systems, roles, and workflows.</p></div><div class="step"><small>04</small><b>BUILD</b><p>Deploy assets, automation, documentation, and operations.</p></div><div class="step"><small>05</small><b>INSTITUTIONALIZE</b><p>Preserve the intelligence so the enterprise remembers.</p></div></div>
+    </div>
+  </section>
+  <div id="t3" class="sweep" data-start="30.5" data-duration="1" data-track-index="2"></div>
+
+  <section id="s4" class="scene" data-start="31" data-duration="12" data-track-index="1">
+    <div class="grid"></div><div class="content blueprint"><div><span class="eyebrow">FLAGSHIP SYSTEM // THE BIPOLARIZED BLUEPRINT™</span><h2>FROM FOUNDER INTELLIGENCE TO <span class="accent">OPERATING REALITY.</span></h2><p class="lede">The Blueprint becomes the enterprise architecture your business can actually run on.</p></div>
+      <div class="terminal"><div class="terminal-head"><span>POLAR.BLUEPRINT.EXTRACTION</span><span>ACTIVE</span></div><div class="row"><span>01</span><b>Identity + positioning</b><i>VERIFIED</i></div><div class="row"><span>02</span><b>Business architecture</b><i>VERIFIED</i></div><div class="row"><span>03</span><b>Operational documentation</b><i>VERIFIED</i></div><div class="row"><span>04</span><b>Automation pathways</b><i>VERIFIED</i></div><div class="row"><span>05</span><b>Revenue deployment plan</b><i>VERIFIED</i></div></div>
+    </div>
+  </section>
+  <div id="t4" class="sweep" data-start="42.5" data-duration="1" data-track-index="2"></div>
+
+  <section id="s5" class="scene" data-start="43" data-duration="10" data-track-index="1">
+    <img class="bg" src="assets/deep-scan.png" alt=""/><div class="veil"></div><div class="content"><span class="eyebrow">P.O.L.A.R. // PERSONALIZED OPERATIONS LIAISON AND AUTONOMOUS RETRIEVER</span><h2>NOT A CHATBOT. A <span class="accent">CONNECTIVE INTELLIGENCE LAYER.</span></h2><div class="cards"><div class="card"><b>RETRIEVE</b><span>Preserve institutional intent and founder knowledge.</span></div><div class="card"><b>CHALLENGE</b><span>Stress-test assumptions before they become expensive.</span></div><div class="card"><b>COORDINATE</b><span>Connect documents, systems, people, and execution.</span></div></div></div>
+  </section>
+  <div id="t5" class="sweep" data-start="52.5" data-duration="1" data-track-index="2"></div>
+
+  <section id="s6" class="scene" data-start="53" data-duration="10" data-track-index="1">
+    <div class="grid"></div><img class="mark" src="assets/bipolarization-symbol.png" alt=""/><div class="content"><span class="eyebrow">DEPLOYMENT OUTCOME</span><h2>THE BUSINESS STOPS DEPENDING ON MEMORY ALONE.</h2><div class="outcomes"><div class="outcome">Clear roles and repeatable workflows</div><div class="outcome">Governed documents and institutional memory</div><div class="outcome">Automation that follows the original intent</div><div class="outcome">A practical path from idea to revenue</div></div></div>
+  </section>
+  <div id="t6" class="sweep" data-start="62.5" data-duration="1" data-track-index="2"></div>
+
+  <section id="s7" class="scene final" data-start="63" data-duration="9" data-track-index="1">
+    <div class="grid"></div><div class="content"><img class="seal" src="assets/bipolarization-symbol.png" alt=""/><span class="eyebrow">BI POLARIZE ENTERPRISES, INC.</span><h2>DON’T SHRINK THE IDEA. <span class="accent">ENGINEER THE SYSTEM.</span></h2><p class="lede">Tell P.O.L.A.R. about your thing. We will turn it into something your enterprise can run, remember, and scale.</p><span class="system">POLARPAW.ONLINE // TRANSMISSION COMPLETE</span></div>
+  </section>
+
+  <audio id="narration" data-start="0" data-duration="72" data-track-index="5" src="audio/narration.wav" data-volume="1"></audio>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script>
+    window.__timelines=window.__timelines||{};
+    const tl=gsap.timeline({paused:true});
+    const sceneEntrances=[
+      [0.2,'#s1 .eyebrow','#s1 h1','#s1 .lede','#s1 .system'],
+      [9.2,'#s2 .eyebrow','#s2 h2','#s2 .lede','#s2 .polar'],
+      [19.2,'#s3 .eyebrow','#s3 h2','#s3 .step'],
+      [31.2,'#s4 .eyebrow','#s4 h2','#s4 .lede','#s4 .terminal'],
+      [43.2,'#s5 .eyebrow','#s5 h2','#s5 .card'],
+      [53.2,'#s6 .eyebrow','#s6 h2','#s6 .outcome','#s6 .mark'],
+      [63.2,'#s7 .seal','#s7 .eyebrow','#s7 h2','#s7 .lede','#s7 .system']
+    ];
+    sceneEntrances.forEach(([time,...sels],si)=>{
+      sels.forEach((sel,i)=>{const vars=i%4===0?{y:42,opacity:0}:{x:i%2?56:-44,opacity:0,scale:i===sels.length-1?.96:1};tl.from(sel,{...vars,duration:.65,ease:['power3.out','expo.out','back.out(1.25)','power2.out'][i%4],stagger:.12},Number(time)+i*.16)});
+    });
+    ['#t1','#t2','#t3','#t4','#t5','#t6'].forEach((s,i)=>tl.fromTo(s,{xPercent:-120,opacity:0},{xPercent:120,opacity:1,duration:.9,ease:'power2.inOut'},8.5+i*[10,12,12,10,10,10][Math.min(i,5)]));
+    tl.to('#s7 .content',{opacity:0,scale:.985,duration:.7,ease:'power2.in'},71.1);
+    window.__timelines['bpei-blueprint']=tl;
+  </script>
+</div>
+</body>
+</html>
