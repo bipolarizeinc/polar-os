@@ -83,7 +83,7 @@ export default function IntakePage() {
 
         {fields.map(([name, title, help], index) => (
           <label className={styles.question} key={name}>
-            <span>{String(index + 1).padStart(2, "0")} // {title}</span>
+            <span>{String(index + 1).padStart(2, "0")}{" // "}{title}</span>
             <small>{help}</small>
             <textarea name={name} required={index < 5} rows={5} />
           </label>
