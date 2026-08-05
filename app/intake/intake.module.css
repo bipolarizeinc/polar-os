@@ -1,0 +1,145 @@
+.shell {
+  min-height: 100vh;
+  padding: 7rem clamp(1.25rem, 4vw, 5rem);
+  color: #f4f4f4;
+  background:
+    radial-gradient(circle at 15% 10%, rgba(255, 85, 0, 0.16), transparent 32%),
+    radial-gradient(circle at 85% 20%, rgba(0, 229, 255, 0.14), transparent 30%),
+    #050607;
+}
+
+.header,
+.form,
+.confirmation {
+  width: min(960px, 100%);
+  margin: 0 auto;
+}
+
+.header {
+  margin-bottom: 3rem;
+}
+
+.status {
+  color: #00e5ff;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+}
+
+.header h1,
+.confirmation h1 {
+  margin: 0.75rem 0 1rem;
+  font-size: clamp(2.75rem, 8vw, 6.5rem);
+  line-height: 0.92;
+}
+
+.header em {
+  color: #ffb300;
+  font-style: normal;
+}
+
+.header > p:last-child,
+.confirmation p {
+  max-width: 760px;
+  color: #b8bcc2;
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.form {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.identityGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.identityGrid label,
+.question {
+  display: grid;
+  gap: 0.65rem;
+  color: #d9dde2;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.identityGrid input,
+.question textarea {
+  width: 100%;
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  color: #fff;
+  background: rgba(255,255,255,0.045);
+  font: inherit;
+  letter-spacing: normal;
+}
+
+.identityGrid input:focus,
+.question textarea:focus {
+  border-color: #00e5ff;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0,229,255,0.12);
+}
+
+.question {
+  padding: 1.35rem;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 1rem;
+  background: rgba(8, 11, 14, 0.78);
+}
+
+.question > span {
+  color: #ffb300;
+}
+
+.question small {
+  color: #8f969f;
+  font-size: 0.92rem;
+  font-weight: 400;
+  letter-spacing: normal;
+}
+
+.button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  min-height: 3.5rem;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.9rem 1.5rem;
+  color: #050607;
+  background: linear-gradient(90deg, #ffb300, #00e5ff);
+  font-weight: 900;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.button:disabled {
+  cursor: progress;
+  opacity: 0.65;
+}
+
+.error {
+  color: #ff7b63;
+  font-weight: 700;
+}
+
+.confirmation {
+  padding-top: 12vh;
+}
+
+@media (max-width: 700px) {
+  .identityGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .shell {
+    padding-top: 5rem;
+  }
+}
