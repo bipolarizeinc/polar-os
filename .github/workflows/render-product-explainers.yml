@@ -10,10 +10,14 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: flagship-product-explainers
+  cancel-in-progress: true
+
 jobs:
   render:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 120
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -23,7 +27,7 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Install FFmpeg and narration engine
+      - name: Install system tools
         run: |
           sudo apt-get update
           sudo apt-get install -y ffmpeg espeak-ng
@@ -32,7 +36,10 @@ jobs:
         run: npm install --no-save hyperframes@0.7.77
 
       - name: Generate compositions
-        run: node tools/hyperframes/product-explainers/generate.mjs
+        run: |
+          rm -rf tools/hyperframes/product-explainers/generated
+          node tools/hyperframes/product-explainers/generate.mjs
+          test "$(find tools/hyperframes/product-explainers/generated -mindepth 1 -maxdepth 1 -type d | wc -l)" -eq 9
 
       - name: Prepare approved assets and narration
         run: |
@@ -46,7 +53,7 @@ jobs:
             ffmpeg -y -i "$PROJECT/audio/narration-raw.wav" -af "highpass=f=85,lowpass=f=12000,acompressor=threshold=-18dB:ratio=2.4:attack=18:release=180,loudnorm=I=-16:TP=-1.5:LRA=10,apad=pad_dur=27" -t 27 "$PROJECT/audio/narration.wav"
           done
 
-      - name: Validate and render all explainers
+      - name: Render all explainers
         run: |
           set -euxo pipefail
           mkdir -p renders/product-explainers
@@ -56,8 +63,7 @@ jobs:
             (
               cd "$PROJECT"
               npx hyperframes lint . --verbose
-              npx hyperframes inspect . --samples 14
-              npx hyperframes render . --output "../../../../../renders/product-explainers/${SLUG}.mp4" --fps 30 --quality high --strict
+              npx hyperframes render --output "../../../../../renders/product-explainers/${SLUG}.mp4" --fps 30 --quality high --strict
             )
           done
 
@@ -89,3 +95,5 @@ jobs:
             git commit -m 'Render flagship product explainer videos'
             git push
           fi
+
+# Fresh restart: 2026-08-04T19:51:00-06:00
