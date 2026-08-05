@@ -1,0 +1,86 @@
+name: Render Single Sav.VidzGen Explainer
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'tools/hyperframes/product-explainers/**'
+      - '.github/workflows/render-single-sav-vidzgen.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: single-sav-vidzgen-explainer
+  cancel-in-progress: true
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install system tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg espeak-ng
+
+      - name: Install HyperFrames
+        run: npm install --no-save hyperframes@0.7.77
+
+      - name: Generate Sav.VidzGen composition
+        run: |
+          rm -rf tools/hyperframes/product-explainers/generated
+          node tools/hyperframes/product-explainers/generate.mjs
+          test -f tools/hyperframes/product-explainers/generated/sav-vidzgen/index.html
+
+      - name: Prepare approved assets and narration
+        run: |
+          set -euxo pipefail
+          PROJECT='tools/hyperframes/product-explainers/generated/sav-vidzgen'
+          cp public/brand/official/17_branded_environment.png "$PROJECT/assets/17_branded_environment.png"
+          cp public/brand/polar/full-body-master.png "$PROJECT/assets/full-body-master.png"
+          cp public/brand/bipolarization-symbol.png "$PROJECT/assets/bipolarization-symbol.png"
+          espeak-ng -v en-us+m3 -s 168 -p 76 -a 160 -f "$PROJECT/narration.txt" -w "$PROJECT/audio/narration-raw.wav"
+          ffmpeg -y -i "$PROJECT/audio/narration-raw.wav" -af "highpass=f=85,lowpass=f=12000,acompressor=threshold=-18dB:ratio=2.4:attack=18:release=180,loudnorm=I=-16:TP=-1.5:LRA=10,apad=pad_dur=27" -t 27 "$PROJECT/audio/narration.wav"
+
+      - name: Validate composition
+        working-directory: tools/hyperframes/product-explainers/generated/sav-vidzgen
+        run: npx hyperframes lint . --verbose
+
+      - name: Render MP4
+        working-directory: tools/hyperframes/product-explainers/generated/sav-vidzgen
+        run: |
+          mkdir -p "$GITHUB_WORKSPACE/renders/product-explainers"
+          npx hyperframes render --output "$GITHUB_WORKSPACE/renders/product-explainers/sav-vidzgen.mp4" --fps 30 --quality high --strict
+
+      - name: Verify MP4
+        run: |
+          test -s renders/product-explainers/sav-vidzgen.mp4
+          ffprobe -v error -show_entries format=filename,duration,size -of default=noprint_wrappers=1 renders/product-explainers/sav-vidzgen.mp4
+
+      - name: Upload downloadable video
+        uses: actions/upload-artifact@v4
+        with:
+          name: BPEI-Sav-VidzGen-Explainer-v1
+          path: renders/product-explainers/sav-vidzgen.mp4
+          retention-days: 30
+
+      - name: Publish website media
+        run: |
+          mkdir -p public/media/polar/products
+          cp renders/product-explainers/sav-vidzgen.mp4 public/media/polar/products/sav-vidzgen.mp4
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/media/polar/products/sav-vidzgen.mp4
+          if ! git diff --cached --quiet; then
+            git commit -m 'Render Sav.VidzGen product explainer video'
+            git push
+          fi
