@@ -21,7 +21,14 @@ type IntakeRecord = {
   constraints: string | null;
   additional_context: string | null;
   recommended_module: string | null;
+  routing_reason: string | null;
   progress_percent: number;
+  clarity_score: number | null;
+  readiness_score: number | null;
+  contradiction_flags: string[] | null;
+  risk_flags: string[] | null;
+  blueprint_brief: Record<string, unknown> | null;
+  analysis_snapshot: Record<string, unknown> | null;
   last_saved_at: string | null;
 };
 
@@ -43,7 +50,7 @@ export async function POST(request: Request) {
   const query = new URLSearchParams({
     extraction_id: `eq.${extractionId}`,
     recovery_token_hash: `eq.${tokenHash}`,
-    select: "extraction_id,status,founder_name,company_name,thing,audience,problem,blocker,desired_outcome,existing_assets,requested_help,constraints,additional_context,recommended_module,progress_percent,last_saved_at",
+    select: "extraction_id,status,founder_name,company_name,thing,audience,problem,blocker,desired_outcome,existing_assets,requested_help,constraints,additional_context,recommended_module,routing_reason,progress_percent,clarity_score,readiness_score,contradiction_flags,risk_flags,blueprint_brief,analysis_snapshot,last_saved_at",
     limit: "1",
   });
 
