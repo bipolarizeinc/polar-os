@@ -52,6 +52,7 @@ jobs:
           download_drive() {
             local id="$1"
             local output="$2"
+            mkdir -p "$(dirname "$output")"
             curl --fail --location --retry 4 --retry-all-errors \
               "https://drive.usercontent.google.com/download?id=${id}&export=download&confirm=t" \
               --output "$output"
@@ -68,28 +69,33 @@ jobs:
           for (const item of items) {
             const logo = registry.divisionLogos.assets.find(x => x.name === item.logo);
             const stance = registry.polarCharacterMasters.assets.find(x => x.name === item.polarStance);
-            if (!logo || !stance) throw new Error(`Missing approved registry entry for ${item.slug}`);
+            if (!logo || !stance || !logo.driveFileId || !stance.driveFileId) {
+              throw new Error(`Missing approved registry entry for ${item.slug}`);
+            }
             console.log([item.slug, item.logo, logo.driveFileId, item.polarStance, stance.driveFileId].join('\t'));
           }
           NODE
 
-          while IFS=$'\t' read -r slug logo logo_id stance stance_id; do
+          exec 3< .approved-cache/assets.tsv
+          while IFS=$'\t' read -r -u 3 slug logo logo_id stance stance_id; do
             project="$root/generated/$slug"
+            test -d "$project"
             download_drive "$logo_id" "$project/assets/$logo"
             download_drive "$stance_id" "$project/assets/$stance"
 
             bash tools/hyperframes/polar-voice-profile.sh \
               "$project/script.txt" \
-              "$project/audio/voice-profile.wav"
+              "$project/audio/voice-profile.wav" </dev/null
 
-            ffmpeg -y -i "$project/audio/voice-profile.wav" \
+            ffmpeg -nostdin -y -i "$project/audio/voice-profile.wav" \
               -af 'apad=pad_dur=24' \
               -ar 48000 -ac 1 -t 24 "$project/audio/narration.wav"
 
-            ffmpeg -y -i .approved-cache/YA.wav \
+            ffmpeg -nostdin -y -i .approved-cache/YA.wav \
               -af 'loudnorm=I=-25:TP=-3:LRA=10,afade=t=in:st=0:d=0.7,afade=t=out:st=22.5:d=1.5' \
               -ar 48000 -ac 2 -t 24 "$project/audio/YA.wav"
-          done < .approved-cache/assets.tsv
+          done
+          exec 3<&-
 
       - name: Lint inspect and render all nine flagships
         shell: bash
