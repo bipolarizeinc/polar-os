@@ -2,6 +2,14 @@ name: Render POLAR Flagship Explainers
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - hyperframes/polar-approved-voice-microvideos
+    paths:
+      - 'tools/hyperframes/flagship-explainers/**'
+      - 'tools/hyperframes/polar-microvideos/approved-assets.json'
+      - 'tools/hyperframes/polar-voice-profile.sh'
+      - '.github/workflows/render-polar-flagship-explainers.yml'
   pull_request:
     paths:
       - 'tools/hyperframes/flagship-explainers/**'
