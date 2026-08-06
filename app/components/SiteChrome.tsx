@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import { IntakeLink } from "./IntakeLink";
+import { PolarScrollExperience } from "./PolarScrollExperience";
 import styles from "./SiteChrome.module.css";
 
 const links = [
@@ -70,66 +71,28 @@ function PolarAudioControl() {
 
 export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
-
-  function closeMenu() {
-    setMenuOpen(false);
-  }
+  const closeMenu = () => setMenuOpen(false);
 
   return (
     <header className="site-header">
       <div className="system-strip">
-        <span>
-          <i /> SYSTEM ACTIVE
-        </span>
+        <span><i /> SYSTEM ACTIVE</span>
         <span>CLASSIFICATION: PUBLIC</span>
         <span>AUTHORIZATION: POLAR VERIFIED</span>
       </div>
       <div className="nav-shell">
-        <Link
-          href="/"
-          className={`brand-lockup ${styles.headerBrand}`}
-          aria-label="BI POLARIZE ENTERPRISES, INC. home"
-          onClick={closeMenu}
-        >
-          <Image
-            className={styles.headerSeal}
-            src="/brand/official/02_official_corporate_seal.png"
-            alt="BI POLARIZE ENTERPRISES, INC. corporate seal"
-            width={64}
-            height={64}
-            priority
-          />
+        <Link href="/" className={`brand-lockup ${styles.headerBrand}`} aria-label="BI POLARIZE ENTERPRISES, INC. home" onClick={closeMenu}>
+          <Image className={styles.headerSeal} src="/brand/official/02_official_corporate_seal.png" alt="BI POLARIZE ENTERPRISES, INC. corporate seal" width={64} height={64} priority />
           <span className={styles.brandName}>
             <strong>BI POLARIZE ENTERPRISES, INC.</strong>
             <small>OFF THE WALL · OUT OF THE BOX</small>
           </span>
         </Link>
-
-        <button
-          className={`${styles.menuButton} ${menuOpen ? styles.menuButtonOpen : ""}`}
-          type="button"
-          aria-expanded={menuOpen}
-          aria-controls="primary-navigation"
-          aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
-          onClick={() => setMenuOpen((current) => !current)}
-        >
-          <span />
-        </button>
-
-        <nav
-          id="primary-navigation"
-          aria-label="Primary navigation"
-          className={`${styles.mobileNav} ${menuOpen ? styles.mobileNavOpen : ""}`}
-        >
-          {links.map(([label, href]) => (
-            <Link key={href} href={href} onClick={closeMenu}>
-              {label}
-            </Link>
-          ))}
+        <button className={`${styles.menuButton} ${menuOpen ? styles.menuButtonOpen : ""}`} type="button" aria-expanded={menuOpen} aria-controls="primary-navigation" aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"} onClick={() => setMenuOpen((current) => !current)}><span /></button>
+        <nav id="primary-navigation" aria-label="Primary navigation" className={`${styles.mobileNav} ${menuOpen ? styles.mobileNavOpen : ""}`}>
+          {links.map(([label, href]) => <Link key={href} href={href} onClick={closeMenu}>{label}</Link>)}
         </nav>
-        <div className={styles.desktopCta}>
-          <IntakeLink className="nav-cta" />
-        </div>
+        <div className={styles.desktopCta}><IntakeLink className="nav-cta" /></div>
       </div>
     </header>
   );
@@ -140,19 +103,9 @@ export function SiteFooter() {
     <footer className="site-footer">
       <div className="footer-grid">
         <div>
-          <Image
-            src="/brand/official/01_primary_corporate_logo.png"
-            alt="BI POLARIZE ENTERPRISES, INC."
-            width={250}
-            height={194}
-          />
-          <p>
-            Turning fragile human knowledge into durable institutional
-            intelligence.
-          </p>
-          <Link href="/contact?path=join-enterprise" className={styles.joinEnterprise}>
-            Join the Enterprise →
-          </Link>
+          <Image src="/brand/official/01_primary_corporate_logo.png" alt="BI POLARIZE ENTERPRISES, INC." width={250} height={194} />
+          <p>Turning fragile human knowledge into durable institutional intelligence.</p>
+          <Link href="/contact?path=join-enterprise" className={styles.joinEnterprise}>Join the Enterprise →</Link>
         </div>
         <div>
           <b>Explore</b>
@@ -164,9 +117,7 @@ export function SiteFooter() {
         <div>
           <b>Connect</b>
           <a href="tel:+18016868143">801-686-8143</a>
-          <a href="mailto:YourThing@PolarPaw.Online">
-            YourThing@PolarPaw.Online
-          </a>
+          <a href="mailto:YourThing@PolarPaw.Online">YourThing@PolarPaw.Online</a>
           <span>Open 24 / 7</span>
         </div>
       </div>
@@ -181,8 +132,9 @@ export function SiteFooter() {
 export function PageShell({ children }: { children: ReactNode }) {
   return (
     <main className="polar-site">
+      <PolarScrollExperience />
       <SiteHeader />
-      {children}
+      <div style={{ position: "relative", zIndex: 1 }}>{children}</div>
       <SiteFooter />
       <PolarAudioControl />
     </main>
