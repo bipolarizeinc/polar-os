@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { analyzeIntake, type IntakeAnalysisInput } from "@/lib/polar/analyze-intake";
+import { analyzeIntake, type IntakeAnalysisInput } from "../../../../lib/polar/analyze-intake";
 
 export async function POST(request: Request) {
   let payload: IntakeAnalysisInput;
