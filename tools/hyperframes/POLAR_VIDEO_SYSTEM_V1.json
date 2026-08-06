@@ -1,7 +1,22 @@
 {
   "system": "POLAR Video System",
-  "version": "1.0",
+  "version": "1.1",
   "officialCoreTotal": 17,
+  "status": {
+    "websiteMicrovideos": {
+      "count": 8,
+      "rendered": 8,
+      "websiteConnected": 8,
+      "workflow": ".github/workflows/render-polar-approved-voice-microvideos.yml"
+    },
+    "flagshipExplainers": {
+      "count": 9,
+      "compositionsDefined": 9,
+      "finalReviewRenders": 0,
+      "workflow": ".github/workflows/render-polar-flagship-explainers.yml",
+      "manifest": "tools/hyperframes/flagship-explainers/flagships.json"
+    }
+  },
   "collections": {
     "flagshipExplainers": [
       "sav-vidzgen",
@@ -33,9 +48,9 @@
     "pitch": 76,
     "amplitude": 145,
     "approvedFor": [
-      "flagshipExplainers",
-      "websiteMicrovideos"
+      "flagshipExplainers"
     ],
+    "websiteMicrovideoAudio": "embedded in the approved rendered masters",
     "prohibited": [
       "HeyGen",
       "InVideo fallback voice",
