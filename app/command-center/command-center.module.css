@@ -1,0 +1,182 @@
+.shell {
+  min-height: 100vh;
+  padding: 6rem clamp(1.25rem, 4vw, 5rem);
+  color: #f7f7f7;
+  background:
+    radial-gradient(circle at 10% 10%, rgba(255, 85, 0, 0.14), transparent 28%),
+    radial-gradient(circle at 90% 15%, rgba(0, 229, 255, 0.14), transparent 30%),
+    #050607;
+}
+
+.status {
+  color: #00e5ff;
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+}
+
+.accessPanel,
+.dashboardHeader,
+.scoreGrid,
+.grid,
+.footer {
+  width: min(1180px, 100%);
+  margin-inline: auto;
+}
+
+.accessPanel {
+  max-width: 760px;
+  padding-top: 8vh;
+}
+
+.accessPanel h1,
+.dashboardHeader h1 {
+  margin: 0.75rem 0 1rem;
+  font-size: clamp(2.6rem, 7vw, 6rem);
+  line-height: 0.92;
+}
+
+.accessPanel em {
+  color: #ffb300;
+  font-style: normal;
+}
+
+.accessPanel > p,
+.dashboardHeader p,
+.panel p,
+.panel li,
+.footer {
+  color: #aeb4bc;
+  line-height: 1.65;
+}
+
+.accessForm {
+  display: grid;
+  gap: 1rem;
+  margin: 2rem 0 1.5rem;
+}
+
+.accessForm label {
+  display: grid;
+  gap: 0.55rem;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+}
+
+.accessForm input {
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  color: white;
+  background: rgba(255,255,255,0.045);
+}
+
+.accessForm button,
+.dashboardHeader button {
+  width: fit-content;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.95rem 1.4rem;
+  color: #050607;
+  background: linear-gradient(90deg, #ffb300, #00e5ff);
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.error {
+  color: #ff7b63;
+  font-weight: 800;
+}
+
+.dashboardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.scoreGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.scoreGrid article,
+.panel {
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 1rem;
+  background: rgba(8, 11, 14, 0.82);
+  box-shadow: 0 20px 70px rgba(0,0,0,0.28);
+}
+
+.scoreGrid article {
+  display: grid;
+  gap: 0.5rem;
+  padding: 1.25rem;
+}
+
+.scoreGrid span,
+.panel > span {
+  color: #ffb300;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+}
+
+.scoreGrid strong {
+  font-size: clamp(1.5rem, 3vw, 2.4rem);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.panel {
+  padding: 1.4rem;
+}
+
+.panel h2 {
+  margin: 0.7rem 0;
+  font-size: 1.35rem;
+}
+
+.panel ul,
+.panel ol {
+  margin: 0.8rem 0 0;
+  padding-left: 1.25rem;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+}
+
+.footer a,
+.accessPanel a {
+  color: #00e5ff;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+@media (max-width: 850px) {
+  .scoreGrid,
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboardHeader,
+  .footer {
+    flex-direction: column;
+  }
+}
