@@ -1,33 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { FormEvent, useMemo, useState } from "react";
+import { CSSProperties, FormEvent, useMemo, useState } from "react";
 import { PageShell } from "../components/SiteChrome";
+import { activePrizes, Prize } from "./rewards";
 import styles from "./join.module.css";
 
-type Prize = {
-  label: string;
-  code: string;
-};
-
-const prizes: Prize[] = [
-  { label: "5% off one eligible service", code: "SINGLE-05" },
-  { label: "10% off one eligible service", code: "SINGLE-10" },
-  { label: "15% off one eligible service", code: "SINGLE-15" },
-  { label: "20% off one eligible service", code: "SINGLE-20" },
-  { label: "10% off an eligible bundle", code: "BUNDLE-10" },
-  { label: "20% off an eligible bundle", code: "BUNDLE-20" },
-  { label: "One free Academy course", code: "ACADEMY-COURSE" },
-  { label: "$100 off one eligible non-promotional offer", code: "OFFER-100" },
-  { label: "Free business evaluation with consultation", code: "BUSINESS-EVAL" },
-  { label: "Free ETAS assessment", code: "ETAS-FREE" },
-  { label: "Logo design at 75% off", code: "LOGO-75" },
-];
-
-function choosePrize(): Prize {
+function choosePrize(): { prize: Prize; index: number } {
   const values = new Uint32Array(1);
   crypto.getRandomValues(values);
-  return prizes[values[0] % prizes.length];
+  const index = values[0] % activePrizes.length;
+  return { prize: activePrizes[index], index };
 }
 
 export default function JoinPage() {
@@ -36,9 +19,11 @@ export default function JoinPage() {
   const [eligible, setEligible] = useState(false);
   const [spinning, setSpinning] = useState(false);
   const [prize, setPrize] = useState<Prize | null>(null);
+  const [rotation, setRotation] = useState(0);
   const [message, setMessage] = useState("");
 
   const normalizedEmail = useMemo(() => email.trim().toLowerCase(), [email]);
+  const wheelStyle = { "--wheel-rotation": `${rotation}deg` } as CSSProperties;
 
   function register(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -67,17 +52,22 @@ export default function JoinPage() {
 
   function spin() {
     if (!eligible || spinning || prize) return;
+    const result = choosePrize();
+    const segment = 360 / activePrizes.length;
+    const targetCenter = result.index * segment + segment / 2;
+    const finalRotation = 1440 + (360 - targetCenter);
+
     setSpinning(true);
+    setRotation(finalRotation);
     setMessage("P.O.L.A.R. is calculating a real result. No decorative fake prizes involved.");
 
     window.setTimeout(() => {
-      const result = choosePrize();
-      setPrize(result);
+      setPrize(result.prize);
       setSpinning(false);
       setEligible(false);
-      window.localStorage.setItem(`bpei-wheel:${normalizedEmail}`, JSON.stringify(result));
+      window.localStorage.setItem(`bpei-wheel:${normalizedEmail}`, JSON.stringify(result.prize));
       setMessage("Reward issued. Final redemption code will be verified by BPEI before use.");
-    }, 1800);
+    }, 1900);
   }
 
   return (
@@ -85,47 +75,27 @@ export default function JoinPage() {
       <section className={styles.hero}>
         <p className="eyebrow">JOIN THE ENTERPRISE // PUBLIC ACCESS</p>
         <h1>ENTER THE NETWORK.<br /><em>EARN YOUR ADVANTAGE.</em></h1>
-        <p>
-          Subscribe for enterprise updates, practical founder intelligence, new
-          Academy releases, and one transparent promotional reward spin.
-        </p>
+        <p>Subscribe for enterprise updates, practical founder intelligence, new Academy releases, and one transparent promotional reward spin.</p>
       </section>
 
       <section className={styles.grid}>
         <article className={styles.panel}>
           <span className={styles.index}>01 // NEWSLETTER + REWARD</span>
           <h2>Unlock one fair spin.</h2>
-          <p>
-            Every reward shown on the wheel is genuinely available. The removed
-            cash and free-service prizes are not displayed as fake possibilities.
-          </p>
+          <p>Every reward shown on the wheel is genuinely available. The removed cash and free-service prizes are not displayed as fake possibilities.</p>
 
           <form onSubmit={register} className={styles.form}>
             <label htmlFor="newsletter-email">Email address</label>
-            <input
-              id="newsletter-email"
-              type="email"
-              autoComplete="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              placeholder="you@example.com"
-              required
-            />
+            <input id="newsletter-email" type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@example.com" required />
             <label className={styles.consent}>
-              <input
-                type="checkbox"
-                checked={accepted}
-                onChange={(event) => setAccepted(event.target.checked)}
-              />
-              <span>
-                I agree to receive BPEI updates and accept the promotional terms,
-                eligibility limits, expiration rules, and verification process.
-              </span>
+              <input type="checkbox" checked={accepted} onChange={(event) => setAccepted(event.target.checked)} />
+              <span>I agree to receive BPEI updates and accept the promotional terms, eligibility limits, expiration rules, and verification process.</span>
             </label>
             <button type="submit">UNLOCK REWARD WHEEL</button>
           </form>
 
-          <div className={`${styles.wheel} ${spinning ? styles.spinning : ""}`} aria-label="BPEI reward wheel">
+          <div className={styles.pointer} aria-hidden="true" />
+          <div className={`${styles.wheel} ${spinning ? styles.spinning : ""}`} style={wheelStyle} aria-label="BPEI reward wheel">
             <div className={styles.wheelCore}>BPEI</div>
           </div>
           <button className={styles.spinButton} type="button" disabled={!eligible || spinning || Boolean(prize)} onClick={spin}>
@@ -133,27 +103,14 @@ export default function JoinPage() {
           </button>
 
           <p className={styles.status} role="status">{message}</p>
-          {prize && (
-            <div className={styles.result}>
-              <small>POLAR VERIFIED REWARD</small>
-              <strong>{prize.label}</strong>
-              <code>{prize.code}</code>
-            </div>
-          )}
+          {prize && <div className={styles.result}><small>POLAR VERIFIED REWARD</small><strong>{prize.label}</strong><code>{prize.code}</code></div>}
         </article>
 
         <article className={styles.panel}>
           <span className={styles.index}>02 // ETAS</span>
           <h2>Enterprise Talent Alignment System.</h2>
-          <p>
-            ETAS evaluates work style, strengths, operational compatibility, and
-            potential placement within the BI POLARIZE enterprise architecture.
-          </p>
-          <p>
-            Strong compatibility may lead to consideration for a possible BPEI
-            employment, contractor, training, or enterprise opportunity. An
-            assessment result does not guarantee an interview, engagement, or job offer.
-          </p>
+          <p>ETAS evaluates work style, strengths, operational compatibility, and potential placement within the BI POLARIZE enterprise architecture.</p>
+          <p>Strong compatibility may lead to consideration for a possible BPEI employment, contractor, training, or enterprise opportunity. An assessment result does not guarantee an interview, engagement, or job offer.</p>
           <ul>
             <li>Role and division compatibility</li>
             <li>Operational strengths and development areas</li>
@@ -166,12 +123,7 @@ export default function JoinPage() {
 
       <section className={styles.terms}>
         <h2>Promotion controls</h2>
-        <p>
-          One spin per verified participant. Rewards are subject to eligibility,
-          availability, expiration, non-combination rules, and BPEI verification.
-          This browser implementation prevents casual repeat spins; production
-          launch requires server-side email verification and redemption tracking.
-        </p>
+        <p>One spin per verified participant. Rewards are subject to eligibility, availability, expiration, non-combination rules, and BPEI verification. This browser implementation prevents casual repeat spins; production launch requires server-side email verification and redemption tracking.</p>
       </section>
     </PageShell>
   );
