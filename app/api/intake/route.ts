@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { analyzeIntake, type IntakeAnalysisInput } from "@/lib/polar/analyze-intake";
+import { analyzeIntake, type IntakeAnalysisInput } from "../../../lib/polar/analyze-intake";
 import { createRecoveryToken, getSupabaseConfig, normalizeEmail, supabaseRequest } from "../../lib/polar-memory";
 
 const requiredFields = ["thing", "audience", "problem", "blocker", "desiredOutcome"] as const;
