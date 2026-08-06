@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { createRecoveryToken, getSupabaseConfig, normalizeEmail, supabaseRequest } from "../../lib/polar-memory";
 
 const requiredFields = ["thing", "audience", "problem", "blocker", "desiredOutcome"] as const;
 
@@ -50,55 +51,62 @@ export async function POST(request: Request) {
 
   const extractionId = createExtractionId();
   const recommendedModule = recommendModule(payload);
-  const supabaseUrl = process.env.SUPABASE_URL;
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const recovery = createRecoveryToken();
+  const config = getSupabaseConfig();
 
-  if (!supabaseUrl || !serviceRoleKey) {
+  if (!config) {
     return NextResponse.json(
       {
         extractionId,
         recommendedModule,
         persisted: false,
-        message: "Intake accepted in configuration mode. Connect Supabase to enable persistence.",
+        message: "Intake accepted in configuration mode. Connect Supabase to enable persistence and recovery.",
       },
       { status: 202 },
     );
   }
 
-  const response = await fetch(`${supabaseUrl}/rest/v1/polar_intake_sessions`, {
-    method: "POST",
-    headers: {
-      apikey: serviceRoleKey,
-      Authorization: `Bearer ${serviceRoleKey}`,
-      "Content-Type": "application/json",
-      Prefer: "return=representation",
-    },
-    body: JSON.stringify({
-      extraction_id: extractionId,
-      status: "submitted",
-      founder_name: payload.founderName,
-      email: payload.email,
-      phone: payload.phone,
-      company_name: payload.companyName,
-      thing: payload.thing,
-      audience: payload.audience,
-      problem: payload.problem,
-      blocker: payload.blocker,
-      desired_outcome: payload.desiredOutcome,
-      existing_assets: payload.existingAssets,
-      requested_help: payload.requestedHelp,
-      constraints: payload.constraints,
-      additional_context: payload.additionalContext,
-      recommended_module: recommendedModule,
-      submitted_at: new Date().toISOString(),
-    }),
-  });
-
-  if (!response.ok) {
-    const detail = await response.text();
-    console.error("POLAR intake persistence failed", detail);
+  try {
+    await supabaseRequest(config, "polar_intake_sessions", {
+      method: "POST",
+      headers: { Prefer: "return=minimal" },
+      body: JSON.stringify({
+        extraction_id: extractionId,
+        status: "submitted",
+        founder_name: payload.founderName?.trim() || null,
+        email: normalizeEmail(payload.email),
+        phone: payload.phone?.trim() || null,
+        company_name: payload.companyName?.trim() || null,
+        thing: payload.thing,
+        audience: payload.audience,
+        problem: payload.problem,
+        blocker: payload.blocker,
+        desired_outcome: payload.desiredOutcome,
+        existing_assets: payload.existingAssets,
+        requested_help: payload.requestedHelp,
+        constraints: payload.constraints,
+        additional_context: payload.additionalContext,
+        recommended_module: recommendedModule,
+        routing_reason: `Keyword and context routing selected ${recommendedModule}.`,
+        recovery_token_hash: recovery.hash,
+        progress_percent: 100,
+        last_saved_at: new Date().toISOString(),
+        submitted_at: new Date().toISOString(),
+        memory_state: { phase: "intake", version: 1 },
+      }),
+    });
+  } catch (error) {
+    console.error("POLAR intake persistence failed", error);
     return NextResponse.json({ error: "POLAR could not persist this intake." }, { status: 502 });
   }
 
-  return NextResponse.json({ extractionId, recommendedModule, persisted: true }, { status: 201 });
+  return NextResponse.json(
+    {
+      extractionId,
+      recoveryToken: recovery.token,
+      recommendedModule,
+      persisted: true,
+    },
+    { status: 201 },
+  );
 }
