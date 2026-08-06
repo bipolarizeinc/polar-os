@@ -87,7 +87,7 @@ jobs:
               -ar 48000 -ac 1 -t 24 "$project/audio/narration.wav"
 
             ffmpeg -y -i .approved-cache/YA.wav \
-              -af 'loudnorm=I=-25:TP=-3:LRA=10,afade=t=in:st=0:d=.7,afade=t=out:st=22.5:d=1.5' \
+              -af 'loudnorm=I=-25:TP=-3:LRA=10,afade=t=in:st=0:d=0.7,afade=t=out:st=22.5:d=1.5' \
               -ar 48000 -ac 2 -t 24 "$project/audio/YA.wav"
           done < .approved-cache/assets.tsv
 
