@@ -1,0 +1,50 @@
+[
+  {
+    "slug": "greeting",
+    "script": "Welcome to BI POLARIZE ENTERPRISES. I’m P.O.L.A.R. Tell me what you’re building.",
+    "visualMaster": "polar-greeting-intro-v2-approved.mp4",
+    "narration": "greeting.wav"
+  },
+  {
+    "slug": "idle",
+    "script": "Ummm… are you okay? Is everything alright? You can always tell me about your thing, idea, or issues directly.",
+    "visualMaster": "polar-idle-inquiry-v2-approved.mp4",
+    "narration": "idle.wav"
+  },
+  {
+    "slug": "products",
+    "script": "Product systems.",
+    "visualMaster": "polar-transition-products-v2-approved.mp4",
+    "narration": "products.wav"
+  },
+  {
+    "slug": "blueprint",
+    "script": "Blueprint.",
+    "visualMaster": "polar-transition-blueprint-v2-approved.mp4",
+    "narration": "blueprint.wav"
+  },
+  {
+    "slug": "dr-docx",
+    "script": "Doctor Docs.",
+    "visualMaster": "polar-transition-drdocx-v2-approved.mp4",
+    "narration": "dr-docx.wav"
+  },
+  {
+    "slug": "nexus",
+    "script": "Nexus.",
+    "visualMaster": "polar-transition-nexus-v2-approved.mp4",
+    "narration": "nexus.wav"
+  },
+  {
+    "slug": "about",
+    "script": "Founder intelligence.",
+    "visualMaster": "polar-transition-about-v2-approved.mp4",
+    "narration": "about.wav"
+  },
+  {
+    "slug": "intake",
+    "script": "P.O.L.A.R. intake.",
+    "visualMaster": "polar-transition-intake-v2-approved.mp4",
+    "narration": "intake.wav"
+  }
+]
