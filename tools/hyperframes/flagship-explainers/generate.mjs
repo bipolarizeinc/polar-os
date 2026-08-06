@@ -9,16 +9,29 @@ const flagships = JSON.parse(fs.readFileSync(path.join(here, 'flagships.json'), 
 fs.rmSync(projectsRoot, { recursive: true, force: true });
 fs.mkdirSync(projectsRoot, { recursive: true });
 
-const escapeHtml = (value) => value
+const escapeHtml = (value) => String(value)
   .replaceAll('&', '&amp;')
   .replaceAll('<', '&lt;')
   .replaceAll('>', '&gt;')
   .replaceAll('"', '&quot;');
 
+function captionBeats(script) {
+  const sentences = script.match(/[^.!?]+[.!?]+/g) ?? [script];
+  if (sentences.length === 1) return [sentences[0].trim(), 'Built as a coordinated operational system.'];
+  const midpoint = Math.ceil(sentences.length / 2);
+  return [
+    sentences.slice(0, midpoint).join(' ').trim(),
+    sentences.slice(midpoint).join(' ').trim(),
+  ];
+}
+
 for (const item of flagships) {
   const dir = path.join(projectsRoot, item.slug);
   fs.mkdirSync(path.join(dir, 'assets'), { recursive: true });
   fs.mkdirSync(path.join(dir, 'audio'), { recursive: true });
+
+  const [captionOne, captionTwo] = captionBeats(item.script);
+  const narration = `${item.pronunciation}. ${item.script}`;
 
   const html = `<!doctype html>
 <html lang="en">
@@ -35,23 +48,24 @@ for (const item of flagships) {
     [data-composition-id="${item.slug}"] { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: radial-gradient(circle at 75% 35%, rgba(0,229,255,.12), transparent 34%), linear-gradient(135deg, #020405, #0b1114 58%, #160500); color: #f7fbfc; }
     .grid { position: absolute; inset: 0; opacity: .2; background-image: linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px); background-size: 64px 64px; }
     .flare { position: absolute; width: 560px; height: 560px; border-radius: 50%; right: -90px; bottom: -180px; background: rgba(255,77,0,.18); filter: blur(60px); }
-    .scene-content { position: relative; z-index: 3; width: 100%; height: 100%; padding: 92px 110px; display: grid; grid-template-columns: 1.08fr .92fr; gap: 70px; align-items: center; }
+    .scene-content { position: relative; z-index: 3; width: 100%; height: 100%; padding: 92px 110px 190px; display: grid; grid-template-columns: 1.08fr .92fr; gap: 70px; align-items: center; }
     .copy { display: flex; flex-direction: column; justify-content: center; gap: 24px; min-width: 0; }
     .system { color: #ff6a2a; font: 700 22px/1.2 monospace; letter-spacing: .18em; }
     h1 { margin: 0; max-width: 990px; font-size: 96px; line-height: .92; letter-spacing: -.055em; text-transform: uppercase; }
     h2 { margin: 0; max-width: 900px; color: #ff6a2a; font-size: 34px; line-height: 1.05; text-transform: uppercase; }
-    .body { max-width: 940px; margin: 4px 0 0; color: #c3d0d4; font-size: 31px; line-height: 1.42; }
+    .body { max-width: 900px; margin: 4px 0 0; color: #c3d0d4; font-size: 30px; line-height: 1.4; }
     .cta { align-self: flex-start; margin-top: 8px; padding: 18px 24px; border: 2px solid #ff4d00; color: #ffe4d9; font: 800 20px/1 monospace; letter-spacing: .12em; }
-    .visual { position: relative; height: 820px; display: grid; place-items: center; }
-    .logo-frame { position: absolute; top: 80px; left: 10px; width: 390px; height: 260px; padding: 22px; border: 1px solid rgba(255,77,0,.45); background: rgba(2,4,5,.72); backdrop-filter: blur(14px); }
+    .visual { position: relative; height: 780px; display: grid; place-items: center; }
+    .logo-frame { position: absolute; top: 70px; left: 10px; width: 390px; height: 260px; padding: 22px; border: 1px solid rgba(255,77,0,.45); background: rgba(2,4,5,.72); backdrop-filter: blur(14px); }
     .logo-frame img { width: 100%; height: 100%; object-fit: contain; }
-    .polar { position: absolute; right: -10px; bottom: 4px; width: 670px; height: 720px; object-fit: contain; object-position: center bottom; filter: drop-shadow(0 24px 32px rgba(0,0,0,.55)); }
+    .polar { position: absolute; right: -10px; bottom: 4px; width: 670px; height: 700px; object-fit: contain; object-position: center bottom; filter: drop-shadow(0 24px 32px rgba(0,0,0,.55)); }
     .division-code { position: absolute; right: 0; top: 24px; color: rgba(255,255,255,.48); font: 700 18px/1 monospace; letter-spacing: .15em; writing-mode: vertical-rl; }
-    .caption { position: absolute; left: 110px; bottom: 42px; right: 110px; z-index: 5; padding-top: 14px; border-top: 2px solid rgba(255,77,0,.75); color: white; font: 700 24px/1.25 monospace; text-transform: uppercase; letter-spacing: .04em; }
+    .caption-shell { position: absolute; left: 110px; right: 110px; bottom: 44px; z-index: 5; min-height: 108px; padding: 18px 24px 16px; border-top: 2px solid rgba(255,77,0,.75); background: linear-gradient(90deg, rgba(2,4,5,.94), rgba(2,4,5,.66)); }
+    .caption { position: absolute; inset: 18px 24px 16px; margin: 0; color: white; font: 700 24px/1.32 monospace; text-transform: uppercase; letter-spacing: .025em; opacity: 0; }
   </style>
 </head>
 <body>
-  <div data-composition-id="${item.slug}" data-width="1920" data-height="1080">
+  <div data-composition-id="${item.slug}" data-start="0" data-duration="24" data-track-index="0" data-width="1920" data-height="1080">
     <div class="grid" data-layout-ignore></div>
     <div class="flare" data-layout-ignore></div>
     <div class="scene-content">
@@ -59,7 +73,7 @@ for (const item of flagships) {
         <div class="system">POLAR OS // FLAGSHIP SYSTEM</div>
         <h1>${escapeHtml(item.name)}</h1>
         <h2>${escapeHtml(item.headline)}</h2>
-        <p class="body">${escapeHtml(item.script)}</p>
+        <p class="body">${escapeHtml(captionOne)}</p>
         <div class="cta">${escapeHtml(item.cta)} →</div>
       </section>
       <section class="visual">
@@ -68,7 +82,11 @@ for (const item of flagships) {
         <div class="division-code">BI POLARIZE // ${escapeHtml(item.slug.toUpperCase())}</div>
       </section>
     </div>
-    <div class="caption">${escapeHtml(item.script)}</div>
+    <div class="caption-shell">
+      <p class="caption caption-one">${escapeHtml(captionOne)}</p>
+      <p class="caption caption-two">${escapeHtml(captionTwo)}</p>
+      <p class="caption caption-three">${escapeHtml(item.cta)}.</p>
+    </div>
     <audio id="narration" data-start="0" data-duration="24" data-track-index="2" src="audio/narration.wav" data-volume="1"></audio>
     <audio id="music" data-start="0" data-duration="24" data-track-index="3" src="audio/YA.wav" data-volume="0.18"></audio>
   </div>
@@ -83,15 +101,20 @@ for (const item of flagships) {
       .from('.logo-frame', { x: 70, opacity: 0, duration: .7, ease: 'power3.out' }, 0.55)
       .from('.polar', { y: 95, opacity: 0, duration: .9, ease: 'power3.out' }, 0.8)
       .to('.polar', { y: -12, duration: 3.2, repeat: 5, yoyo: true, ease: 'sine.inOut' }, 2.1)
+      .to('.caption-one', { opacity: 1, duration: .35 }, 1.4)
+      .to('.caption-one', { opacity: 0, duration: .3 }, 9.2)
+      .to('.caption-two', { opacity: 1, duration: .35 }, 9.5)
+      .to('.caption-two', { opacity: 0, duration: .3 }, 18.0)
+      .to('.caption-three', { opacity: 1, duration: .35 }, 18.3)
       .to('.scene-content', { opacity: 0, duration: .8, ease: 'power2.in' }, 22.9)
-      .to('.caption', { opacity: 0, duration: .5 }, 23.2);
+      .to('.caption-shell', { opacity: 0, duration: .5 }, 23.2);
     window.__timelines['${item.slug}'] = tl;
   </script>
 </body>
 </html>`;
 
   fs.writeFileSync(path.join(dir, 'index.html'), html);
-  fs.writeFileSync(path.join(dir, 'script.txt'), item.script + '\n');
+  fs.writeFileSync(path.join(dir, 'script.txt'), narration + '\n');
 }
 
 console.log(`Generated ${flagships.length} flagship explainer projects in ${projectsRoot}`);
