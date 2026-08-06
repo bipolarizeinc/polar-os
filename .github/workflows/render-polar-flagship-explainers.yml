@@ -1,0 +1,125 @@
+name: Render POLAR Flagship Explainers
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'tools/hyperframes/flagship-explainers/**'
+      - 'tools/hyperframes/polar-microvideos/approved-assets.json'
+      - 'tools/hyperframes/polar-voice-profile.sh'
+      - '.github/workflows/render-polar-flagship-explainers.yml'
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install production dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg espeak-ng
+          npm install --no-save hyperframes@0.7.77
+
+      - name: Generate flagship projects
+        run: node tools/hyperframes/flagship-explainers/generate.mjs
+
+      - name: Download approved media and prepare narration
+        shell: bash
+        run: |
+          set -euo pipefail
+          root='tools/hyperframes/flagship-explainers'
+          registry='tools/hyperframes/polar-microvideos/approved-assets.json'
+          music_id="$(node -e "const a=require('./$registry'); console.log(a.music.driveFileId)")"
+          mkdir -p .approved-cache
+
+          download_drive() {
+            local id="$1"
+            local output="$2"
+            curl --fail --location --retry 4 --retry-all-errors \
+              "https://drive.usercontent.google.com/download?id=${id}&export=download&confirm=t" \
+              --output "$output"
+            test -s "$output"
+          }
+
+          download_drive "$music_id" .approved-cache/YA.wav
+          ffprobe -v error -show_entries format=duration,size -of default=noprint_wrappers=1 .approved-cache/YA.wav
+
+          node - <<'NODE' > .approved-cache/assets.tsv
+          const fs = require('fs');
+          const items = JSON.parse(fs.readFileSync('tools/hyperframes/flagship-explainers/flagships.json', 'utf8'));
+          const registry = require('./tools/hyperframes/polar-microvideos/approved-assets.json');
+          for (const item of items) {
+            const logo = registry.divisionLogos.assets.find(x => x.name === item.logo);
+            const stance = registry.polarCharacterMasters.assets.find(x => x.name === item.polarStance);
+            if (!logo || !stance) throw new Error(`Missing approved registry entry for ${item.slug}`);
+            console.log([item.slug, item.logo, logo.driveFileId, item.polarStance, stance.driveFileId].join('\t'));
+          }
+          NODE
+
+          while IFS=$'\t' read -r slug logo logo_id stance stance_id; do
+            project="$root/generated/$slug"
+            download_drive "$logo_id" "$project/assets/$logo"
+            download_drive "$stance_id" "$project/assets/$stance"
+
+            source tools/hyperframes/polar-voice-profile.sh
+            espeak-ng \
+              -v "$POLAR_ESPEAK_VOICE" \
+              -s "$POLAR_ESPEAK_SPEED" \
+              -p "$POLAR_ESPEAK_PITCH" \
+              -a "$POLAR_ESPEAK_AMPLITUDE" \
+              -f "$project/script.txt" \
+              -w "$project/audio/raw-narration.wav"
+
+            ffmpeg -y -i "$project/audio/raw-narration.wav" \
+              -af 'highpass=f=70,lowpass=f=12000,acompressor=threshold=-18dB:ratio=3:attack=10:release=160,loudnorm=I=-16:TP=-1.5:LRA=8,apad=pad_dur=24' \
+              -ar 48000 -ac 1 -t 24 "$project/audio/narration.wav"
+
+            ffmpeg -y -i .approved-cache/YA.wav \
+              -af 'loudnorm=I=-25:TP=-3:LRA=10,afade=t=in:st=0:d=.7,afade=t=out:st=22.5:d=1.5' \
+              -ar 48000 -ac 2 -t 24 "$project/audio/YA.wav"
+          done < .approved-cache/assets.tsv
+
+      - name: Lint inspect and render all nine flagships
+        shell: bash
+        run: |
+          set -euo pipefail
+          root='tools/hyperframes/flagship-explainers/generated'
+          mkdir -p renders/polar-flagships
+          slugs=(sav-vidzgen dr-docx blueprint brandforge launchpad nexus pulse vault cipher)
+
+          for slug in "${slugs[@]}"; do
+            project="$root/$slug"
+            (
+              cd "$project"
+              npx hyperframes lint . --verbose
+              npx hyperframes inspect . --samples 14 --strict
+              npx hyperframes render \
+                --output "$GITHUB_WORKSPACE/renders/polar-flagships/$slug.mp4" \
+                --fps 30 --quality high --strict
+            )
+            test -s "renders/polar-flagships/$slug.mp4"
+            ffprobe -v error -show_entries format=filename,duration,size -of default=noprint_wrappers=1 "renders/polar-flagships/$slug.mp4"
+          done
+
+      - name: Build verification package
+        run: |
+          sha256sum renders/polar-flagships/*.mp4 > renders/polar-flagships/SHA256SUMS.txt
+          cp tools/hyperframes/flagship-explainers/flagships.json renders/polar-flagships/FLAGSHIP-MANIFEST.json
+          find renders/polar-flagships -maxdepth 1 -type f -printf '%f %s bytes\n' | sort
+
+      - name: Upload flagship render bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: POLAR-Flagship-Explainers-Review
+          path: renders/polar-flagships/
+          retention-days: 30
+          if-no-files-found: error
