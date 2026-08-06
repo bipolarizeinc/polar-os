@@ -119,10 +119,22 @@
   color: #130400;
 }
 
+.pointer {
+  width: 0;
+  height: 0;
+  margin: 28px auto -12px;
+  position: relative;
+  z-index: 2;
+  border-left: 16px solid transparent;
+  border-right: 16px solid transparent;
+  border-top: 28px solid #ff4d00;
+  filter: drop-shadow(0 0 10px rgba(255, 77, 0, 0.55));
+}
+
 .wheel {
   width: min(330px, 78vw);
   aspect-ratio: 1;
-  margin: 34px auto 20px;
+  margin: 0 auto 20px;
   display: grid;
   place-items: center;
   border: 8px solid #171b1d;
@@ -141,6 +153,11 @@
     #ffb300 90.9% 100%
   );
   box-shadow: 0 0 42px rgba(255, 77, 0, 0.16);
+  transform: rotate(var(--wheel-rotation, 0deg));
+}
+
+.spinning {
+  transition: transform 1.8s cubic-bezier(0.12, 0.72, 0.16, 1);
 }
 
 .wheelCore {
@@ -153,10 +170,6 @@
   background: #05090b;
   font-weight: 900;
   letter-spacing: 0.15em;
-}
-
-.spinning {
-  animation: spin 1.8s cubic-bezier(0.12, 0.72, 0.16, 1) forwards;
 }
 
 .spinButton {
@@ -219,15 +232,11 @@
   border-bottom: 1px solid rgba(255, 77, 0, 0.24);
 }
 
-@keyframes spin {
-  to { transform: rotate(1420deg); }
-}
-
 @media (max-width: 860px) {
   .grid { grid-template-columns: 1fr; }
   .hero { padding-top: 74px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .spinning { animation-duration: 0.01ms; }
+  .spinning { transition-duration: 0.01ms; }
 }
