@@ -4,10 +4,27 @@ import { FormEvent, useState } from "react";
 import Link from "next/link";
 import styles from "./intake.module.css";
 
+type Analysis = {
+  routingRationale: string;
+  clarityScore: number;
+  readinessScore: number;
+  contradictionFlags: string[];
+  risks: string[];
+  priorities: string[];
+  blueprintBrief: {
+    concept: string;
+    audience: string;
+    problem: string;
+    outcome: string;
+    immediateNextStep: string;
+  };
+};
+
 type Result = {
   extractionId: string;
   recoveryToken?: string;
   recommendedModule: string;
+  analysis?: Analysis;
   persisted: boolean;
   message?: string;
 };
@@ -56,10 +73,42 @@ export default function IntakePage() {
     return (
       <main className={styles.shell}>
         <section className={styles.confirmation}>
-          <p className={styles.status}>BLUEPRINT EXTRACTION REGISTERED</p>
+          <p className={styles.status}>BLUEPRINT EXTRACTION ANALYZED</p>
           <h1>{result.extractionId}</h1>
           <p>Primary routing recommendation: <strong>{result.recommendedModule}</strong></p>
-          <p>{result.persisted ? "Your intake is secured in the POLAR memory layer." : result.message}</p>
+          <p>{result.persisted ? "Your intake and analysis are secured in the POLAR memory layer." : result.message}</p>
+
+          {result.analysis && (
+            <>
+              <div className={styles.identityGrid}>
+                <div className={styles.question}><span>CLARITY SCORE</span><strong>{result.analysis.clarityScore}%</strong></div>
+                <div className={styles.question}><span>READINESS SCORE</span><strong>{result.analysis.readinessScore}%</strong></div>
+              </div>
+              <div className={styles.question}>
+                <span>ROUTING RATIONALE</span>
+                <p>{result.analysis.routingRationale}</p>
+              </div>
+              <div className={styles.question}>
+                <span>FIRST-PASS BLUEPRINT BRIEF</span>
+                <p><strong>Concept:</strong> {result.analysis.blueprintBrief.concept}</p>
+                <p><strong>Audience:</strong> {result.analysis.blueprintBrief.audience}</p>
+                <p><strong>Problem:</strong> {result.analysis.blueprintBrief.problem}</p>
+                <p><strong>Outcome:</strong> {result.analysis.blueprintBrief.outcome}</p>
+                <p><strong>Next step:</strong> {result.analysis.blueprintBrief.immediateNextStep}</p>
+              </div>
+              {!!result.analysis.contradictionFlags.length && (
+                <div className={styles.question}>
+                  <span>CONTRADICTIONS REQUIRING RESOLUTION</span>
+                  {result.analysis.contradictionFlags.map((flag) => <p key={flag}>• {flag}</p>)}
+                </div>
+              )}
+              <div className={styles.question}>
+                <span>POLAR PRIORITIES</span>
+                {result.analysis.priorities.map((priority) => <p key={priority}>• {priority}</p>)}
+              </div>
+            </>
+          )}
+
           {result.recoveryToken && (
             <div className={styles.question}>
               <span>SECURE RECOVERY TOKEN</span>
@@ -99,7 +148,7 @@ export default function IntakePage() {
 
         {error && <p className={styles.error}>{error}</p>}
         <button className={styles.button} disabled={submitting} type="submit">
-          {submitting ? "POLAR IS PROCESSING..." : "INITIALIZE BLUEPRINT EXTRACTION"}
+          {submitting ? "POLAR IS ANALYZING..." : "INITIALIZE BLUEPRINT EXTRACTION"}
         </button>
       </form>
     </main>
