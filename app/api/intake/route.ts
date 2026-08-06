@@ -1,44 +1,20 @@
 import { NextResponse } from "next/server";
+import { analyzeIntake, type IntakeAnalysisInput } from "../../../lib/polar/analyze-intake";
 import { createRecoveryToken, getSupabaseConfig, normalizeEmail, supabaseRequest } from "../../lib/polar-memory";
 
 const requiredFields = ["thing", "audience", "problem", "blocker", "desiredOutcome"] as const;
 
-type IntakePayload = {
+type IntakePayload = IntakeAnalysisInput & {
   founderName?: string;
   email?: string;
   phone?: string;
   companyName?: string;
-  thing?: string;
-  audience?: string;
-  problem?: string;
-  blocker?: string;
-  desiredOutcome?: string;
-  existingAssets?: string;
-  requestedHelp?: string;
-  constraints?: string;
-  additionalContext?: string;
 };
 
 function createExtractionId() {
   const stamp = new Date().toISOString().slice(0, 10).replaceAll("-", "");
   const suffix = crypto.randomUUID().slice(0, 8).toUpperCase();
   return `BPX-${stamp}-${suffix}`;
-}
-
-function recommendModule(payload: IntakePayload) {
-  const text = Object.values(payload).join(" ").toLowerCase();
-  const routes = [
-    ["Cipher™", ["security", "cyber", "privacy", "identity", "compliance"]],
-    ["Vault™", ["archive", "knowledge", "records", "memory", "documents"]],
-    ["Pulse™", ["analytics", "dashboard", "forecast", "kpi", "metrics"]],
-    ["Nexus™", ["automation", "agent", "api", "crm", "integration", "software"]],
-    ["LaunchPad™", ["formation", "register", "ein", "banking", "compliance", "launch"]],
-    ["BrandForge™", ["brand", "logo", "identity", "marketing", "campaign"]],
-    ["Sav.VidzGen™", ["video", "commercial", "reel", "podcast", "animation"]],
-    ["Dr.Docx™", ["sop", "policy", "agreement", "manual", "proposal", "document"]],
-  ] as const;
-
-  return routes.find(([, terms]) => terms.some((term) => text.includes(term)))?.[0] ?? "Blueprint™";
 }
 
 export async function POST(request: Request) {
@@ -50,7 +26,7 @@ export async function POST(request: Request) {
   }
 
   const extractionId = createExtractionId();
-  const recommendedModule = recommendModule(payload);
+  const analysis = analyzeIntake(payload);
   const recovery = createRecoveryToken();
   const config = getSupabaseConfig();
 
@@ -58,9 +34,10 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         extractionId,
-        recommendedModule,
+        analysis,
+        recommendedModule: analysis.recommendedModule,
         persisted: false,
-        message: "Intake accepted in configuration mode. Connect Supabase to enable persistence and recovery.",
+        message: "Intake analyzed in configuration mode. Connect Supabase to enable persistence and recovery.",
       },
       { status: 202 },
     );
@@ -72,7 +49,7 @@ export async function POST(request: Request) {
       headers: { Prefer: "return=minimal" },
       body: JSON.stringify({
         extraction_id: extractionId,
-        status: "submitted",
+        status: "analyzed",
         founder_name: payload.founderName?.trim() || null,
         email: normalizeEmail(payload.email),
         phone: payload.phone?.trim() || null,
@@ -86,13 +63,19 @@ export async function POST(request: Request) {
         requested_help: payload.requestedHelp,
         constraints: payload.constraints,
         additional_context: payload.additionalContext,
-        recommended_module: recommendedModule,
-        routing_reason: `Keyword and context routing selected ${recommendedModule}.`,
+        recommended_module: analysis.recommendedModule,
+        routing_reason: analysis.routingRationale,
         recovery_token_hash: recovery.hash,
         progress_percent: 100,
         last_saved_at: new Date().toISOString(),
         submitted_at: new Date().toISOString(),
-        memory_state: { phase: "intake", version: 1 },
+        memory_state: { phase: "analysis", version: 2 },
+        analysis_snapshot: analysis,
+        clarity_score: analysis.clarityScore,
+        readiness_score: analysis.readinessScore,
+        contradiction_flags: analysis.contradictionFlags,
+        risk_flags: analysis.risks,
+        blueprint_brief: analysis.blueprintBrief,
       }),
     });
   } catch (error) {
@@ -104,7 +87,8 @@ export async function POST(request: Request) {
     {
       extractionId,
       recoveryToken: recovery.token,
-      recommendedModule,
+      recommendedModule: analysis.recommendedModule,
+      analysis,
       persisted: true,
     },
     { status: 201 },
