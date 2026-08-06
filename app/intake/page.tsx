@@ -6,6 +6,7 @@ import styles from "./intake.module.css";
 
 type Result = {
   extractionId: string;
+  recoveryToken?: string;
   recommendedModule: string;
   persisted: boolean;
   message?: string;
@@ -59,6 +60,13 @@ export default function IntakePage() {
           <h1>{result.extractionId}</h1>
           <p>Primary routing recommendation: <strong>{result.recommendedModule}</strong></p>
           <p>{result.persisted ? "Your intake is secured in the POLAR memory layer." : result.message}</p>
+          {result.recoveryToken && (
+            <div className={styles.question}>
+              <span>SECURE RECOVERY TOKEN</span>
+              <code>{result.recoveryToken}</code>
+              <small>Save this token with your extraction ID. For security, POLAR cannot display it again.</small>
+            </div>
+          )}
           <Link href="/" className={styles.button}>RETURN TO POLAR OS</Link>
         </section>
       </main>
