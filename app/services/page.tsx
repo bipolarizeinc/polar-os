@@ -1,8 +1,69 @@
 import { PageShell } from "../components/SiteChrome";
 import { IntakeLink } from "../components/IntakeLink";
+import { pricingGroups, pricingPolicy } from "../data/pricing";
 
-const services = [
-  ["Business Structure & Formation", "$199", "Build the legal and operational foundation around the concept."], ["State Registration & Compliance", "$149 + fees", "Registration guidance and compliance setup for a cleaner launch."], ["EIN", "$75", "Federal employer identification number application support."], ["D-U-N-S", "$29", "Business identity setup for credibility and commercial systems."], ["Operating Agreement / Bylaws", "$129", "Core governance documents aligned to the chosen entity."], ["Marketing Strategy Session", "$149", "A focused 60-minute positioning and promotion strategy session."], ["5-Page Website", "$650", "A professional conversion-ready web presence built around the brand."], ["Logo + Branding Kit", "$199", "Core identity, color, typography, and usable brand assets."], ["Business Presence", "$249", "Coordinated setup of the essential public-facing business footprint."], ["Business Credit Development", "$399", "Structured guidance toward stronger commercial credit readiness."], ["Comprehensive Business Plan", "$499", "Research-backed plan connecting vision, market, operations, and finance."], ["Banking Solution Guidance", "$99", "Practical support selecting business banking solutions."], ["Registered Agent", "$125 / year", "Reliable annual registered agent coverage."], ["Business Coaching", "$200", "A direct 60-minute session for decisions, obstacles, and execution."], ["Annual Compliance Package", "$149", "Ongoing annual filing and compliance organization."],
-];
+export default function ServicesPage() {
+  return (
+    <PageShell>
+      <section className="page-hero services-hero">
+        <div className="section-index">CAPABILITIES // APPROVED SERVICE CATALOG</div>
+        <p className="eyebrow">ALL THE BUSINESS FOR YOUR BUSINESS</p>
+        <h1>
+          STRUCTURE.<br />SYSTEMS. <em>MOMENTUM.</em>
+        </h1>
+        <p>
+          Clear entry services, flagship systems, and enterprise engagements for
+          founders who need working infrastructure instead of recycled templates
+          and fog-machine strategy.
+        </p>
+      </section>
 
-export default function ServicesPage() { return <PageShell><section className="page-hero services-hero"><div className="section-index">CAPABILITIES // SERVICE CATALOG</div><p className="eyebrow">ALL THE BUSINESS FOR YOUR BUSINESS</p><h1>STRUCTURE.<br />SYSTEMS. <em>MOMENTUM.</em></h1><p>Focused services for founders who need real infrastructure—not recycled templates and fog-machine strategy.</p></section><section className="section-shell catalog"><div className="catalog-intro"><div><p className="eyebrow">DIRECT SERVICES</p><h2>BUILD WHAT THE<br />VISION REQUIRES.</h2></div><p>Every engagement starts with the actual problem. Services can stand alone or become part of a deeper Bipolarized Blueprint™ engagement.</p></div><div className="service-grid">{services.map(([name,price,description],i)=><article key={name}><div className="service-number">{String(i+1).padStart(2,"0")}</div><h3>{name}</h3><p>{description}</p><div className="service-price"><span>STARTING AT</span><b>{price}</b></div></article>)}</div><div className="blueprint-offer"><div><p className="eyebrow">FLAGSHIP ENGAGEMENT</p><h2>THE BIPOLARIZED BLUEPRINT™</h2><p>For concepts requiring research, positioning, business architecture, operational systems, knowledge extraction, and a coordinated path from raw thought to functional enterprise.</p></div><IntakeLink /></div></section></PageShell>; }
+      <section className="section-shell catalog">
+        {pricingGroups.map((group, groupIndex) => (
+          <section key={group.id} id={group.id} className="pricing-group">
+            <div className="catalog-intro">
+              <div>
+                <p className="eyebrow">
+                  {String(groupIndex + 1).padStart(2, "0")} // PRICING LEVEL
+                </p>
+                <h2>{group.title}</h2>
+              </div>
+              <p>{group.description}</p>
+            </div>
+
+            <div className="service-grid">
+              {group.entries.map((entry, entryIndex) => (
+                <article key={entry.id}>
+                  <div className="service-number">
+                    {String(entryIndex + 1).padStart(2, "0")}
+                  </div>
+                  <h3>{entry.name}</h3>
+                  {entry.note && <p>{entry.note}</p>}
+                  <div className="service-price">
+                    <span>
+                      {entry.cadence === "custom" ? "CUSTOM SCOPE" : "PUBLIC PRICE"}
+                    </span>
+                    <b>{entry.displayPrice}</b>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+        ))}
+
+        <div className="blueprint-offer">
+          <div>
+            <p className="eyebrow">PRICING POLICY // {pricingPolicy.currency}</p>
+            <h2>BUILD THE RIGHT LEVEL OF INFRASTRUCTURE.</h2>
+            <p>
+              Public pricing is effective {pricingPolicy.effectiveDate}. State and
+              government filing fees are billed separately. Custom scopes require
+              a written quote, and promotional discounts may not be combined.
+            </p>
+          </div>
+          <IntakeLink />
+        </div>
+      </section>
+    </PageShell>
+  );
+}
