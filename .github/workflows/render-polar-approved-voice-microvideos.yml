@@ -6,6 +6,9 @@ on:
     paths:
       - 'tools/hyperframes/polar-microvideos/**'
       - 'public/brand/polar-microvideos/**'
+      - 'public/brand/polar/approved-stances/**'
+      - 'public/brand/corporate-approved/**'
+      - 'public/brand/divisions/approved/**'
       - '.github/workflows/render-polar-approved-voice-microvideos.yml'
 
 jobs:
@@ -30,26 +33,32 @@ jobs:
       - name: Install HyperFrames
         run: npm install --no-save hyperframes@0.7.77
 
-      - name: Reject prohibited voice systems
+      - name: Reject prohibited voice and media systems
         shell: bash
         run: |
           set -euo pipefail
-          ! grep -RniE 'heygen|espeak|text[- ]to[- ]speech|stock voice|pitch.shift' \
+          ! grep -RniE 'heygen|espeak|text[- ]to[- ]speech|stock voice|pitch.shift|stock imagery|stock music' \
             tools/hyperframes/polar-microvideos \
             .github/workflows/render-polar-approved-voice-microvideos.yml \
             --exclude='README.md' \
-            --exclude='DESIGN.md'
+            --exclude='DESIGN.md' \
+            --exclude='approved-assets.json'
+
+      - name: Validate approved asset registry
+        run: |
+          node -e "const a=require('./tools/hyperframes/polar-microvideos/approved-assets.json'); if(!a.policy.approvedOnly) process.exit(1); if(a.polarCharacterMasters.assets.length<29) process.exit(1); if(a.divisionLogos.assets.length!==9) process.exit(1); if(!a.music.driveFileId) process.exit(1); console.log('Approved registry validated.')"
 
       - name: Generate compositions
         run: node tools/hyperframes/polar-microvideos/generate.mjs
 
-      - name: Verify approved visual masters and narration
+      - name: Verify approved visual masters, narration, and music
         shell: bash
         run: |
           set -euo pipefail
           root='public/brand/polar-microvideos'
           visual="$root/visual-masters"
           audio="$root/approved-narration"
+          music="$root/music/YA.wav"
 
           visuals=(
             polar-greeting-intro-v2-approved.mp4
@@ -63,6 +72,7 @@ jobs:
           )
           narration=(greeting.wav idle.wav products.wav blueprint.wav dr-docx.wav nexus.wav about.wav intake.wav)
 
+          test -s "$music" || { echo "Missing approved POLAR music: $music"; exit 1; }
           for file in "${visuals[@]}"; do
             test -s "$visual/$file" || { echo "Missing approved visual master: $visual/$file"; exit 1; }
           done
@@ -85,6 +95,7 @@ jobs:
             narration_name="$(node -e "const m=require('./$root/microvideos.json'); console.log(m.find(x=>x.slug==='${slug}').narration)")"
 
             cp "$media/visual-masters/$visual_name" "$project/assets/$visual_name"
+            ffmpeg -y -i "$media/music/YA.wav" -af 'loudnorm=I=-24:TP=-3:LRA=10,afade=t=in:st=0:d=.4,afade=t=out:st=7.2:d=.8' -ar 48000 -ac 2 -t 8 "$project/audio/YA.wav"
             ffmpeg -y -i "$media/approved-narration/$narration_name" \
               -af 'highpass=f=70,lowpass=f=12000,loudnorm=I=-16:TP=-1.5:LRA=8,apad=pad_dur=8' \
               -ar 48000 -ac 1 -t 8 "$project/audio/$narration_name"
