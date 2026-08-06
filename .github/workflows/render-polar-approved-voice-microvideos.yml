@@ -1,0 +1,114 @@
+name: Render POLAR Approved-Voice Microvideos
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'tools/hyperframes/polar-microvideos/**'
+      - 'public/brand/polar-microvideos/**'
+      - '.github/workflows/render-polar-approved-voice-microvideos.yml'
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install FFmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+
+      - name: Install HyperFrames
+        run: npm install --no-save hyperframes@0.7.77
+
+      - name: Reject prohibited voice systems
+        shell: bash
+        run: |
+          set -euo pipefail
+          ! grep -RniE 'heygen|espeak|text[- ]to[- ]speech|stock voice|pitch.shift' \
+            tools/hyperframes/polar-microvideos \
+            .github/workflows/render-polar-approved-voice-microvideos.yml \
+            --exclude='README.md' \
+            --exclude='DESIGN.md'
+
+      - name: Generate compositions
+        run: node tools/hyperframes/polar-microvideos/generate.mjs
+
+      - name: Verify approved visual masters and narration
+        shell: bash
+        run: |
+          set -euo pipefail
+          root='public/brand/polar-microvideos'
+          visual="$root/visual-masters"
+          audio="$root/approved-narration"
+
+          visuals=(
+            polar-greeting-intro-v2-approved.mp4
+            polar-idle-inquiry-v2-approved.mp4
+            polar-transition-products-v2-approved.mp4
+            polar-transition-blueprint-v2-approved.mp4
+            polar-transition-drdocx-v2-approved.mp4
+            polar-transition-nexus-v2-approved.mp4
+            polar-transition-about-v2-approved.mp4
+            polar-transition-intake-v2-approved.mp4
+          )
+          narration=(greeting.wav idle.wav products.wav blueprint.wav dr-docx.wav nexus.wav about.wav intake.wav)
+
+          for file in "${visuals[@]}"; do
+            test -s "$visual/$file" || { echo "Missing approved visual master: $visual/$file"; exit 1; }
+          done
+          for file in "${narration[@]}"; do
+            test -s "$audio/$file" || { echo "Missing approved narration: $audio/$file"; exit 1; }
+          done
+
+      - name: Prepare, lint, inspect, and render
+        shell: bash
+        run: |
+          set -euo pipefail
+          root='tools/hyperframes/polar-microvideos'
+          media='public/brand/polar-microvideos'
+          mkdir -p renders/polar-microvideos
+
+          slugs=(greeting idle products blueprint dr-docx nexus about intake)
+          for slug in "${slugs[@]}"; do
+            project="$root/generated/$slug"
+            visual_name="$(node -e "const m=require('./$root/microvideos.json'); console.log(m.find(x=>x.slug==='${slug}').visualMaster)")"
+            narration_name="$(node -e "const m=require('./$root/microvideos.json'); console.log(m.find(x=>x.slug==='${slug}').narration)")"
+
+            cp "$media/visual-masters/$visual_name" "$project/assets/$visual_name"
+            ffmpeg -y -i "$media/approved-narration/$narration_name" \
+              -af 'highpass=f=70,lowpass=f=12000,loudnorm=I=-16:TP=-1.5:LRA=8,apad=pad_dur=8' \
+              -ar 48000 -ac 1 -t 8 "$project/audio/$narration_name"
+
+            (
+              cd "$project"
+              npx hyperframes lint . --verbose
+              npx hyperframes inspect . --samples 12 --strict
+              npx hyperframes render --output "$GITHUB_WORKSPACE/renders/polar-microvideos/$slug.mp4" --fps 30 --quality high --strict
+            )
+
+            test -s "renders/polar-microvideos/$slug.mp4"
+            ffprobe -v error -show_entries format=filename,duration,size -of default=noprint_wrappers=1 "renders/polar-microvideos/$slug.mp4"
+          done
+
+      - name: Create verification manifest
+        run: |
+          sha256sum renders/polar-microvideos/*.mp4 > renders/polar-microvideos/SHA256SUMS.txt
+          find renders/polar-microvideos -maxdepth 1 -type f -printf '%f %s bytes\n' | sort
+
+      - name: Upload render bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: POLAR-Website-Microvideos-Approved-Voice
+          path: renders/polar-microvideos/
+          retention-days: 30
+          if-no-files-found: error
