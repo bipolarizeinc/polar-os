@@ -39,6 +39,7 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#020409}
   <div id="polarity" class="polarity" data-start="0" data-duration="8" data-track-index="1"></div>
   <div class="frame" data-layout-ignore></div>
   <div id="status" class="status">P.O.L.A.R. // ${item.slug}</div>
+  <audio id="music" data-start="0" data-duration="8" data-track-index="3" src="audio/YA.wav" data-volume="0.18"></audio>
   <audio id="narration" data-start="0" data-duration="8" data-track-index="4" src="audio/${item.narration}" data-volume="1"></audio>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
