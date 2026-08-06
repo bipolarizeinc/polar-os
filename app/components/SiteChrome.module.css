@@ -1,0 +1,174 @@
+.headerBrand {
+  min-width: 0;
+}
+
+.headerSeal {
+  width: 54px;
+  height: 54px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 12px rgba(255, 77, 0, 0.22));
+}
+
+.brandName {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.brandName strong {
+  font-size: 13px;
+  letter-spacing: 0.05em;
+}
+
+.brandName small {
+  margin: 0;
+}
+
+.menuButton {
+  display: none;
+  width: 46px;
+  height: 42px;
+  border: 1px solid rgba(255, 92, 35, 0.7);
+  background: rgba(3, 5, 6, 0.72);
+  color: #eff8ff;
+  cursor: pointer;
+}
+
+.menuButton span,
+.menuButton::before,
+.menuButton::after {
+  display: block;
+  width: 21px;
+  height: 2px;
+  margin: 4px auto;
+  background: #ff5c23;
+  content: "";
+  transition: transform 180ms ease, opacity 180ms ease;
+}
+
+.menuButtonOpen span {
+  opacity: 0;
+}
+
+.menuButtonOpen::before {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.menuButtonOpen::after {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+.audioControl {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border: 1px solid rgba(255, 92, 35, 0.55);
+  background: rgba(3, 5, 6, 0.88);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 0 24px rgba(255, 77, 0, 0.12);
+}
+
+.audioControl button {
+  border: 0;
+  background: transparent;
+  color: #eff8ff;
+  cursor: pointer;
+  font: 800 10px/1 var(--font-geist-mono);
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.audioControl input {
+  width: 76px;
+  accent-color: #ff5c23;
+}
+
+.joinEnterprise {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 18px;
+  padding: 13px 16px;
+  border: 1px solid #ff5c23;
+  color: #fff3ec;
+  font: 800 10px/1 var(--font-geist-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: background 180ms ease, color 180ms ease;
+}
+
+.joinEnterprise:hover {
+  background: #ff5c23;
+  color: #100500;
+}
+
+@media (max-width: 1040px) {
+  .menuButton {
+    display: block;
+  }
+
+  .desktopCta {
+    display: none;
+  }
+
+  .mobileNav {
+    position: absolute;
+    top: 110px;
+    left: 0;
+    right: 0;
+    display: none !important;
+    flex-direction: column;
+    gap: 0 !important;
+    padding: 14px 22px 22px;
+    border-bottom: 1px solid rgba(255, 92, 35, 0.42);
+    background: rgba(3, 5, 6, 0.98);
+  }
+
+  .mobileNavOpen {
+    display: flex !important;
+  }
+
+  .mobileNav a {
+    width: 100%;
+    padding: 17px 4px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+}
+
+@media (max-width: 680px) {
+  .headerSeal {
+    width: 42px;
+    height: 42px;
+  }
+
+  .brandName strong {
+    max-width: 210px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 10px;
+  }
+
+  .audioControl {
+    right: 12px;
+    bottom: 12px;
+  }
+
+  .audioControl input {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menuButton span,
+  .menuButton::before,
+  .menuButton::after,
+  .joinEnterprise {
+    transition: none;
+  }
+}

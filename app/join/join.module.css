@@ -1,0 +1,242 @@
+.hero {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 110px 24px 70px;
+}
+
+.hero h1 {
+  margin: 18px 0 24px;
+  font: 900 clamp(52px, 7vw, 108px)/0.86 var(--font-geist-sans);
+  letter-spacing: -0.065em;
+  text-transform: uppercase;
+}
+
+.hero h1 em {
+  color: transparent;
+  font-style: normal;
+  -webkit-text-stroke: 1px #ff4d00;
+}
+
+.hero > p:last-child {
+  max-width: 760px;
+  color: #aab7bb;
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.grid {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 24px 80px;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 24px;
+}
+
+.panel {
+  position: relative;
+  overflow: hidden;
+  padding: 34px;
+  border: 1px solid rgba(255, 77, 0, 0.35);
+  background: linear-gradient(145deg, rgba(255, 77, 0, 0.08), rgba(4, 8, 10, 0.96) 34%);
+}
+
+.panel:before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  background: #ff4d00;
+}
+
+.index {
+  color: #ff7440;
+  font: 700 10px/1 var(--font-geist-mono);
+  letter-spacing: 0.18em;
+}
+
+.panel h2,
+.terms h2 {
+  margin: 18px 0 16px;
+  font-size: clamp(28px, 3vw, 44px);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.panel p,
+.panel li,
+.terms p {
+  color: #aab7bb;
+  line-height: 1.65;
+}
+
+.form {
+  margin-top: 28px;
+  display: grid;
+  gap: 12px;
+}
+
+.form label {
+  color: #dfeaed;
+  font-size: 13px;
+}
+
+.form input[type="email"] {
+  width: 100%;
+  padding: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: #05090b;
+  color: white;
+}
+
+.consent {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  align-items: start;
+}
+
+.form button,
+.spinButton,
+.action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 12px 18px;
+  border: 1px solid #ff4d00;
+  background: rgba(255, 77, 0, 0.12);
+  color: #ffe5dc;
+  font: 800 11px/1 var(--font-geist-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.form button:hover,
+.spinButton:hover:not(:disabled),
+.action:hover {
+  background: #ff4d00;
+  color: #130400;
+}
+
+.pointer {
+  width: 0;
+  height: 0;
+  margin: 28px auto -12px;
+  position: relative;
+  z-index: 2;
+  border-left: 16px solid transparent;
+  border-right: 16px solid transparent;
+  border-top: 28px solid #ff4d00;
+  filter: drop-shadow(0 0 10px rgba(255, 77, 0, 0.55));
+}
+
+.wheel {
+  width: min(330px, 78vw);
+  aspect-ratio: 1;
+  margin: 0 auto 20px;
+  display: grid;
+  place-items: center;
+  border: 8px solid #171b1d;
+  border-radius: 50%;
+  background: conic-gradient(
+    #ff4d00 0 9.09%,
+    #11181c 9.09% 18.18%,
+    #00b0ff 18.18% 27.27%,
+    #11181c 27.27% 36.36%,
+    #ffb300 36.36% 45.45%,
+    #11181c 45.45% 54.54%,
+    #ff4d00 54.54% 63.63%,
+    #11181c 63.63% 72.72%,
+    #00b0ff 72.72% 81.81%,
+    #11181c 81.81% 90.9%,
+    #ffb300 90.9% 100%
+  );
+  box-shadow: 0 0 42px rgba(255, 77, 0, 0.16);
+  transform: rotate(var(--wheel-rotation, 0deg));
+}
+
+.spinning {
+  transition: transform 1.8s cubic-bezier(0.12, 0.72, 0.16, 1);
+}
+
+.wheelCore {
+  width: 34%;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border: 4px solid #ff4d00;
+  border-radius: 50%;
+  background: #05090b;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+}
+
+.spinButton {
+  width: 100%;
+}
+
+.spinButton:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.status {
+  min-height: 44px;
+  margin-top: 16px;
+  font-size: 13px;
+}
+
+.result {
+  margin-top: 18px;
+  padding: 20px;
+  border-left: 4px solid #ff4d00;
+  background: rgba(255, 77, 0, 0.08);
+}
+
+.result small,
+.result strong,
+.result code {
+  display: block;
+}
+
+.result small {
+  color: #ff7440;
+  font: 700 10px/1 var(--font-geist-mono);
+  letter-spacing: 0.14em;
+}
+
+.result strong {
+  margin: 10px 0;
+  font-size: 22px;
+}
+
+.result code {
+  color: #00e5ff;
+}
+
+.panel ul {
+  padding-left: 20px;
+  margin: 24px 0 30px;
+}
+
+.action {
+  width: 100%;
+}
+
+.terms {
+  max-width: 1180px;
+  margin: 0 auto 90px;
+  padding: 34px 24px;
+  border-top: 1px solid #ff4d00;
+  border-bottom: 1px solid rgba(255, 77, 0, 0.24);
+}
+
+@media (max-width: 860px) {
+  .grid { grid-template-columns: 1fr; }
+  .hero { padding-top: 74px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinning { transition-duration: 0.01ms; }
+}
