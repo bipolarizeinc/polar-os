@@ -14,6 +14,7 @@ const links = [
   ["Solutions", "/services"],
   ["P.O.L.A.R.", "/#polar"],
   ["About", "/about"],
+  ["Join", "/join"],
   ["Contact", "/contact"],
 ] as const;
 
@@ -105,7 +106,7 @@ export function SiteFooter() {
         <div>
           <Image src="/brand/official/01_primary_corporate_logo.png" alt="BI POLARIZE ENTERPRISES, INC." width={250} height={194} />
           <p>Turning fragile human knowledge into durable institutional intelligence.</p>
-          <Link href="/contact?path=join-enterprise" className={styles.joinEnterprise}>Join the Enterprise →</Link>
+          <Link href="/join" className={styles.joinEnterprise}>Join the Enterprise →</Link>
         </div>
         <div>
           <b>Explore</b>
@@ -113,6 +114,7 @@ export function SiteFooter() {
           <Link href="/services">Solutions</Link>
           <Link href="/#polar">P.O.L.A.R.</Link>
           <Link href="/about">About</Link>
+          <Link href="/join">Join the Enterprise</Link>
         </div>
         <div>
           <b>Connect</b>
