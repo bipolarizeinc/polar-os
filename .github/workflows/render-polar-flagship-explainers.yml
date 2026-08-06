@@ -78,17 +78,12 @@ jobs:
             download_drive "$logo_id" "$project/assets/$logo"
             download_drive "$stance_id" "$project/assets/$stance"
 
-            source tools/hyperframes/polar-voice-profile.sh
-            espeak-ng \
-              -v "$POLAR_ESPEAK_VOICE" \
-              -s "$POLAR_ESPEAK_SPEED" \
-              -p "$POLAR_ESPEAK_PITCH" \
-              -a "$POLAR_ESPEAK_AMPLITUDE" \
-              -f "$project/script.txt" \
-              -w "$project/audio/raw-narration.wav"
+            bash tools/hyperframes/polar-voice-profile.sh \
+              "$project/script.txt" \
+              "$project/audio/voice-profile.wav"
 
-            ffmpeg -y -i "$project/audio/raw-narration.wav" \
-              -af 'highpass=f=70,lowpass=f=12000,acompressor=threshold=-18dB:ratio=3:attack=10:release=160,loudnorm=I=-16:TP=-1.5:LRA=8,apad=pad_dur=24' \
+            ffmpeg -y -i "$project/audio/voice-profile.wav" \
+              -af 'apad=pad_dur=24' \
               -ar 48000 -ac 1 -t 24 "$project/audio/narration.wav"
 
             ffmpeg -y -i .approved-cache/YA.wav \
