@@ -1,125 +1,106 @@
-name: Render POLAR Approved-Voice Microvideos
+name: Package Approved POLAR Website Microvideos
 
 on:
   workflow_dispatch:
   pull_request:
     paths:
       - 'tools/hyperframes/polar-microvideos/**'
-      - 'public/brand/polar-microvideos/**'
-      - 'public/brand/polar/approved-stances/**'
-      - 'public/brand/corporate-approved/**'
-      - 'public/brand/divisions/approved/**'
       - '.github/workflows/render-polar-approved-voice-microvideos.yml'
 
 jobs:
-  render:
+  package-approved-masters:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 30
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node 22
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-
-      - name: Install FFmpeg
+      - name: Install media validation tools
         run: |
           sudo apt-get update
-          sudo apt-get install -y ffmpeg
-
-      - name: Install HyperFrames
-        run: npm install --no-save hyperframes@0.7.77
-
-      - name: Reject prohibited voice and media systems
-        shell: bash
-        run: |
-          set -euo pipefail
-          ! grep -RniE 'heygen|espeak|text[- ]to[- ]speech|stock voice|pitch.shift|stock imagery|stock music' \
-            tools/hyperframes/polar-microvideos \
-            .github/workflows/render-polar-approved-voice-microvideos.yml \
-            --exclude='README.md' \
-            --exclude='DESIGN.md' \
-            --exclude='approved-assets.json'
+          sudo apt-get install -y ffmpeg curl
 
       - name: Validate approved asset registry
         run: |
-          node -e "const a=require('./tools/hyperframes/polar-microvideos/approved-assets.json'); if(!a.policy.approvedOnly) process.exit(1); if(a.polarCharacterMasters.assets.length<29) process.exit(1); if(a.divisionLogos.assets.length!==9) process.exit(1); if(!a.music.driveFileId) process.exit(1); console.log('Approved registry validated.')"
+          node - <<'NODE'
+          const registry = require('./tools/hyperframes/polar-microvideos/approved-assets.json');
+          if (!registry.policy.approvedOnly) throw new Error('Approved-only policy is disabled.');
+          if (registry.websiteMicrovideoMasters.assets.length !== 8) throw new Error('Expected eight approved website masters.');
+          if (!registry.music.driveFileId) throw new Error('Approved YA.wav Drive ID is missing.');
+          console.log('Approved Drive registry validated.');
+          NODE
 
-      - name: Generate compositions
-        run: node tools/hyperframes/polar-microvideos/generate.mjs
-
-      - name: Verify approved visual masters, narration, and music
+      - name: Download approved website masters from canonical Drive library
         shell: bash
         run: |
           set -euo pipefail
-          root='public/brand/polar-microvideos'
-          visual="$root/visual-masters"
-          audio="$root/approved-narration"
-          music="$root/music/YA.wav"
+          mkdir -p renders/polar-website-microvideos
 
-          visuals=(
-            polar-greeting-intro-v2-approved.mp4
-            polar-idle-inquiry-v2-approved.mp4
-            polar-transition-products-v2-approved.mp4
-            polar-transition-blueprint-v2-approved.mp4
-            polar-transition-drdocx-v2-approved.mp4
-            polar-transition-nexus-v2-approved.mp4
-            polar-transition-about-v2-approved.mp4
-            polar-transition-intake-v2-approved.mp4
-          )
-          narration=(greeting.wav idle.wav products.wav blueprint.wav dr-docx.wav nexus.wav about.wav intake.wav)
+          node - <<'NODE' > /tmp/polar-assets.tsv
+          const registry = require('./tools/hyperframes/polar-microvideos/approved-assets.json');
+          for (const asset of registry.websiteMicrovideoMasters.assets) {
+            process.stdout.write(`${asset.driveFileId}\t${asset.name}\n`);
+          }
+          NODE
 
-          test -s "$music" || { echo "Missing approved POLAR music: $music"; exit 1; }
-          for file in "${visuals[@]}"; do
-            test -s "$visual/$file" || { echo "Missing approved visual master: $visual/$file"; exit 1; }
-          done
-          for file in "${narration[@]}"; do
-            test -s "$audio/$file" || { echo "Missing approved narration: $audio/$file"; exit 1; }
-          done
+          while IFS=$'\t' read -r id name; do
+            output="renders/polar-website-microvideos/$name"
+            echo "Downloading approved master: $name"
+            curl --fail --location --retry 4 --retry-delay 2 \
+              "https://drive.usercontent.google.com/download?id=${id}&export=download&confirm=t" \
+              --output "$output"
+            test -s "$output"
+          done < /tmp/polar-assets.tsv
 
-      - name: Prepare, lint, inspect, and render
+      - name: Validate all eight approved MP4 files
         shell: bash
         run: |
           set -euo pipefail
-          root='tools/hyperframes/polar-microvideos'
-          media='public/brand/polar-microvideos'
-          mkdir -p renders/polar-microvideos
+          count="$(find renders/polar-website-microvideos -maxdepth 1 -type f -name '*.mp4' | wc -l)"
+          test "$count" -eq 8 || { echo "Expected 8 MP4 files, found $count"; exit 1; }
 
-          slugs=(greeting idle products blueprint dr-docx nexus about intake)
-          for slug in "${slugs[@]}"; do
-            project="$root/generated/$slug"
-            visual_name="$(node -e "const m=require('./$root/microvideos.json'); console.log(m.find(x=>x.slug==='${slug}').visualMaster)")"
-            narration_name="$(node -e "const m=require('./$root/microvideos.json'); console.log(m.find(x=>x.slug==='${slug}').narration)")"
-
-            cp "$media/visual-masters/$visual_name" "$project/assets/$visual_name"
-            ffmpeg -y -i "$media/music/YA.wav" -af 'loudnorm=I=-24:TP=-3:LRA=10,afade=t=in:st=0:d=.4,afade=t=out:st=7.2:d=.8' -ar 48000 -ac 2 -t 8 "$project/audio/YA.wav"
-            ffmpeg -y -i "$media/approved-narration/$narration_name" \
-              -af 'highpass=f=70,lowpass=f=12000,loudnorm=I=-16:TP=-1.5:LRA=8,apad=pad_dur=8' \
-              -ar 48000 -ac 1 -t 8 "$project/audio/$narration_name"
-
-            (
-              cd "$project"
-              npx hyperframes lint . --verbose
-              npx hyperframes inspect . --samples 12 --strict
-              npx hyperframes render --output "$GITHUB_WORKSPACE/renders/polar-microvideos/$slug.mp4" --fps 30 --quality high --strict
-            )
-
-            test -s "renders/polar-microvideos/$slug.mp4"
-            ffprobe -v error -show_entries format=filename,duration,size -of default=noprint_wrappers=1 "renders/polar-microvideos/$slug.mp4"
+          for file in renders/polar-website-microvideos/*.mp4; do
+            ffprobe -v error \
+              -select_streams v:0 \
+              -show_entries stream=codec_name,width,height,duration \
+              -show_entries format=duration,size \
+              -of default=noprint_wrappers=1 "$file"
           done
 
-      - name: Create verification manifest
+      - name: Create website-compatible filenames
+        shell: bash
         run: |
-          sha256sum renders/polar-microvideos/*.mp4 > renders/polar-microvideos/SHA256SUMS.txt
-          find renders/polar-microvideos -maxdepth 1 -type f -printf '%f %s bytes\n' | sort
+          set -euo pipefail
+          mkdir -p renders/website-public/media/polar
+          cp renders/polar-website-microvideos/01_POLAR_Greeting.mp4 renders/website-public/media/polar/01_POLAR_Greeting.mp4
+          cp renders/polar-website-microvideos/02_Products_Transition.mp4 renders/website-public/media/polar/02_Products_Transition.mp4
+          cp renders/polar-website-microvideos/03_Blueprint_Transition.mp4 renders/website-public/media/polar/03_Blueprint_Transition.mp4
+          cp renders/polar-website-microvideos/04_DrDocx_Transition.mp4 renders/website-public/media/polar/04_DrDocx_Transition.mp4
+          cp renders/polar-website-microvideos/05_Nexus_Transition.mp4 renders/website-public/media/polar/05_Nexus_Transition.mp4
+          cp renders/polar-website-microvideos/06_About_Transition.mp4 renders/website-public/media/polar/06_About_Transition.mp4
+          cp renders/polar-website-microvideos/07_Intake_Transition.mp4 renders/website-public/media/polar/07_Intake_Transition.mp4
+          cp renders/polar-website-microvideos/08_POLAR_Idle_Inquiry.mp4 renders/website-public/media/polar/08_POLAR_Idle_Inquiry.mp4
 
-      - name: Upload render bundle
+      - name: Create verification manifests
+        shell: bash
+        run: |
+          sha256sum renders/polar-website-microvideos/*.mp4 > renders/polar-website-microvideos/SHA256SUMS.txt
+          sha256sum renders/website-public/media/polar/*.mp4 > renders/website-public/SHA256SUMS.txt
+          find renders -type f -printf '%p %s bytes\n' | sort
+
+      - name: Upload approved master bundle
         uses: actions/upload-artifact@v4
         with:
-          name: POLAR-Website-Microvideos-Approved-Voice
-          path: renders/polar-microvideos/
+          name: POLAR-Website-Microvideos-Approved-Masters
+          path: renders/polar-website-microvideos/
+          retention-days: 30
+          if-no-files-found: error
+
+      - name: Upload website-ready public bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: POLAR-Website-Public-Media-Bundle
+          path: renders/website-public/
           retention-days: 30
           if-no-files-found: error
