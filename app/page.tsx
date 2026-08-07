@@ -38,17 +38,17 @@ const products = [
   [
     "SVG-001",
     "Sav.VidzGen™",
-    "AI video generation for commercials, reels, explainers, podcasts, and branded media.",
+    "Commercials, explainers, social video, branded media, and AI-assisted production systems.",
   ],
   [
     "DOC-001",
     "Dr.Docx™",
-    "Enterprise documentation for SOPs, policies, agreements, manuals, proposals, and knowledge systems.",
+    "SOPs, policies, agreements, manuals, proposals, and enterprise knowledge systems.",
   ],
   [
     "BLP-001",
     "Blueprint™",
-    "Business architecture that turns founder intelligence into scalable operating infrastructure.",
+    "The flagship architecture system that turns founder intelligence into an executable business operating model.",
   ],
   [
     "BRF-001",
@@ -82,12 +82,30 @@ const products = [
   ],
 ];
 
+const outcomes = [
+  [
+    "01",
+    "MAKE THE THING CLEAR",
+    "Extract the real idea, audience, problem, constraints, and desired outcome without flattening what makes it original.",
+  ],
+  [
+    "02",
+    "BUILD WHAT IT NEEDS",
+    "Turn the idea into positioning, documents, systems, automation, media, launch infrastructure, and measurable operations.",
+  ],
+  [
+    "03",
+    "KEEP IT FROM GETTING LOST",
+    "Preserve decisions, standards, assets, and institutional context so growth does not erase the founder's intent.",
+  ],
+];
+
 const ticker = [
   "BI POLARIZE ENTERPRISES, INC.",
-  "MEMORY AS INFRASTRUCTURE",
+  "ALL THE BUSINESS FOR YOUR BUSINESS",
   "P.O.L.A.R. ACTIVE",
   "THE FOUNDER IS THE SOURCE CODE",
-  "THE SYSTEM DOES NOT FRAGMENT. IT REMEMBERS.",
+  "OFF THE WALL AND OUT OF THE BOX",
   "TURN IDEAS INTO INSTITUTIONS",
 ];
 
@@ -110,44 +128,49 @@ export default function Home() {
           <div className="hero-grid">
             <div className="hero-copy">
               <p className="eyebrow">
-                <span>BP-WEB-7709</span> P.O.L.A.R. SYSTEM ACTIVE
+                <span>BP-WEB-7709</span> INNOVATION INFRASTRUCTURE // P.O.L.A.R. ACTIVE
               </p>
               <h1>
-                TURN IDEAS
+                ALL THE BUSINESS
                 <br />
-                <em>INTO INSTITUTIONS.</em>
+                <em>FOR YOUR BUSINESS.</em>
               </h1>
               <p className="hero-lede">
-                The infrastructure problem is not missing systems. It is missing
-                memory. BI POLARIZE ENTERPRISES converts founder intelligence
-                into durable enterprise architecture through P.O.L.A.R., the
-                connective intelligence layer between vision and execution.
+                BI POLARIZE ENTERPRISES turns unconventional ideas into functioning
+                enterprises. Bring us the thing in your head. P.O.L.A.R. helps
+                extract it, pressure-test it, architect what it needs, and keep the
+                intelligence connected as the business grows.
               </p>
+              <div className={styles.heroPromise}>
+                <span>IDEA → ARCHITECTURE</span>
+                <span>ARCHITECTURE → OPERATIONS</span>
+                <span>OPERATIONS → INSTITUTION</span>
+              </div>
               <div className="hero-actions">
                 <IntakeLink />
-                <Link href="#polar" className="text-action">
-                  MEET P.O.L.A.R. <span>→</span>
+                <Link href="/services" className="text-action">
+                  SEE WHAT WE BUILD <span>→</span>
                 </Link>
               </div>
               <div className="hero-metrics">
                 <div>
                   <b>24/7</b>
-                  <span>P.O.L.A.R. access</span>
+                  <span>P.O.L.A.R. intake</span>
                 </div>
                 <div>
                   <b>9</b>
-                  <span>Connected modules</span>
+                  <span>Connected divisions</span>
                 </div>
                 <div>
                   <b>1 CORE</b>
-                  <span>Unified intelligence</span>
+                  <span>Unified memory</span>
                 </div>
               </div>
             </div>
             <PolarConsole />
           </div>
           <div className="scroll-cue">
-            FOLLOW P.O.L.A.R. INTO THE SYSTEM <span>↓</span>
+            SEE HOW THE SYSTEM WORKS <span>↓</span>
           </div>
         </section>
 
@@ -161,6 +184,27 @@ export default function Home() {
           </div>
         </div>
 
+        <section className={styles.outcomeBand} aria-label="What BI POLARIZE does">
+          <div className={styles.outcomeIntro}>
+            <p className="eyebrow">FROM IDEA TO FUNCTIONAL</p>
+            <h2>YOU BRING THE THING. <em>WE BUILD THE SYSTEM AROUND IT.</em></h2>
+            <p>
+              Strategy without infrastructure dies in a folder. Infrastructure
+              without the founder&apos;s intent becomes somebody else&apos;s company.
+              BPEI connects both.
+            </p>
+          </div>
+          <div className={styles.outcomeGrid}>
+            {outcomes.map(([n, title, description]) => (
+              <article className={styles.outcomeCard} key={n}>
+                <span>{n}</span>
+                <h3>{title}</h3>
+                <p>{description}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
         <section className={styles.polarDirective}>
           <div className={styles.directiveImage}>
             <Image
@@ -172,9 +216,7 @@ export default function Home() {
           </div>
           <div className={styles.directiveCopy}>
             <div className="section-index">P.O.L.A.R. DIRECTIVE // 01</div>
-            <p className="eyebrow">
-              THE FOUNDER IS THE SOURCE CODE
-            </p>
+            <p className="eyebrow">THE FOUNDER IS THE SOURCE CODE</p>
             <h2>
               HE DOES NOT REPLACE
               <br />
@@ -198,34 +240,45 @@ export default function Home() {
 
         <section id="products" className={styles.suiteSection}>
           <div className={styles.suiteInner}>
-            <div className="section-index">
-              LEVEL 01 // P.O.L.A.R. MODULE NETWORK
-            </div>
+            <div className="section-index">LEVEL 01 // P.O.L.A.R. DIVISION NETWORK</div>
             <div className={styles.suiteHead}>
               <h2>
-                ONE INTELLIGENCE CORE.
+                ONE BUSINESS.
                 <br />
-                <em>MULTIPLE WAYS TO BUILD.</em>
+                <em>ONE CONNECTED BUILD SYSTEM.</em>
               </h2>
-              <p>
-                Each module shares one consistent layer of memory, logic, and
-                operational context. A decision documented in Dr.Docx can inform
-                Nexus automation, flow through BrandForge standards, remain
-                governed in Vault, and be measured in Pulse. The system does not
-                fragment. It remembers.
-              </p>
+              <div>
+                <p>
+                  Start with the outcome, not a shopping list. Blueprint™ maps the
+                  architecture, then P.O.L.A.R. routes the work through the divisions
+                  required to build it. A document can inform an automation, a brand
+                  standard can govern a video, and every approved decision can remain
+                  part of institutional memory.
+                </p>
+                <Link href="/services" className="text-action">
+                  VIEW ALL CAPABILITIES <span>→</span>
+                </Link>
+              </div>
             </div>
             <div className={styles.suiteGrid}>
-              {products.map(([code, name, description]) => (
-                <article className={styles.productCard} key={code}>
-                  <span className={styles.productCode}>
-                    {code} // P.O.L.A.R. LINKED
-                  </span>
-                  <h3>{name}</h3>
-                  <p>{description}</p>
-                  <Link href="/services">OPEN MODULE →</Link>
-                </article>
-              ))}
+              {products.map(([code, name, description]) => {
+                const featured = name === "Blueprint™";
+                return (
+                  <article
+                    className={`${styles.productCard} ${featured ? styles.productCardFeatured : ""}`}
+                    key={code}
+                  >
+                    <span className={styles.productCode}>
+                      {code} // {featured ? "FLAGSHIP ENTRY POINT" : "P.O.L.A.R. LINKED"}
+                    </span>
+                    <h3>{name}</h3>
+                    <p>{description}</p>
+                    <Link href={featured ? "/intake" : "/services"}>
+                      {featured ? "START WITH BLUEPRINT →" : "OPEN DIVISION →"}
+                    </Link>
+                  </article>
+                );
+              })}
             </div>
           </div>
         </section>
@@ -251,10 +304,10 @@ export default function Home() {
                 <em>IT IS THE INFRASTRUCTURE.</em>
               </h2>
               <p>
-                P.O.L.A.R. is not task automation and it is not a chatbot. He
-                retrieves, maps, challenges, and institutionalizes. He preserves
-                what founders know, tests what they assume, and scales what they
-                mean across every connected module.
+                P.O.L.A.R. is the connective intelligence layer between what a
+                founder means and what the enterprise actually does. He retrieves,
+                maps, challenges, routes, and preserves context across the BPEI
+                system so decisions do not disappear every time the work changes hands.
               </p>
               <div className={styles.polarStatus}>
                 <span>
@@ -264,7 +317,7 @@ export default function Home() {
                   <small>MEMORY</small>INSTITUTIONAL
                 </span>
                 <span>
-                  <small>LINK</small>ALL MODULES
+                  <small>LINK</small>ALL DIVISIONS
                 </span>
               </div>
               <Link href="/about" className="text-action">
@@ -276,9 +329,7 @@ export default function Home() {
 
         <section className="method-section">
           <div className="section-shell">
-            <div className="section-index">
-              LEVEL 03 // P.O.L.A.R. BIPOLARIZATION PROTOCOL
-            </div>
+            <div className="section-index">LEVEL 03 // BIPOLARIZATION PROTOCOL</div>
             <div className="method-head">
               <h2>
                 CHAOS, ENGINEERED
@@ -312,7 +363,7 @@ export default function Home() {
             sizes="100vw"
           />
           <div>
-            <p className="eyebrow">P.O.L.A.R. TRANSMISSION</p>
+            <p className="eyebrow">OFF THE WALL AND OUT OF THE BOX</p>
             <h2>
               COMPLEXITY IS A FEATURE.
               <br />
@@ -333,14 +384,17 @@ export default function Home() {
               <em>OPERATING REALITY.</em>
             </h2>
             <p>
-              The Blueprint converts founder-dependent processes into scalable
-              architecture that survives turnover, delegation, and complexity.
-              The original intent is baked into the system instead of being lost
-              in Slack threads, dashboards, and undocumented decisions.
+              The Blueprint is where a complicated idea becomes an executable
+              business architecture. It defines what the enterprise is, who it is
+              for, what must be built, which divisions are involved, what comes
+              first, and how the original intent stays intact as execution expands.
             </p>
-            <Link href="/services" className="text-action">
-              VIEW CAPABILITIES <span>→</span>
-            </Link>
+            <div className={styles.blueprintActions}>
+              <IntakeLink />
+              <Link href="/services" className="text-action">
+                VIEW CAPABILITIES <span>→</span>
+              </Link>
+            </div>
           </div>
           <div className="blueprint-terminal">
             <div className="terminal-bar">
@@ -373,15 +427,14 @@ export default function Home() {
           </div>
           <p className="eyebrow">P.O.L.A.R. INTAKE CHANNEL // OPEN 24 HOURS</p>
           <h2>
-            BUILD INFRASTRUCTURE
+            TELL US ABOUT
             <br />
-            <em>THAT REMEMBERS.</em>
+            <em>YOUR THING.</em>
           </h2>
           <p>
-            BI POLARIZE serves founders, creators, and visionaries whose ideas
-            have outgrown generic consulting. Bring P.O.L.A.R. the unfiltered
-            vision. He will retrieve what matters, challenge what is assumed,
-            and map what comes next.
+            You do not need a finished pitch deck or consultant-approved vocabulary.
+            Bring the idea as it actually exists. P.O.L.A.R. will extract the signal,
+            identify what is missing, and route the next move through the right BPEI system.
           </p>
           <IntakeLink />
         </section>
