@@ -1,0 +1,92 @@
+[
+  {
+    "slug": "sav-vidzgen",
+    "name": "Sav.VidzGen™",
+    "pronunciation": "Sav Vids Gen",
+    "logo": "BPEI_SavVidzGen_Approved_Logo.jpeg",
+    "polarStance": "POLAR_DEPLOYMENT_LAUNCH.png",
+    "headline": "TURN IDEAS INTO WATCHABLE MOMENTUM.",
+    "script": "Sav Vids Gen transforms raw ideas, campaigns, lessons, and business concepts into structured video systems. From script architecture to production-ready visual direction, it helps your message move with purpose instead of getting lost in another unfinished content folder.",
+    "cta": "BUILD THE VIDEO SYSTEM"
+  },
+  {
+    "slug": "dr-docx",
+    "name": "Dr.Docx™",
+    "pronunciation": "Doctor Docs",
+    "logo": "BPEI_DrDocx_Approved_Logo.jpeg",
+    "polarStance": "POLAR_DATA_RETRIEVAL.png",
+    "headline": "DOCUMENTS THAT ACTUALLY DO THEIR JOB.",
+    "script": "Doctor Docs converts scattered information into clear, branded, operational documents. Policies, plans, agreements, templates, reports, and institutional records become readable, searchable, automation-ready systems instead of files nobody wants to open.",
+    "cta": "ENGINEER THE DOCUMENT"
+  },
+  {
+    "slug": "blueprint",
+    "name": "Blueprint™",
+    "pronunciation": "Blueprint",
+    "logo": "BPEI_Blueprint_Approved_Logo.jpeg",
+    "polarStance": "POLAR_BLUEPRINT_CONSTRUCTION.png",
+    "headline": "FROM RAW THOUGHT TO FUNCTIONAL ENTERPRISE.",
+    "script": "Blueprint extracts the full intelligence behind an unconventional idea, challenges it from opposing angles, and engineers the structure required to make it functional. Positioning, operations, systems, documentation, and implementation become one coordinated architecture.",
+    "cta": "INITIALIZE BLUEPRINT"
+  },
+  {
+    "slug": "brandforge",
+    "name": "BrandForge™",
+    "pronunciation": "Brand Forge",
+    "logo": "BPEI_BrandForge_Approved_Logo.jpeg",
+    "polarStance": "POLAR_OPTIMIZATION_UPGRADE.png",
+    "headline": "FORGE AN IDENTITY STRONG ENOUGH TO CARRY THE VISION.",
+    "script": "Brand Forge builds identity systems with strategy underneath the surface. Naming, visual language, positioning, messaging, and deployment standards are engineered to work together so the brand remains recognizable, usable, and difficult to imitate.",
+    "cta": "FORGE THE BRAND"
+  },
+  {
+    "slug": "launchpad",
+    "name": "LaunchPad™",
+    "pronunciation": "Launch Pad",
+    "logo": "BPEI_LaunchPad_Approved_Logo.jpeg",
+    "polarStance": "POLAR_DEPLOYMENT_LAUNCH.png",
+    "headline": "PREPARE THE SYSTEM. THEN MOVE.",
+    "script": "Launch Pad organizes the final path from preparation to release. Offer structure, launch assets, readiness checks, deployment sequences, and post-launch priorities are aligned before the public sees the work. Momentum is useful. Controlled momentum is better.",
+    "cta": "PREPARE FOR LAUNCH"
+  },
+  {
+    "slug": "nexus",
+    "name": "Nexus™",
+    "pronunciation": "Nexus",
+    "logo": "BPEI_Nexus_Approved_Logo.jpeg",
+    "polarStance": "POLAR_SYSTEM_ORCHESTRATION.png",
+    "headline": "CONNECT THE PEOPLE, TOOLS, AND WORKFLOWS.",
+    "script": "Nexus links the moving parts of an enterprise into one operational network. Automations, software, information flows, handoffs, and human responsibilities are mapped and connected so growth does not depend on remembering everything manually.",
+    "cta": "CONNECT THE SYSTEM"
+  },
+  {
+    "slug": "pulse",
+    "name": "Pulse™",
+    "pronunciation": "Pulse",
+    "logo": "BPEI_Pulse_Approved_Logo.jpeg",
+    "polarStance": "POLAR_CONTINUOUS_MONITORING.png",
+    "headline": "KNOW WHAT IS MOVING BEFORE IT BECOMES A PROBLEM.",
+    "script": "Pulse turns performance, activity, feedback, and operational signals into usable intelligence. It helps the enterprise identify what is working, what is weakening, and what requires attention before small problems become expensive traditions.",
+    "cta": "READ THE SIGNAL"
+  },
+  {
+    "slug": "vault",
+    "name": "Vault™",
+    "pronunciation": "Vault",
+    "logo": "BPEI_Vault_Approved_Logo.jpeg",
+    "polarStance": "POLAR_KNOWLEDGE_VAULT_ARCHIVE.png",
+    "headline": "PROTECT THE KNOWLEDGE THAT MAKES THE BUSINESS VALUABLE.",
+    "script": "Vault organizes critical records, intellectual property, operational knowledge, and institutional memory into a controlled system. The enterprise should not lose its intelligence because one person leaves, one device fails, or one folder becomes a digital junk drawer.",
+    "cta": "SECURE THE KNOWLEDGE"
+  },
+  {
+    "slug": "cipher",
+    "name": "Cipher™",
+    "pronunciation": "Cipher",
+    "logo": "BPEI_Cipher_Approved_Logo.jpeg",
+    "polarStance": "POLAR_ALERT_PROTECTION.png",
+    "headline": "CONTROL ACCESS. REDUCE EXPOSURE. KEEP MOVING.",
+    "script": "Cipher strengthens information handling, access rules, privacy practices, and operational safeguards. It identifies where sensitive information travels, who should reach it, and what controls are required to reduce avoidable exposure without freezing the business in place.",
+    "cta": "HARDEN THE SYSTEM"
+  }
+]

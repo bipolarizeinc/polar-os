@@ -1,0 +1,72 @@
+{
+  "system": "POLAR Video System",
+  "version": "1.1",
+  "officialCoreTotal": 17,
+  "status": {
+    "websiteMicrovideos": {
+      "count": 8,
+      "rendered": 8,
+      "websiteConnected": 8,
+      "workflow": ".github/workflows/render-polar-approved-voice-microvideos.yml"
+    },
+    "flagshipExplainers": {
+      "count": 9,
+      "compositionsDefined": 9,
+      "finalReviewRenders": 0,
+      "workflow": ".github/workflows/render-polar-flagship-explainers.yml",
+      "manifest": "tools/hyperframes/flagship-explainers/flagships.json"
+    }
+  },
+  "collections": {
+    "flagshipExplainers": [
+      "sav-vidzgen",
+      "dr-docx",
+      "blueprint",
+      "brandforge",
+      "launchpad",
+      "nexus",
+      "pulse",
+      "vault",
+      "cipher"
+    ],
+    "websiteMicrovideos": [
+      "greeting",
+      "idle",
+      "products",
+      "blueprint-transition",
+      "dr-docx-transition",
+      "nexus-transition",
+      "about",
+      "intake"
+    ]
+  },
+  "voice": {
+    "profile": "POLAR_ORIGINAL_HYPERFRAMES",
+    "engine": "espeak-ng",
+    "voice": "en-us+m3",
+    "speed": 168,
+    "pitch": 76,
+    "amplitude": 145,
+    "approvedFor": [
+      "flagshipExplainers"
+    ],
+    "websiteMicrovideoAudio": "embedded in the approved rendered masters",
+    "prohibited": [
+      "HeyGen",
+      "InVideo fallback voice",
+      "stock TTS substitution",
+      "pitch-shifted narration"
+    ]
+  },
+  "mediaPolicy": {
+    "approvedOnly": true,
+    "requiredLibraries": [
+      "BI_POLARIZE_HD_ASSET_LIBRARY_v1.0",
+      "POLAR character masters and approved stances",
+      "approved website imagery",
+      "approved division logos",
+      "YA.wav"
+    ],
+    "rejectUnknownOrLegacyAssets": true
+  }
+}

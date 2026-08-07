@@ -1,0 +1,102 @@
+{
+  "policy": {
+    "canonicalLibrary": "BI_POLARIZE_HD_ASSET_LIBRARY_v1.0",
+    "canonicalLibraryFolderId": "1c6inuMn_iZJXTjYGiLxQ-WmpzKAmFaqt",
+    "approvedOnly": true,
+    "prohibited": [
+      "HeyGen",
+      "rejected image generations",
+      "legacy POLAR artwork outside the canonical library",
+      "stock imagery",
+      "stock music",
+      "approximate or substitute logos"
+    ]
+  },
+  "music": {
+    "name": "YA.wav",
+    "driveFileId": "1KzM-3__wy6rjwptD6I9NSAkSWjMYkrjx",
+    "sourceFolderId": "1E0HKdJCnOcc2pMoqj3SE_Kzy4BQE1gIb",
+    "repositoryTarget": "public/brand/polar-microvideos/music/YA.wav",
+    "role": "approved POLAR background music"
+  },
+  "corporateBrandMasters": {
+    "sourceFolderId": "1B4l7nSPLe3XV8W5nzHLdzQJbx1ZlsaAx",
+    "repositoryTarget": "public/brand/corporate-approved/",
+    "assets": [
+      {"name":"BPEI_PRIMARY_CORPORATE_LOGO_HD.png","driveFileId":"1tuPLjYPxvq3WvjmkFGkRim2PqtXLFRHP"},
+      {"name":"BPEI_OFFICIAL_CORPORATE_SEAL_HD.png","driveFileId":"1pBbyc4z5LrypyoyuzoQihOQwq6isKaGN"},
+      {"name":"BPEI_BIPOLARIZATION_SYMBOL_HD.png","driveFileId":"1IB85jgKtIC8MSPJh9ZNdk0QWATTr1Q7S"},
+      {"name":"BPEI_BRANDED_ENVIRONMENT_HD.png","driveFileId":"1WiDkp0qnoh_3Ck6nCp_XCQCpzlaMWpRv"},
+      {"name":"BPEI_POLAR_TECH_INTERFACE_HD.png","driveFileId":"10bMlMQRIXI4oa2DbQeyTl7fh2TF0vgK9"},
+      {"name":"BPEI_OFF_THE_WALL_CONCEPT_HD.png","driveFileId":"1nbANX6YGkk7xRfahsOJ9n8nMA4U6MkLo"},
+      {"name":"BPEI_CORPORATE_FLAG_HD.png","driveFileId":"1ClcKJWN93I3vhbsiqUlxmG1x1A_G-BL2"},
+      {"name":"BPEI_BUILDING_SIGNAGE_HD.png","driveFileId":"184gH4V2sPgXbJZS4oEbN4QEJ_ojiAjiJ"},
+      {"name":"BPEI_LOBBY_INSTALLATION_HD.png","driveFileId":"1-YxGJ5xyFoJiK2rO301V0_CgrVbb0H9U"},
+      {"name":"BPEI_BRAND_PHILOSOPHY_BALANCING_EXTREMES_HD.png","driveFileId":"17xQ9SyrioR97hjDERpMcldImboM9_NnF"},
+      {"name":"BPEI_EXECUTIVE_NAMEPLATE_HD.png","driveFileId":"1gfYLX01-9aTMgeJOKJbdQIlCQHIH6dpf"}
+    ]
+  },
+  "polarCharacterMasters": {
+    "sourceFolderId": "1z5Rrub63zKznNj4VFj7-Wq_sM9ss1Lh6",
+    "repositoryTarget": "public/brand/polar/approved-stances/",
+    "assets": [
+      {"name":"POLAR_DEFINITIVE_FULL_BODY_MASTER.png","driveFileId":"10UJA7VAiIiBqTsGBzBg4bXnF_f_xDomy"},
+      {"name":"POLAR_ORIGINAL_CHARACTER_REVEAL.png","driveFileId":"1F-wtXUFEMQASS-ubZCXSoLm77PT-0me3"},
+      {"name":"POLAR_GREETING_ONBOARDING.png","driveFileId":"1XPisBZiOEnsI0tXTBMGXu9yH8xmS4BeM"},
+      {"name":"POLAR_SPEAKING_ACTIVE_RESPONSE.png","driveFileId":"1HorcFUkpX0O04rjmYVCZkefaYxaLFlpI"},
+      {"name":"POLAR_LISTENING_AWAITING_INPUT.png","driveFileId":"1pdSqBXNJQDrCNG7GwicdAsJmsTnfM-Ku"},
+      {"name":"POLAR_IDLE_SLEEP_STANDBY.png","driveFileId":"1Nw6zXUsXX2cjdtfr0viNgf3RhPuvZH-9"},
+      {"name":"POLAR_LEADING_POINTING.png","driveFileId":"16N0I5JdeurAO5yx_THoYChZg14Q9Z13a"},
+      {"name":"POLAR_POUNCE_LANDING.png","driveFileId":"14aImab6m5GKUj-QZThaVWYuAx_NF_3__"},
+      {"name":"POLAR_PROUD_COMPLETION.png","driveFileId":"1ZstgTOWuCSPMqSVEPcVvVxWZZC9pfkn8"},
+      {"name":"POLAR_ERROR_PLEADING_EYES.png","driveFileId":"14mFNwKU1v6oWVcEP1eABhNA7Lz367i63"},
+      {"name":"POLAR_INVALID_SELECTION_GNAW.png","driveFileId":"1x-CAPAGFLo1FnRNQAueCevUdCEHNoSxq"},
+      {"name":"POLAR_INTERFACE_PROJECTION.png","driveFileId":"1an1SSQGoTuCMsKRq0aP4BzI3KYZkF-ZH"},
+      {"name":"POLAR_BLUEPRINT_CONSTRUCTION.png","driveFileId":"1B7Mv7n1WiRWm-UC5E86WYMMNpVOo4xSk"},
+      {"name":"POLAR_BOOT_ACTIVATION.png","driveFileId":"1HUAjflc4t8xmzpxCNBP6k_n8psmLy-Uu"},
+      {"name":"POLAR_ALERT_PROTECTION.png","driveFileId":"1eiBcKeE5XAQnVuqr7vEQ2DE684sZK-_N"},
+      {"name":"POLAR_DATA_RETRIEVAL.png","driveFileId":"1VSmr7lwQPulHNbS4TakPW4fchDDrTAwk"},
+      {"name":"POLAR_DEEP_SCAN_ANALYSIS.png","driveFileId":"1NDF0dNpCs-MHFJ2TQWXBxeK0PBpp9a5T"},
+      {"name":"POLAR_DEPLOYMENT_LAUNCH.png","driveFileId":"16prOx-K35kSHjnBp7_80zIVGWkQCiBg3"},
+      {"name":"POLAR_GROWTH_INTELLIGENCE.png","driveFileId":"1SnEUiLBmucI8TFnx0q5Apy0LUEnj3pVs"},
+      {"name":"POLAR_KNOWLEDGE_VAULT_ARCHIVE.png","driveFileId":"1oAKLtrhxw0AhIL9RQd5fIqO5EYD-HwpX"},
+      {"name":"POLAR_MAINTENANCE_SELF_REPAIR.png","driveFileId":"1aoihtiEm1LDL5r_6Vuy4Ah0kn0UYHs9J"},
+      {"name":"POLAR_OPTIMIZATION_UPGRADE.png","driveFileId":"1tXzE8HPCtnaUEmobTZ7dvuR0VjeHznn4"},
+      {"name":"POLAR_SYSTEM_ORCHESTRATION.png","driveFileId":"1asQraWGwRVMQl6Ac9Pg7eINcwl033taI"},
+      {"name":"POLAR_CONTINUOUS_MONITORING.png","driveFileId":"1mjWet2ElXM8S0WKv-ox5apQwLFVwrQMl"},
+      {"name":"POLAR_CLIENT_HANDOFF_DELIVERY.png","driveFileId":"11y-eWu4TXB949qeVImhkqv6zfED2j6h2"},
+      {"name":"POLAR_CLIENT_SUCCESS_FOLLOWUP.png","driveFileId":"1GN1Xd0p1P4kpSSH-ehTxvnfxbSTcRhx4"},
+      {"name":"POLAR_EXECUTIVE_PORTRAIT_WHITE_HD.png","driveFileId":"1pguYncJuFAwCQhmn_jFIrptfA7aUZcnB"},
+      {"name":"POLAR_HOLOGRAPHIC_SYSTEM_SCAN_HD.png","driveFileId":"13rtZL4E_voAGd3pHOENLgUkbSGcDxEhH"},
+      {"name":"POLAR_CORPORATE_FACILITY_GUARDIAN_HD.png","driveFileId":"14TUr1OB5Rj-3LQ22Mxo5oLP3NO8Jx7Zr"}
+    ]
+  },
+  "divisionLogos": {
+    "repositoryTarget": "public/brand/divisions/approved/",
+    "assets": [
+      {"division":"Sav.VidzGen","name":"BPEI_SavVidzGen_Approved_Logo.jpeg","driveFileId":"1_oAG2gBwRFeT2ZikkahKbkO3i_VFkDAr"},
+      {"division":"Dr.Docx","name":"BPEI_DrDocx_Approved_Logo.jpeg","driveFileId":"1lhRz-5BppuqxOmHpEG9JnJCL-Z95W-44"},
+      {"division":"Blueprint","name":"BPEI_Blueprint_Approved_Logo.jpeg","driveFileId":"15QdEuT1lLOicYCDu99rs70h5fM4CZE4J"},
+      {"division":"BrandForge","name":"BPEI_BrandForge_Approved_Logo.jpeg","driveFileId":"1cqUqeMfCUiZTjRIWiycbi2ekpePPKsbA"},
+      {"division":"LaunchPad","name":"BPEI_LaunchPad_Approved_Logo.jpeg","driveFileId":"1PgA66uvigC0BOa1GrH3FK88uTWVDYZVe"},
+      {"division":"Nexus","name":"BPEI_Nexus_Approved_Logo.jpeg","driveFileId":"18acCPlTU2oJvHcskbh0Rnj6OIJz0a77s"},
+      {"division":"Pulse","name":"BPEI_Pulse_Approved_Logo.jpeg","driveFileId":"1CgiPTKUrSTE_P_hcWfGtdOQb_FUiCA1k"},
+      {"division":"Vault","name":"BPEI_Vault_Approved_Logo.jpeg","driveFileId":"1CdnQzGj-21bWnZP0uE2zm8pQF41ZL2fz"},
+      {"division":"Cipher","name":"BPEI_Cipher_Approved_Logo.jpeg","driveFileId":"1kZm0Nq0tzOlHuXzIBkAZ60oOAdHRz38H"}
+    ]
+  },
+  "websiteMicrovideoMasters": {
+    "sourceFolderId": "1E0HKdJCnOcc2pMoqj3SE_Kzy4BQE1gIb",
+    "repositoryTarget": "public/brand/polar-microvideos/visual-masters/",
+    "assets": [
+      {"name":"01_POLAR_Greeting.mp4","driveFileId":"1qBuwnBQJpWVhlb1394DayjTd9pm5h3q5"},
+      {"name":"02_Products_Transition.mp4","driveFileId":"131KWI-NUKZ8GyL3CnYBnK9iRIiQGs48K"},
+      {"name":"03_Blueprint_Transition.mp4","driveFileId":"1oW5koVa4JgLs2gWUBl5UaNeMbv6op4Ki"},
+      {"name":"04_DrDocx_Transition.mp4","driveFileId":"1jgn7UlAgMfy76YAx6Rtgq9VwgHTVfJv3"},
+      {"name":"05_Nexus_Transition.mp4","driveFileId":"1x_SokIj2Skra12nnlrDwhQsadN-XnFJJ"},
+      {"name":"06_About_Transition.mp4","driveFileId":"1d3eDxkr2vlUC-NPcQCaABUM4y58px3Fz"},
+      {"name":"07_Intake_Transition.mp4","driveFileId":"1rHWjd4H-uCI5BvBWrwvif1kG9hrnCs0U"},
+      {"name":"08_POLAR_Idle_Inquiry.mp4","driveFileId":"1dZFaIRQzY1bZfmx897KgW-rskMw4glSb"}
+    ]
+  }
+}
