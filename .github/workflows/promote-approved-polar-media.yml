@@ -39,7 +39,7 @@ jobs:
       - name: Verify approved media integrity
         run: |
           cd /tmp/polar-media
-          sha256sum -c SHA256SUMS.txt
+          sed 's#renders/website-public/##' SHA256SUMS.txt | sha256sum -c -
 
       - name: Install approved public media
         run: |
