@@ -1,7 +1,7 @@
 import "server-only";
-import { assertConnectionCapability } from "./polar-connections";
+import { assertConnectionCapability, type PolarConnectionKey } from "./polar-connections";
 
-export type PolarSocialPlatform = "facebook" | "instagram" | "linkedin" | "x" | "youtube" | "tiktok";
+export type PolarSocialPlatform = "facebook" | "instagram" | "tiktok" | "linkedin";
 
 export type PolarSocialAccountRef = {
   platform: PolarSocialPlatform;
@@ -25,6 +25,7 @@ export type PolarSocialPublishRequest = PolarSocialDraft & {
 };
 
 export interface PolarSocialProvider {
+  platform: PolarSocialPlatform;
   listAccounts(): Promise<PolarSocialAccountRef[]>;
   publish(input: PolarSocialPublishRequest): Promise<{ externalId: string; url?: string }>;
   update?(input: PolarSocialPublishRequest & { externalId: string }): Promise<{ externalId: string; url?: string }>;
@@ -34,6 +35,10 @@ export interface PolarSocialProvider {
     approvalId: string;
     approvedBy: string;
   }): Promise<void>;
+}
+
+function platformConnection(platform: PolarSocialPlatform): PolarConnectionKey {
+  return platform;
 }
 
 export function validateSocialDraft(input: PolarSocialDraft) {
@@ -53,13 +58,17 @@ export async function publishSocial(
   provider: PolarSocialProvider,
   input: PolarSocialPublishRequest,
 ) {
+  if (provider.platform !== input.account.platform) {
+    throw new Error("Social provider does not match the authorized account platform.");
+  }
+
   const draft = validateSocialDraft(input);
   if (!input.approvalId.trim() || !input.approvedBy.trim()) {
     throw new Error("Social publishing requires an explicit approval record.");
   }
 
   assertConnectionCapability({
-    connection: "social",
+    connection: platformConnection(input.account.platform),
     capability: "publish",
     divisionKey: input.account.divisionKey,
     explicitApproval: true,
@@ -70,7 +79,8 @@ export async function publishSocial(
 
 export function socialCredentialEnvironmentContract() {
   return {
-    rule: "Store provider OAuth credentials in an approved secret store; memory stores references only.",
+    rule: "Store provider OAuth credentials in an approved server-side secret store; memory stores references only.",
+    activePlatforms: ["facebook", "instagram", "tiktok", "linkedin"],
     forbidden: [
       "raw access tokens in Supabase memory",
       "raw refresh tokens in GitHub",
