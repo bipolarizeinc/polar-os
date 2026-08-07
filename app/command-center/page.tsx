@@ -14,6 +14,10 @@ type Session = {
   problem: string;
   blocker: string;
   desired_outcome: string;
+  existing_assets?: string | null;
+  requested_help?: string | null;
+  constraints?: string | null;
+  additional_context?: string | null;
   recommended_module: string | null;
   routing_reason: string | null;
   progress_percent: number;
@@ -28,10 +32,18 @@ type Session = {
   last_saved_at: string | null;
 };
 
+type AgentMessage = {
+  role: "founder" | "polar";
+  content: string;
+};
+
 export default function CommandCenterPage() {
   const [session, setSession] = useState<Session | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [agentLoading, setAgentLoading] = useState(false);
+  const [agentError, setAgentError] = useState("");
+  const [messages, setMessages] = useState<AgentMessage[]>([]);
 
   async function recover(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -53,7 +65,55 @@ export default function CommandCenterPage() {
     }
 
     setSession(body.session);
+    setMessages([]);
     setLoading(false);
+  }
+
+  async function askPolar(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!session || agentLoading) return;
+
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    const message = String(data.get("message") ?? "").trim();
+    if (!message) return;
+
+    setAgentError("");
+    setAgentLoading(true);
+    setMessages((current) => [...current, { role: "founder", content: message }]);
+    form.reset();
+
+    const response = await fetch("/api/polar/agent", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        message,
+        context: {
+          thing: session.thing,
+          audience: session.audience,
+          problem: session.problem,
+          blocker: session.blocker,
+          desiredOutcome: session.desired_outcome,
+          existingAssets: session.existing_assets ?? undefined,
+          requestedHelp: session.requested_help ?? undefined,
+          constraints: session.constraints ?? undefined,
+          additionalContext: session.additional_context ?? undefined,
+        },
+      }),
+    });
+
+    const body = await response.json();
+    if (!response.ok) {
+      setAgentError(body.error ?? "POLAR agent runtime failed.");
+      setAgentLoading(false);
+      return;
+    }
+
+    setMessages((current) => [
+      ...current,
+      { role: "polar", content: body.output || "POLAR completed the run without a text response." },
+    ]);
+    setAgentLoading(false);
   }
 
   if (!session) {
@@ -81,11 +141,11 @@ export default function CommandCenterPage() {
     <main className={styles.shell}>
       <header className={styles.dashboardHeader}>
         <div>
-          <p className={styles.status}>POLAR COMMAND CENTER // SESSION ACTIVE</p>
+          <p className={styles.status}>POLAR COMMAND CENTER // AGENT ONLINE</p>
           <h1>{session.company_name || session.founder_name || "UNNAMED VENTURE"}</h1>
           <p>{session.extraction_id} · {session.status.toUpperCase()}</p>
         </div>
-        <button onClick={() => setSession(null)}>LOCK SESSION</button>
+        <button onClick={() => { setSession(null); setMessages([]); }}>LOCK SESSION</button>
       </header>
 
       <section className={styles.scoreGrid}>
@@ -123,6 +183,38 @@ export default function CommandCenterPage() {
           <span>CONTRADICTIONS</span>
           {session.contradiction_flags?.length ? <ul>{session.contradiction_flags.map((item) => <li key={item}>{item}</li>)}</ul> : <p>No obvious contradictions detected.</p>}
         </article>
+      </section>
+
+      <section className={styles.agentConsole}>
+        <div className={styles.agentHeader}>
+          <div>
+            <span>LIVE AGENT CHANNEL</span>
+            <h2>P.O.L.A.R.</h2>
+          </div>
+          <strong>{agentLoading ? "REASONING" : "READY"}</strong>
+        </div>
+
+        <div className={styles.transcript} aria-live="polite">
+          {!messages.length && (
+            <div className={styles.polarMessage}>
+              <b>P.O.L.A.R.</b>
+              <p>Session context loaded. Ask for architecture, priorities, contradictions, decisions, sequencing, or the next move.</p>
+            </div>
+          )}
+          {messages.map((message, index) => (
+            <div key={`${message.role}-${index}`} className={message.role === "polar" ? styles.polarMessage : styles.founderMessage}>
+              <b>{message.role === "polar" ? "P.O.L.A.R." : "FOUNDER"}</b>
+              <p>{message.content}</p>
+            </div>
+          ))}
+          {agentLoading && <div className={styles.polarMessage}><b>P.O.L.A.R.</b><p>Analyzing institutional context...</p></div>}
+        </div>
+
+        <form className={styles.agentForm} onSubmit={askPolar}>
+          <textarea name="message" required rows={3} placeholder="Tell P.O.L.A.R. what you need decided, built, clarified, or prioritized..." />
+          <button disabled={agentLoading} type="submit">{agentLoading ? "POLAR IS THINKING..." : "SEND TO POLAR"}</button>
+        </form>
+        {agentError && <p className={styles.error}>{agentError}</p>}
       </section>
 
       <footer className={styles.footer}>
