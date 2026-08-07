@@ -19,6 +19,7 @@
 .dashboardHeader,
 .scoreGrid,
 .grid,
+.agentConsole,
 .footer {
   width: min(1180px, 100%);
   margin-inline: auto;
@@ -64,7 +65,8 @@
   letter-spacing: 0.1em;
 }
 
-.accessForm input {
+.accessForm input,
+.agentForm textarea {
   border: 1px solid rgba(255,255,255,0.16);
   border-radius: 0.75rem;
   padding: 1rem;
@@ -73,7 +75,8 @@
 }
 
 .accessForm button,
-.dashboardHeader button {
+.dashboardHeader button,
+.agentForm button {
   width: fit-content;
   border: 0;
   border-radius: 999px;
@@ -82,6 +85,13 @@
   background: linear-gradient(90deg, #ffb300, #00e5ff);
   font-weight: 900;
   cursor: pointer;
+}
+
+.accessForm button:disabled,
+.dashboardHeader button:disabled,
+.agentForm button:disabled {
+  cursor: wait;
+  opacity: 0.7;
 }
 
 .error {
@@ -105,7 +115,8 @@
 }
 
 .scoreGrid article,
-.panel {
+.panel,
+.agentConsole {
   border: 1px solid rgba(255,255,255,0.1);
   border-radius: 1rem;
   background: rgba(8, 11, 14, 0.82);
@@ -119,7 +130,8 @@
 }
 
 .scoreGrid span,
-.panel > span {
+.panel > span,
+.agentHeader span {
   color: #ffb300;
   font-size: 0.72rem;
   font-weight: 900;
@@ -151,6 +163,86 @@
   padding-left: 1.25rem;
 }
 
+.agentConsole {
+  margin-top: 1rem;
+  padding: 1.4rem;
+}
+
+.agentHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.agentHeader h2 {
+  margin: 0.35rem 0 0;
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.agentHeader strong {
+  color: #00e5ff;
+  font-size: 0.76rem;
+  letter-spacing: 0.16em;
+}
+
+.transcript {
+  display: grid;
+  gap: 0.9rem;
+  max-height: 520px;
+  overflow-y: auto;
+  padding: 1.2rem 0;
+}
+
+.polarMessage,
+.founderMessage {
+  max-width: 86%;
+  border-radius: 1rem;
+  padding: 1rem 1.1rem;
+}
+
+.polarMessage {
+  justify-self: start;
+  border: 1px solid rgba(0, 229, 255, 0.18);
+  background: rgba(0, 229, 255, 0.06);
+}
+
+.founderMessage {
+  justify-self: end;
+  border: 1px solid rgba(255, 179, 0, 0.22);
+  background: rgba(255, 179, 0, 0.07);
+}
+
+.polarMessage b,
+.founderMessage b {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+}
+
+.polarMessage p,
+.founderMessage p {
+  margin: 0.5rem 0 0;
+  white-space: pre-wrap;
+  color: #d5d9de;
+  line-height: 1.6;
+}
+
+.agentForm {
+  display: grid;
+  gap: 0.8rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.agentForm textarea {
+  width: 100%;
+  resize: vertical;
+  font: inherit;
+  line-height: 1.5;
+}
+
 .footer {
   display: flex;
   justify-content: space-between;
@@ -176,7 +268,14 @@
   }
 
   .dashboardHeader,
-  .footer {
+  .footer,
+  .agentHeader {
     flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .polarMessage,
+  .founderMessage {
+    max-width: 100%;
   }
 }
