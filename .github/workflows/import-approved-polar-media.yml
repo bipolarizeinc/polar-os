@@ -1,0 +1,53 @@
+name: Import approved POLAR media
+
+on:
+  push:
+    branches:
+      - agent/video-integration
+    paths:
+      - .github/workflows/import-approved-polar-media.yml
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  import-media:
+    runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Check out integration branch
+        uses: actions/checkout@v4
+        with:
+          ref: agent/video-integration
+
+      - name: Download approved public media bundle
+        run: |
+          rm -rf /tmp/polar-media
+          mkdir -p /tmp/polar-media
+          gh run download 31132838994 \
+            --repo bipolarizeinc/polar-os \
+            --name POLAR-Website-Public-Media-Bundle \
+            --dir /tmp/polar-media
+
+      - name: Verify approved media integrity
+        run: |
+          cd /tmp/polar-media
+          sha256sum -c SHA256SUMS.txt
+
+      - name: Install public media assets
+        run: |
+          mkdir -p public/media/polar
+          cp -f /tmp/polar-media/media/polar/*.mp4 public/media/polar/
+
+      - name: Commit approved media
+        run: |
+          if git diff --quiet -- public/media/polar; then
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/media/polar
+          git commit -m "Import approved POLAR website media"
+          git push origin HEAD:agent/video-integration
