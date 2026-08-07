@@ -22,27 +22,45 @@ type Session = {
   contradiction_flags: string[] | null;
   risk_flags: string[] | null;
   blueprint_brief: Record<string, unknown> | null;
-  analysis_snapshot: {
-    priorities?: string[];
-  } | null;
+  analysis_snapshot: { priorities?: string[] } | null;
   last_saved_at: string | null;
+};
+
+type SessionCredential = {
+  extractionId: string;
+  recoveryToken: string;
+};
+
+type AgentMessage = {
+  role: "founder" | "polar";
+  content: string;
 };
 
 export default function CommandCenterPage() {
   const [session, setSession] = useState<Session | null>(null);
+  const [credential, setCredential] = useState<SessionCredential | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [agentLoading, setAgentLoading] = useState(false);
+  const [agentError, setAgentError] = useState("");
+  const [messages, setMessages] = useState<AgentMessage[]>([]);
 
   async function recover(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setLoading(true);
     setError("");
 
-    const payload = Object.fromEntries(new FormData(event.currentTarget).entries());
+    const data = new FormData(event.currentTarget);
+    const nextCredential = {
+      extractionId: String(data.get("extractionId") ?? "").trim(),
+      recoveryToken: String(data.get("recoveryToken") ?? "").trim(),
+    };
+
     const response = await fetch("/api/intake/recover", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
+      body: JSON.stringify(nextCredential),
+      cache: "no-store",
     });
     const body = await response.json();
 
@@ -52,8 +70,61 @@ export default function CommandCenterPage() {
       return;
     }
 
+    // The recovery credential lives only in React memory for this unlocked tab.
+    // It is not copied into localStorage/sessionStorage or rendered back to DOM.
+    setCredential(nextCredential);
     setSession(body.session);
+    setMessages([]);
     setLoading(false);
+  }
+
+  async function askPolar(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!session || !credential || agentLoading) return;
+
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    const message = String(data.get("message") ?? "").trim();
+    if (!message) return;
+
+    setAgentError("");
+    setAgentLoading(true);
+    setMessages((current) => [...current, { role: "founder", content: message }]);
+    form.reset();
+
+    try {
+      const response = await fetch("/api/polar/agent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message, ...credential }),
+        cache: "no-store",
+      });
+
+      const body = await response.json();
+      if (!response.ok) {
+        setAgentError(body.error ?? "POLAR agent runtime failed.");
+        return;
+      }
+
+      setMessages((current) => [
+        ...current,
+        {
+          role: "polar",
+          content: body.output || "POLAR completed the run without a text response.",
+        },
+      ]);
+    } catch {
+      setAgentError("POLAR could not reach the intelligence runtime.");
+    } finally {
+      setAgentLoading(false);
+    }
+  }
+
+  function lockSession() {
+    setSession(null);
+    setCredential(null);
+    setMessages([]);
+    setAgentError("");
   }
 
   if (!session) {
@@ -62,12 +133,20 @@ export default function CommandCenterPage() {
         <section className={styles.accessPanel}>
           <p className={styles.status}>POLAR COMMAND CENTER // SECURE ACCESS</p>
           <h1>RECOVER YOUR <em>BLUEPRINT.</em></h1>
-          <p>Enter the extraction ID and one-time recovery credential issued when your intake was secured.</p>
-          <form onSubmit={recover} className={styles.accessForm}>
-            <label>EXTRACTION ID<input name="extractionId" required placeholder="BPX-20260805-XXXXXXXX" /></label>
-            <label>RECOVERY TOKEN<input name="recoveryToken" required type="password" /></label>
+          <p>Enter the extraction ID and recovery credential issued when your intake was secured.</p>
+          <form onSubmit={recover} className={styles.accessForm} autoComplete="off">
+            <label>
+              EXTRACTION ID
+              <input name="extractionId" required placeholder="BPX-20260805-XXXXXXXX" autoCapitalize="characters" />
+            </label>
+            <label>
+              RECOVERY TOKEN
+              <input name="recoveryToken" required type="password" autoComplete="off" />
+            </label>
             {error && <p className={styles.error}>{error}</p>}
-            <button disabled={loading} type="submit">{loading ? "POLAR IS RETRIEVING..." : "ENTER COMMAND CENTER"}</button>
+            <button disabled={loading} type="submit">
+              {loading ? "POLAR IS RETRIEVING..." : "ENTER COMMAND CENTER"}
+            </button>
           </form>
           <Link href="/intake">START A NEW EXTRACTION →</Link>
         </section>
@@ -81,11 +160,11 @@ export default function CommandCenterPage() {
     <main className={styles.shell}>
       <header className={styles.dashboardHeader}>
         <div>
-          <p className={styles.status}>POLAR COMMAND CENTER // SESSION ACTIVE</p>
+          <p className={styles.status}>POLAR COMMAND CENTER // AGENT CHANNEL SECURED</p>
           <h1>{session.company_name || session.founder_name || "UNNAMED VENTURE"}</h1>
           <p>{session.extraction_id} · {session.status.toUpperCase()}</p>
         </div>
-        <button onClick={() => setSession(null)}>LOCK SESSION</button>
+        <button onClick={lockSession}>LOCK SESSION</button>
       </header>
 
       <section className={styles.scoreGrid}>
@@ -123,6 +202,56 @@ export default function CommandCenterPage() {
           <span>CONTRADICTIONS</span>
           {session.contradiction_flags?.length ? <ul>{session.contradiction_flags.map((item) => <li key={item}>{item}</li>)}</ul> : <p>No obvious contradictions detected.</p>}
         </article>
+      </section>
+
+      <section className={styles.agentConsole}>
+        <div className={styles.agentHeader}>
+          <div>
+            <span>LIVE INTELLIGENCE CHANNEL</span>
+            <h2>P.O.L.A.R.</h2>
+          </div>
+          <strong>{agentLoading ? "REASONING" : "READY"}</strong>
+        </div>
+
+        <div className={styles.transcript} aria-live="polite">
+          {!messages.length && (
+            <div className={styles.polarMessage}>
+              <b>P.O.L.A.R.</b>
+              <p>
+                Authorized Blueprint context recovered. Ask for architecture, priorities, contradictions,
+                current web research, sequencing, or the next move.
+              </p>
+            </div>
+          )}
+          {messages.map((message, index) => (
+            <div
+              key={`${message.role}-${index}`}
+              className={message.role === "polar" ? styles.polarMessage : styles.founderMessage}
+            >
+              <b>{message.role === "polar" ? "P.O.L.A.R." : "FOUNDER"}</b>
+              <p>{message.content}</p>
+            </div>
+          ))}
+          {agentLoading && (
+            <div className={styles.polarMessage}>
+              <b>P.O.L.A.R.</b><p>Analyzing authorized context...</p>
+            </div>
+          )}
+        </div>
+
+        <form className={styles.agentForm} onSubmit={askPolar}>
+          <textarea
+            name="message"
+            required
+            rows={3}
+            maxLength={12000}
+            placeholder="Tell P.O.L.A.R. what you need researched, decided, built, clarified, or prioritized..."
+          />
+          <button disabled={agentLoading} type="submit">
+            {agentLoading ? "POLAR IS THINKING..." : "SEND TO POLAR"}
+          </button>
+        </form>
+        {agentError && <p className={styles.error}>{agentError}</p>}
       </section>
 
       <footer className={styles.footer}>
