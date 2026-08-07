@@ -1,0 +1,41 @@
+name: Sync agent dependency lock
+
+on:
+  push:
+    branches:
+      - feature/polar-agent-runtime
+    paths:
+      - package.json
+      - .github/workflows/sync-agent-lock.yml
+
+permissions:
+  contents: write
+
+jobs:
+  sync-lock:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+        with:
+          ref: feature/polar-agent-runtime
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Refresh package lock
+        run: npm install --package-lock-only --ignore-scripts
+
+      - name: Commit lock file
+        run: |
+          if git diff --quiet -- package-lock.json; then
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package-lock.json
+          git commit -m "Sync POLAR agent dependency lock"
+          git push origin HEAD:feature/polar-agent-runtime
