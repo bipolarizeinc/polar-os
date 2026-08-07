@@ -5,7 +5,10 @@ export type PolarConnectionKey =
   | "google-calendar"
   | "hyperframes"
   | "web-research"
-  | "social";
+  | "facebook"
+  | "instagram"
+  | "tiktok"
+  | "linkedin";
 
 export type PolarConnectionCapability =
   | "read"
@@ -29,6 +32,10 @@ export type PolarConnectionDescriptor = {
   secretRefs: string[];
   allowedDivisions: string[] | "all";
 };
+
+const socialDivisions = ["brandforge", "sav-vidzgen", "pulse", "nexus", "blueprint"];
+const socialCapabilities: PolarConnectionCapability[] = ["read", "search", "create", "update", "delete", "publish"];
+const socialApproval: PolarConnectionCapability[] = ["create", "update", "delete", "publish"];
 
 export const polarConnectionRegistry: Record<PolarConnectionKey, PolarConnectionDescriptor> = {
   github: {
@@ -91,15 +98,45 @@ export const polarConnectionRegistry: Record<PolarConnectionKey, PolarConnection
     secretRefs: ["OPENAI_API_KEY"],
     allowedDivisions: "all",
   },
-  social: {
-    key: "social",
-    label: "Social Connections",
-    namespaceKey: "social",
+  facebook: {
+    key: "facebook",
+    label: "Facebook",
+    namespaceKey: "social/facebook",
     classification: "confidential",
-    capabilities: ["read", "search", "create", "update", "delete", "publish"],
-    approvalRequired: ["create", "update", "delete", "publish"],
-    secretRefs: ["SOCIAL_OAUTH_CONNECTION"],
-    allowedDivisions: ["brandforge", "sav-vidzgen", "pulse", "nexus"],
+    capabilities: socialCapabilities,
+    approvalRequired: socialApproval,
+    secretRefs: ["META_FACEBOOK_OAUTH_CONNECTION"],
+    allowedDivisions: socialDivisions,
+  },
+  instagram: {
+    key: "instagram",
+    label: "Instagram",
+    namespaceKey: "social/instagram",
+    classification: "confidential",
+    capabilities: socialCapabilities,
+    approvalRequired: socialApproval,
+    secretRefs: ["META_INSTAGRAM_OAUTH_CONNECTION"],
+    allowedDivisions: socialDivisions,
+  },
+  tiktok: {
+    key: "tiktok",
+    label: "TikTok",
+    namespaceKey: "social/tiktok",
+    classification: "confidential",
+    capabilities: socialCapabilities,
+    approvalRequired: socialApproval,
+    secretRefs: ["TIKTOK_OAUTH_CONNECTION"],
+    allowedDivisions: socialDivisions,
+  },
+  linkedin: {
+    key: "linkedin",
+    label: "LinkedIn",
+    namespaceKey: "social/linkedin",
+    classification: "confidential",
+    capabilities: socialCapabilities,
+    approvalRequired: socialApproval,
+    secretRefs: ["LINKEDIN_OAUTH_CONNECTION"],
+    allowedDivisions: socialDivisions,
   },
 };
 
