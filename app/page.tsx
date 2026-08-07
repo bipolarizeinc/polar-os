@@ -238,6 +238,11 @@ export default function Home() {
           </div>
         </section>
 
+        <section className={styles.transitionBand} aria-label="P.O.L.A.R. division transition">
+          <video src="/media/polar/02_Products_Transition.mp4" autoPlay muted loop playsInline preload="metadata" aria-hidden="true" />
+          <div><span>P.O.L.A.R. ROUTING</span><strong>ENTERING DIVISION NETWORK</strong></div>
+        </section>
+
         <section id="products" className={styles.suiteSection}>
           <div className={styles.suiteInner}>
             <div className="section-index">LEVEL 01 // P.O.L.A.R. DIVISION NETWORK</div>
@@ -372,6 +377,11 @@ export default function Home() {
           </div>
         </section>
 
+        <section className={styles.transitionBand} aria-label="Bipolarized Blueprint transition">
+          <video src="/media/polar/03_Blueprint_Transition.mp4" autoPlay muted loop playsInline preload="metadata" aria-hidden="true" />
+          <div><span>FLAGSHIP SYSTEM</span><strong>BLUEPRINT EXTRACTION READY</strong></div>
+        </section>
+
         <section className="section-shell blueprint-section">
           <div className="blueprint-copy">
             <div className="section-index">LEVEL 04 // FLAGSHIP SYSTEM</div>
@@ -421,7 +431,8 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="cta-section">
+        <section className={`cta-section ${styles.videoCta}`}>
+          <video className={styles.ctaVideo} src="/media/polar/07_Intake_Transition.mp4" autoPlay muted loop playsInline preload="metadata" aria-hidden="true" />
           <div className="cta-mark">
             <Image src="/brand/bipolarization-symbol.png" alt="" fill />
           </div>
