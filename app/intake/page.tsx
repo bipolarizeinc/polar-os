@@ -116,7 +116,13 @@ export default function IntakePage() {
               <small>Save this token with your extraction ID. For security, POLAR cannot display it again.</small>
             </div>
           )}
-          <Link href="/" className={styles.button}>RETURN TO POLAR OS</Link>
+
+          <div className={styles.identityGrid}>
+            {result.recoveryToken && (
+              <Link href="/command-center" className={styles.button}>ENTER COMMAND CENTER</Link>
+            )}
+            <Link href="/" className={styles.button}>RETURN TO POLAR OS</Link>
+          </div>
         </section>
       </main>
     );
@@ -127,7 +133,7 @@ export default function IntakePage() {
       <header className={styles.header}>
         <p className={styles.status}>P.O.L.A.R. BLUEPRINT EXTRACTION // ACTIVE</p>
         <h1>TELL US ABOUT <em>YOUR THING.</em></h1>
-        <p>Raw, incomplete, contradictory, and unconventional is welcome. POLAR needs the real version, not the polished bullshit.</p>
+        <p>Raw, incomplete, contradictory, and unconventional is welcome. POLAR needs the real version, not a pitch-deck version cleaned up for somebody else.</p>
       </header>
 
       <form className={styles.form} onSubmit={submit}>
