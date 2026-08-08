@@ -91,4 +91,59 @@ returns boolean
 language plpgsql
 security definer
 set search_path = public
-as $$;
+as $$
+declare
+  v_label text := left(trim(coalesce(p_label, '')), 80);
+begin
+  if v_label = '' then return false; end if;
+  if not exists (
+    select 1 from public.polar_founder_sessions s
+    where s.session_hash = p_session_hash
+      and s.revoked_at is null
+      and s.expires_at > now()
+  ) then
+    return false;
+  end if;
+
+  update public.polar_founder_passkeys
+  set device_label = v_label
+  where id = p_passkey_id and revoked_at is null;
+  return found;
+end;
+$$;
+
+create or replace function public.polar_founder_revoke_all_sessions(p_session_hash text)
+returns integer
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_count integer;
+begin
+  if not exists (
+    select 1 from public.polar_founder_sessions s
+    where s.session_hash = p_session_hash
+      and s.revoked_at is null
+      and s.expires_at > now()
+  ) then
+    return 0;
+  end if;
+
+  update public.polar_founder_sessions
+  set revoked_at = now()
+  where revoked_at is null and expires_at > now();
+  get diagnostics v_count = row_count;
+  return v_count;
+end;
+$$;
+
+revoke all on function public.polar_founder_security_status(text) from public;
+revoke all on function public.polar_founder_revoke_passkey(text,uuid) from public;
+revoke all on function public.polar_founder_rename_passkey(text,uuid,text) from public;
+revoke all on function public.polar_founder_revoke_all_sessions(text) from public;
+
+grant execute on function public.polar_founder_security_status(text) to anon;
+grant execute on function public.polar_founder_revoke_passkey(text,uuid) to anon;
+grant execute on function public.polar_founder_rename_passkey(text,uuid,text) to anon;
+grant execute on function public.polar_founder_revoke_all_sessions(text) to anon;
