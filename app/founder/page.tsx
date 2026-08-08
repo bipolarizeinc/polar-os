@@ -187,11 +187,11 @@ export default function FounderControlPage() {
         <section className={styles.lockPanel}>
           <p className={styles.eyebrow}>P.O.L.A.R. FOUNDER CONTROL // LOCKED</p>
           <h1>EXECUTIVE ACCESS</h1>
-          <p>Use an enrolled passkey for normal access. A valid single-use bootstrap credential remains the recovery path.</p>
+          <p>Enter the private Founder access key once, then enroll this device as a passkey for normal access.</p>
           <button className={securityStyles.primaryWide} onClick={() => window.location.assign("/founder/passkey")}>UNLOCK WITH PASSKEY</button>
           <form onSubmit={login} className={styles.form} autoComplete="off">
-            <label>RECOVERY BOOTSTRAP CREDENTIAL<input name="bootstrapToken" type="password" required minLength={32} autoComplete="off" /></label>
-            <button disabled={busy}>{busy ? "VERIFYING..." : "USE RECOVERY CREDENTIAL"}</button>
+            <label>FOUNDER ACCESS KEY<input name="bootstrapToken" type="password" required minLength={32} autoComplete="current-password" /></label>
+            <button disabled={busy}>{busy ? "VERIFYING..." : "UNLOCK FOUNDER CONTROL"}</button>
           </form>
           {error && <p className={styles.error}>{error}</p>}
         </section>

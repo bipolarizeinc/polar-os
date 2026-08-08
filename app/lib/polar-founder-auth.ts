@@ -1,6 +1,6 @@
 import "server-only";
 
-import { createHash, randomBytes } from "node:crypto";
+import { createHash, randomBytes, timingSafeEqual } from "node:crypto";
 import { getSupabaseConfig, supabaseRequest } from "./polar-memory";
 import { founderPublicRpc } from "./polar-founder-public-db";
 
@@ -27,6 +27,14 @@ export function hashOpaqueToken(token: string) {
 
 export function hashUserAgent(value?: string | null) {
   return value ? sha256(value) : null;
+}
+
+export function matchesFounderAccessKey(candidate: string) {
+  const configured = process.env.POLAR_ACCESS_KEY?.trim();
+  if (!configured || candidate.length < 32 || candidate.length > 256) return false;
+  const candidateHash = Buffer.from(sha256(candidate), "hex");
+  const configuredHash = Buffer.from(sha256(configured), "hex");
+  return timingSafeEqual(candidateHash, configuredHash);
 }
 
 export async function exchangeFounderBootstrap(input: {

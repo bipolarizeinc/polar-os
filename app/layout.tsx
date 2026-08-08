@@ -54,8 +54,8 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/brand/official/17_branded_environment.png",
-        alt: "BI POLARIZE ENTERPRISES, INC. branded environment",
+        url: "/brand/launch-888/polar-corridor.png",
+        alt: "P.O.L.A.R. inside the BI POLARIZE enterprise environment",
       },
     ],
   },
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "BI POLARIZE ENTERPRISES, INC.",
     description: "All the Business for Your Business. Tell Us About Your Thing.",
-    images: ["/brand/official/17_branded_environment.png"],
+    images: ["/brand/launch-888/polar-corridor.png"],
   },
   robots: {
     index: true,

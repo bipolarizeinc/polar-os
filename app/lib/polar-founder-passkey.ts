@@ -111,7 +111,7 @@ export async function verifyFounderAssertion(input: { credentialId: string; clie
   return true;
 }
 
-export async function issueFounderSessionFromPasskey(userAgent?: string | null) {
+export async function issueFounderSession(userAgent?: string | null) {
   const config = getSupabaseConfig();
   if (!config) throw new Error("Founder session storage is not configured.");
   const token = createOpaqueToken();
@@ -119,3 +119,5 @@ export async function issueFounderSessionFromPasskey(userAgent?: string | null) 
   const rows = await supabaseRequest<Array<{ id: string }>>(config, "polar_founder_sessions", { method: "POST", body: JSON.stringify({ session_hash: hashOpaqueToken(token), authority_profile: "founder", user_agent_hash: userAgent ? sha256Hex(userAgent) : null, expires_at: expiresAt }) });
   return { token, expiresAt, sessionId: rows[0]?.id ?? null };
 }
+
+export const issueFounderSessionFromPasskey = issueFounderSession;

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { exchangeFounderBootstrap, FOUNDER_COOKIE } from "../../../../lib/polar-founder-auth";
+import { exchangeFounderBootstrap, FOUNDER_COOKIE, matchesFounderAccessKey } from "../../../../lib/polar-founder-auth";
+import { issueFounderSession } from "../../../../lib/polar-founder-passkey";
 
 export async function POST(request: NextRequest) {
   let bootstrapToken = "";
@@ -14,10 +15,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Founder credential rejected." }, { status: 401 });
   }
 
-  const result = await exchangeFounderBootstrap({
-    bootstrapToken,
-    userAgent: request.headers.get("user-agent"),
-  });
+  const userAgent = request.headers.get("user-agent");
+  const result = matchesFounderAccessKey(bootstrapToken)
+    ? await issueFounderSession(userAgent)
+    : await exchangeFounderBootstrap({ bootstrapToken, userAgent });
   if (!result) return NextResponse.json({ error: "Founder credential rejected." }, { status: 401 });
 
   const response = NextResponse.json({ ok: true, expiresAt: result.expiresAt });

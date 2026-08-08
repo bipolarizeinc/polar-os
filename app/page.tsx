@@ -117,7 +117,7 @@ export default function Home() {
         <section className="hero">
           <Image
             className={styles.heroPolarBackdrop}
-            src="/brand/official/17_branded_environment.png"
+            src="/brand/launch-888/polar-corridor.png"
             alt=""
             fill
             priority
@@ -208,7 +208,7 @@ export default function Home() {
         <section className={styles.polarDirective}>
           <div className={styles.directiveImage}>
             <Image
-              src="/brand/polar/full-body-master.png"
+              src="/brand/launch-888/polar-portrait.png"
               alt="P.O.L.A.R. enterprise intelligence companion with operational holograms"
               fill
               sizes="(max-width: 900px) 100vw, 45vw"
@@ -292,7 +292,7 @@ export default function Home() {
           <div className={styles.polarInner}>
             <div className={styles.polarVisual}>
               <Image
-                src="/brand/polar/deep-scan.png"
+                src="/brand/launch-888/polar-deep-scan.png"
                 alt="P.O.L.A.R. performing deep structural analysis"
                 fill
                 sizes="(max-width: 900px) 90vw, 42vw"
@@ -329,6 +329,33 @@ export default function Home() {
                 ENTER THE P.O.L.A.R. SYSTEM <span>→</span>
               </Link>
             </div>
+          </div>
+        </section>
+
+        <section className={styles.identitySystem} aria-label="BI POLARIZE identity system">
+          <div className={styles.identityCopy}>
+            <div className="section-index">CORPORATE IDENTITY // AUTHENTICATED</div>
+            <p className="eyebrow">THE BIPOLARIZATION STANDARD</p>
+            <h2>BALANCING EXTREMES.<br /><em>CREATING POSSIBILITIES.</em></h2>
+            <p>
+              Fire and ice. Vision and execution. Founder intelligence and durable
+              infrastructure. Bipolarization does not erase opposing forces—it
+              engineers them into a system capable of producing something new.
+            </p>
+            <Link href="/founder" className="text-action">
+              FOUNDER CONTROL <span>→</span>
+            </Link>
+          </div>
+          <div className={styles.identityGallery}>
+            <figure className={styles.philosophyCard}>
+              <Image src="/brand/launch-888/brand-philosophy.png" alt="BI POLARIZE brand philosophy: Balancing extremes, creating possibilities" fill sizes="(max-width: 900px) 100vw, 52vw" />
+            </figure>
+            <figure>
+              <Image src="/brand/launch-888/bipolarization-symbol.png" alt="Official Bipolarization symbol" fill sizes="(max-width: 900px) 50vw, 26vw" />
+            </figure>
+            <figure>
+              <Image src="/brand/launch-888/executive-nameplate.png" alt="BI POLARIZE ENTERPRISES, INC. executive nameplate" fill sizes="(max-width: 900px) 50vw, 26vw" />
+            </figure>
           </div>
         </section>
 
