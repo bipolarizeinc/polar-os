@@ -1,0 +1,1 @@
+PR content ready: safety-lock rejected greeting from runtime and enforce approved-master checksum policy.
