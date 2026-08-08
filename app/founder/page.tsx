@@ -2,6 +2,7 @@
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import styles from "./founder.module.css";
+import securityStyles from "./security.module.css";
 
 type AuthState = "checking" | "locked" | "authenticated";
 type EnrollmentAction = "zoho" | "google-business" | "linkedin" | "tiktok";
@@ -11,6 +12,23 @@ type Connection = {
   label: string;
   status: "live-verified" | "code-ready" | "planned";
   action?: EnrollmentAction;
+};
+
+type Passkey = {
+  id: string;
+  label: string;
+  transports: string[];
+  lastUsedAt: string | null;
+  createdAt: string;
+  backupEligible: boolean | null;
+  backupState: boolean | null;
+};
+
+type SecurityStatus = {
+  activeSessions: number;
+  recoveryCredentials: number;
+  currentSessionExpiresAt: string;
+  passkeys: Passkey[];
 };
 
 const CONNECTIONS: Connection[] = [
@@ -38,12 +56,20 @@ export default function FounderControlPage() {
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const [expiresAt, setExpiresAt] = useState<string | null>(null);
+  const [security, setSecurity] = useState<SecurityStatus | null>(null);
 
   const counts = useMemo(() => ({
     live: CONNECTIONS.filter((item) => item.status === "live-verified").length,
     ready: CONNECTIONS.filter((item) => item.status === "code-ready").length,
     planned: CONNECTIONS.filter((item) => item.status === "planned").length,
   }), []);
+
+  async function loadSecurity() {
+    const response = await fetch("/api/founder/security", { cache: "no-store" });
+    if (!response.ok) return;
+    const body = await response.json();
+    setSecurity(body);
+  }
 
   useEffect(() => {
     fetch("/api/founder/auth/status", { cache: "no-store" })
@@ -55,6 +81,7 @@ export default function FounderControlPage() {
         }
         setExpiresAt(body.expiresAt ?? null);
         setAuth("authenticated");
+        void loadSecurity();
       })
       .catch(() => setAuth("locked"));
   }, []);
@@ -81,15 +108,57 @@ export default function FounderControlPage() {
     form.reset();
     setExpiresAt(body.expiresAt ?? null);
     setAuth("authenticated");
+    await loadSecurity();
     setBusy(false);
   }
 
   async function logout() {
+    if (!window.confirm("Lock this Founder session now? You will need a passkey or recovery credential to return.")) return;
     setBusy(true);
     await fetch("/api/founder/auth/logout", { method: "POST", cache: "no-store" });
     setAuth("locked");
     setExpiresAt(null);
+    setSecurity(null);
     setBusy(false);
+  }
+
+  async function securityAction(payload: Record<string, unknown>) {
+    setBusy(true);
+    setError("");
+    const response = await fetch("/api/founder/security", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+      cache: "no-store",
+    });
+    const body = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      setError(body.error ?? "Security action failed.");
+      setBusy(false);
+      return false;
+    }
+    setBusy(false);
+    return true;
+  }
+
+  async function renamePasskey(passkey: Passkey) {
+    const label = window.prompt("Name this trusted device/passkey:", passkey.label)?.trim();
+    if (!label || label === passkey.label) return;
+    if (await securityAction({ action: "renamePasskey", passkeyId: passkey.id, label })) await loadSecurity();
+  }
+
+  async function revokePasskey(passkey: Passkey) {
+    if (!window.confirm(`Revoke ${passkey.label}? That authenticator will no longer unlock Founder Control.`)) return;
+    if (await securityAction({ action: "revokePasskey", passkeyId: passkey.id })) await loadSecurity();
+  }
+
+  async function lockAllSessions() {
+    if (!window.confirm("LOCK ALL FOUNDER SESSIONS? This immediately signs out every active Founder session, including this one.")) return;
+    if (await securityAction({ action: "lockAll" })) {
+      setAuth("locked");
+      setExpiresAt(null);
+      setSecurity(null);
+    }
   }
 
   async function connectProvider(action: EnrollmentAction) {
@@ -118,10 +187,11 @@ export default function FounderControlPage() {
         <section className={styles.lockPanel}>
           <p className={styles.eyebrow}>P.O.L.A.R. FOUNDER CONTROL // LOCKED</p>
           <h1>EXECUTIVE ACCESS</h1>
-          <p>Enter a single-use founder bootstrap credential. Successful exchange creates an 8-hour HttpOnly session and permanently consumes the bootstrap credential.</p>
+          <p>Use an enrolled passkey for normal access. A valid single-use bootstrap credential remains the recovery path.</p>
+          <button className={securityStyles.primaryWide} onClick={() => window.location.assign("/founder/passkey")}>UNLOCK WITH PASSKEY</button>
           <form onSubmit={login} className={styles.form} autoComplete="off">
-            <label>FOUNDER BOOTSTRAP CREDENTIAL<input name="bootstrapToken" type="password" required minLength={32} autoComplete="off" /></label>
-            <button disabled={busy}>{busy ? "VERIFYING..." : "UNLOCK FOUNDER CONTROL"}</button>
+            <label>RECOVERY BOOTSTRAP CREDENTIAL<input name="bootstrapToken" type="password" required minLength={32} autoComplete="off" /></label>
+            <button disabled={busy}>{busy ? "VERIFYING..." : "USE RECOVERY CREDENTIAL"}</button>
           </form>
           {error && <p className={styles.error}>{error}</p>}
         </section>
@@ -135,9 +205,9 @@ export default function FounderControlPage() {
         <div>
           <p className={styles.eyebrow}>P.O.L.A.R. // FOUNDER AUTHORITY VERIFIED</p>
           <h1>FOUNDER CONTROL</h1>
-          <p>Connector enrollment, authority state, and enterprise integration status.</p>
+          <p>Connector enrollment, security controls, authority state, and enterprise integration status.</p>
         </div>
-        <button onClick={logout} disabled={busy} className={styles.secondary}>LOCK CONTROL</button>
+        <button onClick={logout} disabled={busy} className={styles.secondary}>LOCK THIS SESSION</button>
       </header>
 
       <section className={styles.metrics}>
@@ -148,6 +218,48 @@ export default function FounderControlPage() {
       </section>
 
       {error && <p className={styles.error}>{error}</p>}
+
+      <section className={securityStyles.panel}>
+        <div className={securityStyles.heading}>
+          <div>
+            <p className={styles.eyebrow}>SECURITY & LOGIN</p>
+            <h2>FOUNDER ACCESS POLICY</h2>
+          </div>
+          <button className={securityStyles.button} onClick={() => window.location.assign("/founder/passkey")} disabled={busy}>ADD PASSKEY / DEVICE</button>
+        </div>
+
+        <div className={securityStyles.metrics}>
+          <article><span>ACTIVE SESSIONS</span><strong>{security?.activeSessions ?? "—"}</strong></article>
+          <article><span>ENROLLED PASSKEYS</span><strong>{security?.passkeys.length ?? "—"}</strong></article>
+          <article><span>RECOVERY CREDENTIALS</span><strong>{security?.recoveryCredentials ?? "—"}</strong></article>
+          <article><span>SESSION POLICY</span><strong>8 HOURS</strong></article>
+        </div>
+
+        <div className={securityStyles.list}>
+          {(security?.passkeys ?? []).length === 0 ? (
+            <div className={securityStyles.empty}>
+              <strong>NO PASSKEY ENROLLED</strong>
+              <p>Enroll this device before relying on recovery credentials alone.</p>
+            </div>
+          ) : security?.passkeys.map((passkey) => (
+            <article key={passkey.id} className={securityStyles.row}>
+              <div>
+                <strong>{passkey.label}</strong>
+                <span>Created {new Date(passkey.createdAt).toLocaleDateString()} · Last used {passkey.lastUsedAt ? new Date(passkey.lastUsedAt).toLocaleString() : "never"}</span>
+              </div>
+              <div className={securityStyles.actions}>
+                <button onClick={() => renamePasskey(passkey)} disabled={busy} className={securityStyles.secondary}>RENAME</button>
+                <button onClick={() => revokePasskey(passkey)} disabled={busy} className={securityStyles.criticalButton}>REVOKE</button>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div className={securityStyles.critical}>
+          <div><strong>EMERGENCY SESSION CONTROL</strong><span>Immediately revoke every active Founder session.</span></div>
+          <button onClick={lockAllSessions} disabled={busy} className={securityStyles.criticalButton}>LOCK ALL SESSIONS</button>
+        </div>
+      </section>
 
       <section className={styles.grid}>
         {CONNECTIONS.map((connection) => (
@@ -169,7 +281,7 @@ export default function FounderControlPage() {
 
       <footer className={styles.footer}>
         <span>FOUNDER SESSION: HTTPONLY · SECURE · SAMESITE STRICT · 8H MAX</span>
-        <span>CONSEQUENTIAL ACTIONS REMAIN APPROVAL-GATED</span>
+        <span>PASSKEY IS PRIMARY · RECOVERY CREDENTIAL IS BREAK-GLASS ACCESS</span>
       </footer>
     </main>
   );
