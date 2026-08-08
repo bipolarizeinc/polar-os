@@ -15,13 +15,17 @@ A checkpoint is not considered fully protected until the encrypted R2 object exi
 
 These values belong in the production runtime secret store only. They must never be committed to GitHub, stored in institutional memory, emitted to browser bundles, or logged.
 
-- `CLOUDFLARE_ACCOUNT_ID`
+- `CLOUDFLARE_ACCOUNT_ID` — used to derive the default R2 endpoint
 - `CLOUDFLARE_R2_ACCESS_KEY_ID`
 - `CLOUDFLARE_R2_SECRET_ACCESS_KEY`
 - `CLOUDFLARE_R2_BUCKET`
 - `POLAR_BACKUP_ENCRYPTION_KEY` — exactly 32 bytes represented as 64 hexadecimal characters
 
-The R2 access key must be restricted to the designated P.O.L.A.R. backup bucket wherever Cloudflare permissions allow.
+Optional:
+
+- `CLOUDFLARE_R2_ENDPOINT` — explicit credential-free HTTPS S3 endpoint. Use this for jurisdiction-specific R2 buckets or when the endpoint supplied by Cloudflare differs from the default account endpoint.
+
+The R2 access key must use Object Read & Write permission and be restricted to the designated P.O.L.A.R. backup bucket wherever Cloudflare permissions allow.
 
 ## 3. Backup format
 
@@ -37,9 +41,19 @@ Each object envelope contains:
 - GCM authentication tag
 - encrypted ciphertext
 
-The R2 object itself receives an SHA-256 integrity value in object metadata. After upload, P.O.L.A.R. issues a separately signed HEAD request and compares the returned metadata hash before marking the checkpoint protected.
+The R2 object itself receives an SHA-256 integrity value in `x-amz-meta-polar-sha256`. After upload, P.O.L.A.R. issues a separately signed HEAD request and compares the returned metadata hash before marking the checkpoint protected.
 
-## 4. Object layout
+## 4. R2 transport
+
+The adapter uses Cloudflare R2's S3-compatible HTTPS API and AWS Signature Version 4 with region `auto` and service `s3`.
+
+The default endpoint is derived as:
+
+`https://{CLOUDFLARE_ACCOUNT_ID}.r2.cloudflarestorage.com`
+
+Jurisdiction-specific buckets must instead set the exact Cloudflare-provided S3 endpoint in `CLOUDFLARE_R2_ENDPOINT`.
+
+## 5. Object layout
 
 Objects use:
 
@@ -47,7 +61,7 @@ Objects use:
 
 The bucket remains private. Public bucket URLs are prohibited for institutional-memory backups.
 
-## 5. Required edge controls
+## 6. Required edge controls
 
 When Cloudflare account access becomes available, protect the public production domain and apply the following controls.
 
@@ -74,7 +88,7 @@ Highest-priority protection:
 - TLS-only origin communication
 - security logs must exclude raw credentials, recovery tokens, private message bodies, and backup encryption material
 
-## 6. Suggested rate-limit posture
+## 7. Suggested rate-limit posture
 
 These are deployment targets, not a substitute for application-level authorization.
 
@@ -85,7 +99,7 @@ These are deployment targets, not a substitute for application-level authorizati
 
 Exact numeric limits should be tuned from production traffic rather than hard-coded before launch telemetry exists.
 
-## 7. Recovery verification
+## 8. Recovery verification
 
 A recovery exercise must prove all of the following before R2 is considered operational:
 
@@ -98,6 +112,6 @@ A recovery exercise must prove all of the following before R2 is considered oper
 7. decrypted plaintext SHA-256 matches the envelope value
 8. recovered payload matches the original checkpoint content
 
-## 8. Current blocker
+## 9. Current blocker
 
 The Cloudflare account is not currently exposed as a connected tool in this ChatGPT environment, and the plugin catalog is not returning an installable Cloudflare connector. Therefore the infrastructure code is source-controlled and production-safe, but live R2 bucket/WAF configuration cannot be truthfully reported as complete until Cloudflare account access or scoped credentials are available to the deployment environment.
