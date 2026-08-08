@@ -4,12 +4,13 @@ import { FormEvent, useEffect, useMemo, useState } from "react";
 import styles from "./founder.module.css";
 
 type AuthState = "checking" | "locked" | "authenticated";
+type EnrollmentAction = "zoho" | "google-business" | "linkedin" | "tiktok";
 
 type Connection = {
   key: string;
   label: string;
   status: "live-verified" | "code-ready" | "planned";
-  action?: "zoho";
+  action?: EnrollmentAction;
 };
 
 const CONNECTIONS: Connection[] = [
@@ -20,12 +21,12 @@ const CONNECTIONS: Connection[] = [
   { key: "supabase", label: "Supabase", status: "live-verified" },
   { key: "vercel", label: "Vercel", status: "live-verified" },
   { key: "zoho-mail", label: "Zoho Mail", status: "code-ready", action: "zoho" },
+  { key: "google-business", label: "Google Business Profile", status: "code-ready", action: "google-business" },
+  { key: "linkedin", label: "LinkedIn", status: "code-ready", action: "linkedin" },
+  { key: "tiktok", label: "TikTok", status: "code-ready", action: "tiktok" },
   { key: "facebook", label: "Facebook", status: "code-ready" },
   { key: "instagram", label: "Instagram", status: "code-ready" },
-  { key: "tiktok", label: "TikTok", status: "code-ready" },
-  { key: "linkedin", label: "LinkedIn", status: "code-ready" },
   { key: "cloudflare", label: "Cloudflare R2 / WAF", status: "code-ready" },
-  { key: "google-business", label: "Google Business Profile", status: "planned" },
   { key: "google-voice", label: "Google Voice", status: "planned" },
   { key: "realtime-voice", label: "Realtime Voice", status: "planned" },
   { key: "speaker-identity", label: "Speaker Identity", status: "planned" },
@@ -91,16 +92,16 @@ export default function FounderControlPage() {
     setBusy(false);
   }
 
-  async function connectZoho() {
+  async function connectProvider(action: EnrollmentAction) {
     setBusy(true);
     setError("");
-    const response = await fetch("/api/founder/connections/zoho/start", {
-      method: "POST",
-      cache: "no-store",
-    });
+    const endpoint = action === "zoho"
+      ? "/api/founder/connections/zoho/start"
+      : `/api/founder/connections/${action}/start`;
+    const response = await fetch(endpoint, { method: "POST", cache: "no-store" });
     const body = await response.json().catch(() => ({}));
     if (!response.ok || !body.authorizationUrl) {
-      setError(body.error ?? "Zoho enrollment could not start.");
+      setError(body.error ?? `${action} enrollment could not start.`);
       setBusy(false);
       return;
     }
@@ -155,8 +156,10 @@ export default function FounderControlPage() {
               <span className={styles.status} data-status={connection.status}>{connection.status.replace("-", " ").toUpperCase()}</span>
               <h2>{connection.label}</h2>
             </div>
-            {connection.action === "zoho" ? (
-              <button onClick={connectZoho} disabled={busy}>CONNECT ZOHO</button>
+            {connection.action ? (
+              <button onClick={() => connectProvider(connection.action!)} disabled={busy}>
+                CONNECT {connection.label.toUpperCase()}
+              </button>
             ) : (
               <p>{connection.status === "live-verified" ? "Authenticated and live-read verified." : connection.status === "code-ready" ? "Runtime wiring exists. Provider authorization remains." : "Subsystem architecture exists; activation is pending."}</p>
             )}
