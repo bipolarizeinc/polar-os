@@ -2,6 +2,7 @@
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import styles from "./founder.module.css";
+import securityStyles from "./security.module.css";
 
 type AuthState = "checking" | "locked" | "authenticated";
 type EnrollmentAction = "zoho" | "google-business" | "linkedin" | "tiktok";
@@ -187,7 +188,7 @@ export default function FounderControlPage() {
           <p className={styles.eyebrow}>P.O.L.A.R. FOUNDER CONTROL // LOCKED</p>
           <h1>EXECUTIVE ACCESS</h1>
           <p>Use an enrolled passkey for normal access. A valid single-use bootstrap credential remains the recovery path.</p>
-          <button className={styles.primaryWide} onClick={() => window.location.assign("/founder/passkey")}>UNLOCK WITH PASSKEY</button>
+          <button className={securityStyles.primaryWide} onClick={() => window.location.assign("/founder/passkey")}>UNLOCK WITH PASSKEY</button>
           <form onSubmit={login} className={styles.form} autoComplete="off">
             <label>RECOVERY BOOTSTRAP CREDENTIAL<input name="bootstrapToken" type="password" required minLength={32} autoComplete="off" /></label>
             <button disabled={busy}>{busy ? "VERIFYING..." : "USE RECOVERY CREDENTIAL"}</button>
@@ -218,45 +219,45 @@ export default function FounderControlPage() {
 
       {error && <p className={styles.error}>{error}</p>}
 
-      <section className={styles.securityPanel}>
-        <div className={styles.sectionHeading}>
+      <section className={securityStyles.panel}>
+        <div className={securityStyles.heading}>
           <div>
             <p className={styles.eyebrow}>SECURITY & LOGIN</p>
             <h2>FOUNDER ACCESS POLICY</h2>
           </div>
-          <button onClick={() => window.location.assign("/founder/passkey")} disabled={busy}>ADD PASSKEY / DEVICE</button>
+          <button className={securityStyles.button} onClick={() => window.location.assign("/founder/passkey")} disabled={busy}>ADD PASSKEY / DEVICE</button>
         </div>
 
-        <div className={styles.securityMetrics}>
+        <div className={securityStyles.metrics}>
           <article><span>ACTIVE SESSIONS</span><strong>{security?.activeSessions ?? "—"}</strong></article>
           <article><span>ENROLLED PASSKEYS</span><strong>{security?.passkeys.length ?? "—"}</strong></article>
           <article><span>RECOVERY CREDENTIALS</span><strong>{security?.recoveryCredentials ?? "—"}</strong></article>
           <article><span>SESSION POLICY</span><strong>8 HOURS</strong></article>
         </div>
 
-        <div className={styles.passkeyList}>
+        <div className={securityStyles.list}>
           {(security?.passkeys ?? []).length === 0 ? (
-            <div className={styles.emptySecurity}>
+            <div className={securityStyles.empty}>
               <strong>NO PASSKEY ENROLLED</strong>
               <p>Enroll this device before relying on recovery credentials alone.</p>
             </div>
           ) : security?.passkeys.map((passkey) => (
-            <article key={passkey.id} className={styles.passkeyRow}>
+            <article key={passkey.id} className={securityStyles.row}>
               <div>
                 <strong>{passkey.label}</strong>
                 <span>Created {new Date(passkey.createdAt).toLocaleDateString()} · Last used {passkey.lastUsedAt ? new Date(passkey.lastUsedAt).toLocaleString() : "never"}</span>
               </div>
-              <div className={styles.inlineActions}>
-                <button onClick={() => renamePasskey(passkey)} disabled={busy} className={styles.secondary}>RENAME</button>
-                <button onClick={() => revokePasskey(passkey)} disabled={busy} className={styles.danger}>REVOKE</button>
+              <div className={securityStyles.actions}>
+                <button onClick={() => renamePasskey(passkey)} disabled={busy} className={securityStyles.secondary}>RENAME</button>
+                <button onClick={() => revokePasskey(passkey)} disabled={busy} className={securityStyles.criticalButton}>REVOKE</button>
               </div>
             </article>
           ))}
         </div>
 
-        <div className={styles.dangerZone}>
+        <div className={securityStyles.critical}>
           <div><strong>EMERGENCY SESSION CONTROL</strong><span>Immediately revoke every active Founder session.</span></div>
-          <button onClick={lockAllSessions} disabled={busy} className={styles.danger}>LOCK ALL SESSIONS</button>
+          <button onClick={lockAllSessions} disabled={busy} className={securityStyles.criticalButton}>LOCK ALL SESSIONS</button>
         </div>
       </section>
 
