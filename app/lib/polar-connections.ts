@@ -3,6 +3,7 @@ export type PolarConnectionKey =
   | "google-drive"
   | "gmail"
   | "google-calendar"
+  | "zoho-mail"
   | "hyperframes"
   | "web-research"
   | "facebook"
@@ -76,6 +77,20 @@ export const polarConnectionRegistry: Record<PolarConnectionKey, PolarConnection
     capabilities: ["read", "search", "create", "update", "delete"],
     approvalRequired: ["create", "update", "delete"],
     secretRefs: [],
+    allowedDivisions: ["nexus", "launchpad", "blueprint"],
+  },
+  "zoho-mail": {
+    key: "zoho-mail",
+    label: "Zoho Mail",
+    namespaceKey: "zoho-mail",
+    classification: "confidential",
+    capabilities: ["read", "search", "create", "send", "update", "delete"],
+    approvalRequired: ["send", "update", "delete"],
+    secretRefs: [
+      "ZOHO_CLIENT_ID",
+      "ZOHO_CLIENT_SECRET",
+      "POLAR_CONNECTION_ENCRYPTION_KEY",
+    ],
     allowedDivisions: ["nexus", "launchpad", "blueprint"],
   },
   hyperframes: {
