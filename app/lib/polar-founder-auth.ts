@@ -2,6 +2,7 @@ import "server-only";
 
 import { createHash, randomBytes } from "node:crypto";
 import { getSupabaseConfig, supabaseRequest } from "./polar-memory";
+import { founderPublicRpc } from "./polar-founder-public-db";
 
 export const FOUNDER_COOKIE = "polar_founder_session";
 
@@ -32,20 +33,15 @@ export async function exchangeFounderBootstrap(input: {
   bootstrapToken: string;
   userAgent?: string | null;
 }) {
-  const config = getSupabaseConfig();
-  if (!config) throw new Error("Founder authentication is not configured.");
-
   const sessionToken = createOpaqueToken();
-  const rows = await supabaseRequest<Array<{ session_id: string; expires_at: string }>>(
-    config,
-    "rpc/polar_exchange_founder_bootstrap",
+  const rows = await founderPublicRpc<Array<{ session_id: string; expires_at: string }>>(
+    "polar_exchange_founder_bootstrap",
     {
-      method: "POST",
-      body: JSON.stringify({
+      body: {
         p_credential_hash: hashOpaqueToken(input.bootstrapToken),
         p_session_hash: hashOpaqueToken(sessionToken),
         p_user_agent_hash: hashUserAgent(input.userAgent),
-      }),
+      },
     },
   );
 
@@ -56,35 +52,18 @@ export async function exchangeFounderBootstrap(input: {
 
 export async function validateFounderSession(rawToken?: string | null) {
   if (!rawToken) return null;
-  const config = getSupabaseConfig();
-  if (!config) return null;
-
-  const query = new URLSearchParams({
-    session_hash: `eq.${hashOpaqueToken(rawToken)}`,
-    revoked_at: "is.null",
-    select: "id,authority_profile,expires_at,last_seen_at",
-    limit: "1",
+  const rows = await founderPublicRpc<FounderSession[]>("polar_validate_founder_session", {
+    body: { p_session_hash: hashOpaqueToken(rawToken) },
   });
-  const rows = await supabaseRequest<FounderSession[]>(config, `polar_founder_sessions?${query}`);
-  const session = rows[0] ?? null;
+  const session = rows?.[0] ?? null;
   if (!session || new Date(session.expires_at).getTime() <= Date.now()) return null;
-
-  const updateQuery = new URLSearchParams({ id: `eq.${session.id}` });
-  await supabaseRequest(config, `polar_founder_sessions?${updateQuery}`, {
-    method: "PATCH",
-    body: JSON.stringify({ last_seen_at: new Date().toISOString() }),
-  });
   return session;
 }
 
 export async function revokeFounderSession(rawToken?: string | null) {
   if (!rawToken) return;
-  const config = getSupabaseConfig();
-  if (!config) return;
-  const query = new URLSearchParams({ session_hash: `eq.${hashOpaqueToken(rawToken)}` });
-  await supabaseRequest(config, `polar_founder_sessions?${query}`, {
-    method: "PATCH",
-    body: JSON.stringify({ revoked_at: new Date().toISOString() }),
+  await founderPublicRpc<boolean>("polar_revoke_founder_session", {
+    body: { p_session_hash: hashOpaqueToken(rawToken) },
   });
 }
 
