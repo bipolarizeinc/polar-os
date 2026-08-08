@@ -1,0 +1,1 @@
+Approved P.O.L.A.R. intro source staging. Partial base64 chunks on this branch are not runtime assets. Runtime remains safety-locked to approved static character imagery until the approved master is fully promoted and checksum-verified.
