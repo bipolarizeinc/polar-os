@@ -1,0 +1,1 @@
+Execution branch prepared for PR. Runtime reference to rejected greeting removed; production should use approved static P.O.L.A.R. imagery until approved video asset promotion is complete.
