@@ -1,0 +1,1 @@
+This branch intentionally prioritizes removing rejected media from production over restoring video playback. The rejected MP4 may remain in Git history but is no longer referenced by the runtime component.
