@@ -12,10 +12,33 @@ function fromB64url(value: string) { return Buffer.from(value, "base64url"); }
 function sha256Buffer(value: string | Buffer) { return createHash("sha256").update(value).digest(); }
 function sha256Hex(value: string) { return createHash("sha256").update(value, "utf8").digest("hex"); }
 
+function normalizeRpId(value: string) {
+  const raw = value.trim();
+  if (!raw) throw new Error("WebAuthn RP ID is empty.");
+  const hostname = raw.includes("://") ? new URL(raw).hostname : raw.split("/")[0].split(":")[0];
+  const normalized = hostname.toLowerCase().replace(/^\.+|\.+$/g, "");
+  if (!normalized || !/^(localhost|(?=.{1,253}$)(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)*[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)$/.test(normalized)) {
+    throw new Error("WebAuthn RP ID must be a bare valid domain name.");
+  }
+  return normalized;
+}
+
+function normalizeOrigin(value: string) {
+  const parsed = new URL(value.trim());
+  if (parsed.protocol !== "https:" && !(parsed.protocol === "http:" && parsed.hostname === "localhost")) {
+    throw new Error("WebAuthn origin must use HTTPS, except localhost development.");
+  }
+  return parsed.origin;
+}
+
 export function relyingParty(requestUrl: string) {
   const url = new URL(requestUrl);
-  const rpId = process.env.POLAR_WEBAUTHN_RP_ID?.trim() || url.hostname;
-  const origin = process.env.POLAR_WEBAUTHN_ORIGIN?.trim() || url.origin;
+  const rpId = normalizeRpId(process.env.POLAR_WEBAUTHN_RP_ID?.trim() || url.hostname);
+  const origin = normalizeOrigin(process.env.POLAR_WEBAUTHN_ORIGIN?.trim() || url.origin);
+  const originHost = new URL(origin).hostname.toLowerCase();
+  if (originHost !== rpId && !originHost.endsWith(`.${rpId}`)) {
+    throw new Error("WebAuthn RP ID is not valid for the configured origin.");
+  }
   return { rpId, origin };
 }
 
