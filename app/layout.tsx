@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { AmbientAudio } from "./components/AmbientAudio";
 import { PolarExperience } from "./components/PolarExperience";
 import { PolarIntroAutoRelease } from "./components/PolarIntroAutoRelease";
@@ -93,6 +94,7 @@ export default function RootLayout({
         {children}
         <AmbientAudio />
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
