@@ -16,7 +16,6 @@ export async function founderPublicRpc<T>(name: string, init: RpcInit): Promise<
     method: "POST",
     headers: {
       apikey: SUPABASE_PUBLISHABLE_KEY,
-      Authorization: `Bearer ${SUPABASE_PUBLISHABLE_KEY}`,
       "Content-Type": "application/json",
       Prefer: "return=representation",
     },
