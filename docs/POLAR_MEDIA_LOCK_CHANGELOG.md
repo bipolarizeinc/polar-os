@@ -1,0 +1,1 @@
+2026-08-08: Rejected P.O.L.A.R. greeting removed from runtime execution path. Console falls back to approved static P.O.L.A.R. imagery pending verified promotion of approved video master.
