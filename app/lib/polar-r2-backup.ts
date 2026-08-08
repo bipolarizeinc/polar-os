@@ -11,7 +11,7 @@ import { appendAuditEvent } from "./polar-institutional-memory";
 import { getSupabaseConfig, supabaseRequest } from "./polar-memory";
 
 type R2Config = {
-  accountId: string;
+  endpoint: URL;
   accessKeyId: string;
   secretAccessKey: string;
   bucket: string;
@@ -60,9 +60,23 @@ function parseEncryptionKey(raw: string) {
   return Buffer.from(normalized, "hex");
 }
 
+function resolveR2Endpoint() {
+  const configured = process.env.CLOUDFLARE_R2_ENDPOINT?.trim();
+  const endpoint = configured
+    ? new URL(configured)
+    : new URL(`https://${required("CLOUDFLARE_ACCOUNT_ID")}.r2.cloudflarestorage.com`);
+
+  if (endpoint.protocol !== "https:" || endpoint.username || endpoint.password || endpoint.search || endpoint.hash) {
+    throw new Error("CLOUDFLARE_R2_ENDPOINT must be a credential-free HTTPS endpoint.");
+  }
+
+  endpoint.pathname = endpoint.pathname.replace(/\/$/, "");
+  return endpoint;
+}
+
 export function getR2Config(): R2Config {
   return {
-    accountId: required("CLOUDFLARE_ACCOUNT_ID"),
+    endpoint: resolveR2Endpoint(),
     accessKeyId: required("CLOUDFLARE_R2_ACCESS_KEY_ID"),
     secretAccessKey: required("CLOUDFLARE_R2_SECRET_ACCESS_KEY"),
     bucket: required("CLOUDFLARE_R2_BUCKET"),
@@ -102,7 +116,12 @@ function encryptPayload(payload: unknown, key: Buffer): EncryptedEnvelope {
 function encodePath(value: string) {
   return value
     .split("/")
-    .map((segment) => encodeURIComponent(segment).replace(/[!'()*]/g, (char) => `%${char.charCodeAt(0).toString(16).toUpperCase()}`))
+    .map((segment) =>
+      encodeURIComponent(segment).replace(
+        /[!'()*]/g,
+        (char) => `%${char.charCodeAt(0).toString(16).toUpperCase()}`,
+      ),
+    )
     .join("/");
 }
 
@@ -125,11 +144,12 @@ function createSignedHeaders(input: {
   contentType?: string;
   metadataSha256?: string;
 }) {
-  const host = `${input.config.accountId}.r2.cloudflarestorage.com`;
+  const host = input.config.endpoint.host;
   const now = new Date();
   const timestamp = amzDate(now);
   const date = timestamp.slice(0, 8);
-  const canonicalUri = `/${encodePath(input.config.bucket)}/${encodePath(input.objectKey)}`;
+  const basePath = input.config.endpoint.pathname.replace(/\/$/, "");
+  const canonicalUri = `${basePath}/${encodePath(input.config.bucket)}/${encodePath(input.objectKey)}` || "/";
 
   const canonicalHeaders: Array<[string, string]> = [
     ["host", host],
@@ -142,7 +162,9 @@ function createSignedHeaders(input: {
 
   canonicalHeaders.sort(([a], [b]) => a.localeCompare(b));
   const signedHeaders = canonicalHeaders.map(([name]) => name).join(";");
-  const canonicalHeaderBlock = canonicalHeaders.map(([name, value]) => `${name}:${value.trim()}\n`).join("");
+  const canonicalHeaderBlock = canonicalHeaders
+    .map(([name, value]) => `${name}:${value.trim()}\n`)
+    .join("");
   const canonicalRequest = [
     input.method,
     canonicalUri,
@@ -174,7 +196,7 @@ function createSignedHeaders(input: {
   if (input.metadataSha256) headers["x-amz-meta-polar-sha256"] = input.metadataSha256;
 
   return {
-    url: `https://${host}${canonicalUri}`,
+    url: `${input.config.endpoint.origin}${canonicalUri}`,
     headers,
   };
 }
@@ -188,7 +210,12 @@ function checkpointObjectKey(config: R2Config, namespaceId: string, checkpointId
   return `polar-backups/${config.environment}/${cleanNamespace}/${yyyy}/${mm}/${cleanCheckpoint}/checkpoint.enc.json`;
 }
 
-async function putEncryptedObject(config: R2Config, objectKey: string, body: Buffer, objectSha256: string) {
+async function putEncryptedObject(
+  config: R2Config,
+  objectKey: string,
+  body: Buffer,
+  objectSha256: string,
+) {
   const signed = createSignedHeaders({
     config,
     method: "PUT",
@@ -211,7 +238,11 @@ async function putEncryptedObject(config: R2Config, objectKey: string, body: Buf
   }
 }
 
-async function verifyEncryptedObject(config: R2Config, objectKey: string, expectedSha256: string) {
+async function verifyEncryptedObject(
+  config: R2Config,
+  objectKey: string,
+  expectedSha256: string,
+) {
   const signed = createSignedHeaders({
     config,
     method: "HEAD",
