@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import Link from "next/link";
 import styles from "./intake.module.css";
 
@@ -29,6 +29,8 @@ type Result = {
   message?: string;
 };
 
+type IntakeContext = { division: string; service: string; source: string };
+
 const fields = [
   ["thing", "WHAT IS YOUR THING?", "Describe the idea, business, invention, project, problem, or transformation."],
   ["audience", "WHO IS IT FOR?", "Who needs it, uses it, buys it, or benefits from it?"],
@@ -45,6 +47,16 @@ export default function IntakePage() {
   const [result, setResult] = useState<Result | null>(null);
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [context, setContext] = useState<IntakeContext>({ division: "", service: "", source: "" });
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setContext({
+      division: params.get("division") ?? "",
+      service: params.get("service") ?? "",
+      source: params.get("source") ?? "",
+    });
+  }, []);
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -84,10 +96,7 @@ export default function IntakePage() {
                 <div className={styles.question}><span>CLARITY SCORE</span><strong>{result.analysis.clarityScore}%</strong></div>
                 <div className={styles.question}><span>READINESS SCORE</span><strong>{result.analysis.readinessScore}%</strong></div>
               </div>
-              <div className={styles.question}>
-                <span>ROUTING RATIONALE</span>
-                <p>{result.analysis.routingRationale}</p>
-              </div>
+              <div className={styles.question}><span>ROUTING RATIONALE</span><p>{result.analysis.routingRationale}</p></div>
               <div className={styles.question}>
                 <span>FIRST-PASS BLUEPRINT BRIEF</span>
                 <p><strong>Concept:</strong> {result.analysis.blueprintBrief.concept}</p>
@@ -97,15 +106,9 @@ export default function IntakePage() {
                 <p><strong>Next step:</strong> {result.analysis.blueprintBrief.immediateNextStep}</p>
               </div>
               {!!result.analysis.contradictionFlags.length && (
-                <div className={styles.question}>
-                  <span>CONTRADICTIONS REQUIRING RESOLUTION</span>
-                  {result.analysis.contradictionFlags.map((flag) => <p key={flag}>• {flag}</p>)}
-                </div>
+                <div className={styles.question}><span>CONTRADICTIONS REQUIRING RESOLUTION</span>{result.analysis.contradictionFlags.map((flag) => <p key={flag}>• {flag}</p>)}</div>
               )}
-              <div className={styles.question}>
-                <span>POLAR PRIORITIES</span>
-                {result.analysis.priorities.map((priority) => <p key={priority}>• {priority}</p>)}
-              </div>
+              <div className={styles.question}><span>POLAR PRIORITIES</span>{result.analysis.priorities.map((priority) => <p key={priority}>• {priority}</p>)}</div>
             </>
           )}
 
@@ -118,9 +121,7 @@ export default function IntakePage() {
           )}
 
           <div className={styles.identityGrid}>
-            {result.recoveryToken && (
-              <Link href="/command-center" className={styles.button}>ENTER COMMAND CENTER</Link>
-            )}
+            {result.recoveryToken && <Link href="/command-center" className={styles.button}>ENTER COMMAND CENTER</Link>}
             <Link href="/" className={styles.button}>RETURN TO POLAR OS</Link>
           </div>
         </section>
@@ -134,9 +135,15 @@ export default function IntakePage() {
         <p className={styles.status}>P.O.L.A.R. BLUEPRINT EXTRACTION // ACTIVE</p>
         <h1>TELL US ABOUT <em>YOUR THING.</em></h1>
         <p>Raw, incomplete, contradictory, and unconventional is welcome. POLAR needs the real version, not a pitch-deck version cleaned up for somebody else.</p>
+        {(context.division || context.service) && (
+          <p className={styles.status}>ROUTING CONTEXT // {[context.division, context.service].filter(Boolean).join(" · ")}</p>
+        )}
       </header>
 
       <form className={styles.form} onSubmit={submit}>
+        <input type="hidden" name="requestedDivision" value={context.division} />
+        <input type="hidden" name="requestedService" value={context.service} />
+        <input type="hidden" name="referralSource" value={context.source} />
         <div className={styles.identityGrid}>
           <label>NAME<input name="founderName" autoComplete="name" /></label>
           <label>EMAIL<input name="email" type="email" autoComplete="email" /></label>

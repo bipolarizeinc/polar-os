@@ -5,6 +5,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { AmbientAudio } from "./components/AmbientAudio";
 import { PolarExperience } from "./components/PolarExperience";
 import { PolarIntroAutoRelease } from "./components/PolarIntroAutoRelease";
+import { RouteIntentGuard } from "./components/RouteIntentGuard";
 import "./globals.css";
 import "./brand-enhancements.css";
 
@@ -31,9 +32,7 @@ export const metadata: Metadata = {
   creator: "BI POLARIZE ENTERPRISES, INC.",
   publisher: "BI POLARIZE ENTERPRISES, INC.",
   category: "business services",
-  alternates: {
-    canonical: "/",
-  },
+  alternates: { canonical: "/" },
   keywords: [
     "business infrastructure",
     "innovation infrastructure",
@@ -52,12 +51,10 @@ export const metadata: Metadata = {
     siteName: "BI POLARIZE ENTERPRISES, INC.",
     locale: "en_US",
     type: "website",
-    images: [
-      {
-        url: "/brand/launch-888/polar-corridor.png",
-        alt: "P.O.L.A.R. inside the BI POLARIZE enterprise environment",
-      },
-    ],
+    images: [{
+      url: "/brand/launch-888/polar-corridor.png",
+      alt: "P.O.L.A.R. inside the BI POLARIZE enterprise environment",
+    }],
   },
   twitter: {
     card: "summary_large_image",
@@ -78,17 +75,11 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
+        <RouteIntentGuard />
         <PolarExperience />
         <PolarIntroAutoRelease />
         {children}
