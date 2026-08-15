@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { IntakeLink } from "./IntakeLink";
+import { MobileNav } from "./MobileNav";
 
 const links = [
   ["Home", "/"],
@@ -22,13 +23,14 @@ export function SiteHeader() {
       </div>
       <div className="nav-shell">
         <Link href="/" className="brand-lockup" aria-label="BI POLARIZE home">
-          <Image src="/brand/official/05_compact_icon_mark.png" alt="" width={90} height={46} priority />
+          <Image src="/brand/launch-888/05_compact_icon_mark.png" alt="" width={90} height={46} priority />
           <span>BI POLARIZE<small>ENTERPRISES, INC.</small></span>
         </Link>
         <nav aria-label="Primary navigation">
           {links.map(([label, href]) => <Link key={href} href={href}>{label}</Link>)}
         </nav>
         <IntakeLink className="nav-cta" />
+        <MobileNav />
       </div>
     </header>
   );
@@ -39,7 +41,7 @@ export function SiteFooter() {
     <footer className="site-footer">
       <div className="footer-grid">
         <div>
-          <Image src="/brand/official/01_primary_corporate_logo.png" alt="BI POLARIZE ENTERPRISES, INC." width={250} height={194} />
+          <Image src="/brand/launch-888/01_primary_corporate_logo.png" alt="BI POLARIZE ENTERPRISES, INC." width={250} height={194} />
           <p>All the business for your business. From raw idea to functioning enterprise, connected through P.O.L.A.R.</p>
         </div>
         <div>
