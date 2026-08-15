@@ -14,14 +14,18 @@ export async function POST(request: Request) {
     }
 
     const session = await registerEtsaUser(email, password, fullName);
-    if (session.access_token && session.user?.id) {
-      await ensureEtsaProfile(session.access_token, session.user.id, fullName);
+
+    if (!session.access_token || !session.user?.id) {
+      return NextResponse.json(
+        { error: "Your account was created, but ETSA could not open an authenticated session yet. Check your email for a verification message, then return and log in to start the assessment." },
+        { status: 409 }
+      );
     }
 
+    await ensureEtsaProfile(session.access_token, session.user.id, fullName);
+
     const response = NextResponse.json({ ok: true, user: session.user });
-    if (session.access_token) {
-      response.cookies.set("etsa_access", session.access_token, { httpOnly: true, secure: true, sameSite: "lax", path: "/", maxAge: session.expires_in || 3600 });
-    }
+    response.cookies.set("etsa_access", session.access_token, { httpOnly: true, secure: true, sameSite: "lax", path: "/", maxAge: session.expires_in || 3600 });
     if (session.refresh_token) {
       response.cookies.set("etsa_refresh", session.refresh_token, { httpOnly: true, secure: true, sameSite: "lax", path: "/", maxAge: 60 * 60 * 24 * 30 });
     }
