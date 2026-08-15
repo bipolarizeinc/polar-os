@@ -6,10 +6,17 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/command-center", "/api/"],
+        disallow: [
+          "/admin/",
+          "/founder/",
+          "/command-center/",
+          "/api/",
+          "/etsa/dashboard/",
+          "/etsa/report/",
+        ],
       },
     ],
-    sitemap: "https://PolarPaw.Online/sitemap.xml",
-    host: "https://PolarPaw.Online",
+    sitemap: "https://polarpaw.online/sitemap.xml",
+    host: "https://polarpaw.online",
   };
 }
