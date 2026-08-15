@@ -6,6 +6,7 @@ const links = [
   ["Home", "/"],
   ["Divisions", "/#products"],
   ["Services", "/services"],
+  ["ETSA™", "/etsa"],
   ["P.O.L.A.R.", "/#polar"],
   ["About", "/about"],
   ["Contact", "/contact"],
@@ -45,6 +46,7 @@ export function SiteFooter() {
           <b>Explore</b>
           <Link href="/#products">Divisions</Link>
           <Link href="/services">Services</Link>
+          <Link href="/etsa">ETSA™</Link>
           <Link href="/#polar">P.O.L.A.R.</Link>
           <Link href="/about">About</Link>
         </div>
