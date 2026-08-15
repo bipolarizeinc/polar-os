@@ -9,6 +9,9 @@ type IntakePayload = IntakeAnalysisInput & {
   email?: string;
   phone?: string;
   companyName?: string;
+  requestedDivision?: string;
+  requestedService?: string;
+  referralSource?: string;
 };
 
 function createExtractionId() {
@@ -25,8 +28,22 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Missing required intake fields.", fields: missing }, { status: 400 });
   }
 
+  const routingContext = {
+    division: payload.requestedDivision?.trim() || null,
+    service: payload.requestedService?.trim() || null,
+    source: payload.referralSource?.trim() || null,
+  };
+  const routingNote = [
+    routingContext.division ? `Requested division: ${routingContext.division}.` : "",
+    routingContext.service ? `Requested service/capability: ${routingContext.service}.` : "",
+  ].filter(Boolean).join(" ");
+  const analysisPayload: IntakeAnalysisInput = {
+    ...payload,
+    requestedHelp: [payload.requestedHelp?.trim(), routingNote].filter(Boolean).join("\n\n"),
+  };
+
   const extractionId = createExtractionId();
-  const analysis = analyzeIntake(payload);
+  const analysis = analyzeIntake(analysisPayload);
   const recovery = createRecoveryToken();
   const config = getSupabaseConfig();
 
@@ -60,7 +77,7 @@ export async function POST(request: Request) {
         blocker: payload.blocker,
         desired_outcome: payload.desiredOutcome,
         existing_assets: payload.existingAssets,
-        requested_help: payload.requestedHelp,
+        requested_help: analysisPayload.requestedHelp,
         constraints: payload.constraints,
         additional_context: payload.additionalContext,
         recommended_module: analysis.recommendedModule,
@@ -69,7 +86,7 @@ export async function POST(request: Request) {
         progress_percent: 100,
         last_saved_at: new Date().toISOString(),
         submitted_at: new Date().toISOString(),
-        memory_state: { phase: "analysis", version: 2 },
+        memory_state: { phase: "analysis", version: 3, routingContext },
         analysis_snapshot: analysis,
         clarity_score: analysis.clarityScore,
         readiness_score: analysis.readinessScore,
