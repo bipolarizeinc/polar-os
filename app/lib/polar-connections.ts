@@ -1,10 +1,16 @@
 export type PolarConnectionKey =
   | "github"
+  | "vercel"
+  | "supabase"
   | "google-drive"
   | "gmail"
   | "google-calendar"
   | "zoho-mail"
+  | "make"
   | "hyperframes"
+  | "stripe"
+  | "skip"
+  | "trustpilot"
   | "web-research"
   | "facebook"
   | "instagram"
@@ -47,6 +53,26 @@ export const polarConnectionRegistry: Record<PolarConnectionKey, PolarConnection
     capabilities: ["read", "search", "create", "update", "delete", "deploy"],
     approvalRequired: ["create", "update", "delete", "deploy"],
     secretRefs: [],
+    allowedDivisions: ["nexus", "cipher", "vault", "blueprint"],
+  },
+  vercel: {
+    key: "vercel",
+    label: "Vercel",
+    namespaceKey: "deployment/vercel",
+    classification: "internal",
+    capabilities: ["read", "search", "deploy"],
+    approvalRequired: ["deploy"],
+    secretRefs: [],
+    allowedDivisions: ["nexus", "cipher", "launchpad", "blueprint"],
+  },
+  supabase: {
+    key: "supabase",
+    label: "Supabase",
+    namespaceKey: "data/supabase",
+    classification: "restricted",
+    capabilities: ["read", "search", "create", "update", "delete", "backup"],
+    approvalRequired: ["create", "update", "delete"],
+    secretRefs: ["SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY"],
     allowedDivisions: ["nexus", "cipher", "vault", "blueprint"],
   },
   "google-drive": {
@@ -93,6 +119,16 @@ export const polarConnectionRegistry: Record<PolarConnectionKey, PolarConnection
     ],
     allowedDivisions: ["nexus", "launchpad", "blueprint"],
   },
+  make: {
+    key: "make",
+    label: "Make.com",
+    namespaceKey: "automation/make",
+    classification: "restricted",
+    capabilities: ["read", "create", "update"],
+    approvalRequired: ["create", "update"],
+    secretRefs: ["MAKE_API_BASE_URL", "MAKE_API_TOKEN", "MAKE_GOOGLE_BUSINESS_SCENARIO_ID"],
+    allowedDivisions: ["nexus", "launchpad", "blueprint"],
+  },
   hyperframes: {
     key: "hyperframes",
     label: "HyperFrames",
@@ -102,6 +138,36 @@ export const polarConnectionRegistry: Record<PolarConnectionKey, PolarConnection
     approvalRequired: ["render", "update"],
     secretRefs: [],
     allowedDivisions: ["sav-vidzgen", "brandforge"],
+  },
+  stripe: {
+    key: "stripe",
+    label: "Stripe",
+    namespaceKey: "payments/stripe",
+    classification: "restricted",
+    capabilities: ["read", "search", "create", "update"],
+    approvalRequired: ["create", "update"],
+    secretRefs: ["STRIPE_SECRET_KEY", "STRIPE_WEBHOOK_SECRET", "ETSA_REASSESSMENT_PAYMENT_URL"],
+    allowedDivisions: ["launchpad", "nexus", "blueprint"],
+  },
+  skip: {
+    key: "skip",
+    label: "Skip",
+    namespaceKey: "external-agents/skip",
+    classification: "confidential",
+    capabilities: ["read", "search", "create", "update"],
+    approvalRequired: ["create", "update"],
+    secretRefs: ["SKIP_AGENT_ID"],
+    allowedDivisions: ["nexus", "launchpad", "blueprint"],
+  },
+  trustpilot: {
+    key: "trustpilot",
+    label: "Trustpilot",
+    namespaceKey: "reputation/trustpilot",
+    classification: "internal",
+    capabilities: ["read", "search"],
+    approvalRequired: [],
+    secretRefs: [],
+    allowedDivisions: ["brandforge", "pulse", "nexus"],
   },
   "web-research": {
     key: "web-research",
