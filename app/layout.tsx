@@ -32,7 +32,6 @@ export const metadata: Metadata = {
   creator: "BI POLARIZE ENTERPRISES, INC.",
   publisher: "BI POLARIZE ENTERPRISES, INC.",
   category: "business services",
-  alternates: { canonical: "/" },
   keywords: [
     "business infrastructure",
     "innovation infrastructure",
@@ -75,10 +74,49 @@ export const metadata: Metadata = {
   },
 };
 
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "BI POLARIZE ENTERPRISES, INC.",
+  url: "https://polarpaw.online",
+  logo: "https://polarpaw.online/brand/official/01_primary_corporate_logo.png",
+  email: "YourThing@PolarPaw.Online",
+  telephone: "+1-801-686-8143",
+  slogan: "All the Business for Your Business",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Ogden",
+    addressRegion: "UT",
+    addressCountry: "US",
+  },
+  sameAs: ["https://www.instagram.com/bipolarizeinc/"],
+};
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "BI POLARIZE ENTERPRISES, INC.",
+  url: "https://polarpaw.online",
+  description: "Innovation infrastructure, business architecture, AI systems, documentation, branding, automation, media, and the Bipolarized Blueprint™.",
+  potentialAction: {
+    "@type": "CommunicateAction",
+    target: "https://polarpaw.online/intake",
+    name: "Tell Us About Your Thing",
+  },
+};
+
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+        />
         <RouteIntentGuard />
         <PolarExperience />
         <PolarIntroAutoRelease />
