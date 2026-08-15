@@ -13,7 +13,7 @@ export default function EtsaPage(){
         <div className={styles.metric}><strong>9</strong><span>BPEI department alignments</span></div>
       </div>
       <p className={styles.notice}>ETSA is not a personality quiz and does not make autonomous employment decisions. Your responses are retained in your account so progress, results, and future reassessments can remain connected.</p>
-      <div className={styles.actions}><Link className={styles.button} href="/etsa/login">START ASSESSMENT</Link></div>
+      <div className={styles.actions}><Link className={styles.button} href="/etsa/login?mode=register">START ETSA ASSESSMENT</Link></div>
     </div>
   </div></main>;
 }
