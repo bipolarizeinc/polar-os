@@ -20,10 +20,14 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   reactCompiler: true,
   images: {
-    // The approved brand masters already ship as optimized production PNGs.
-    // Serving them directly avoids intermittent 400 responses from the
-    // deployment image transformer on large, full-viewport requests.
     unoptimized: true,
+  },
+  async rewrites() {
+    return [
+      { source: "/brand/official/17_branded_environment.png", destination: "/brand/launch-888/polar-corridor.png" },
+      { source: "/brand/official/BI_POLARIZE_Assets_Contact_Sheet.png", destination: "/brand/launch-888/brand-philosophy.png" },
+      { source: "/brand/official/18_founder_signature_authentication.png", destination: "/brand/launch-888/executive-nameplate.png" },
+    ];
   },
   async headers() {
     return [

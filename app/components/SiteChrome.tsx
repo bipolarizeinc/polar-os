@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { IntakeLink } from "./IntakeLink";
+import { MobileNav } from "./MobileNav";
 
 const links = [
   ["Home", "/"],
@@ -29,6 +30,7 @@ export function SiteHeader() {
           {links.map(([label, href]) => <Link key={href} href={href}>{label}</Link>)}
         </nav>
         <IntakeLink className="nav-cta" />
+        <MobileNav />
       </div>
     </header>
   );

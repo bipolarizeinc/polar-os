@@ -19,16 +19,16 @@ const STORAGE = {
   reducedMotion: "polar:reduced-motion:v1",
 };
 
-const INTRO_VIDEO = "/media/polar/01_POLAR_Greeting.mp4";
-const IDLE_VIDEO = "/media/polar/08_POLAR_Idle_Inquiry.mp4";
+const INTRO_VIDEO = "/media/polar/00_Loading_Intro.mp4";
+const IDLE_VIDEO = "/media/polar/01_About_POLAR.mp4";
 
 const TRANSITIONS: Record<ModuleKey, Transition> = {
   products: { title: "P.O.L.A.R. MODULE NETWORK", subtitle: "ACCESSING PRODUCT SYSTEMS", video: "/media/polar/02_Products_Transition.mp4" },
-  blueprint: { title: "BLUEPRINT™", subtitle: "ARCHITECTURE PROTOCOL INITIALIZED", video: "/media/polar/03_Blueprint_Transition.mp4" },
-  drdocx: { title: "DR.DOCX™", subtitle: "DOCUMENTATION CORE ONLINE", video: "/media/polar/04_DrDocx_Transition.mp4" },
-  nexus: { title: "NEXUS™", subtitle: "AUTOMATION PATHWAYS CONNECTING", video: "/media/polar/05_Nexus_Transition.mp4" },
-  about: { title: "FOUNDER INTELLIGENCE", subtitle: "ACCESSING ORIGIN RECORD", video: "/media/polar/06_About_Transition.mp4" },
-  intake: { title: "P.O.L.A.R. INTAKE", subtitle: "SECURE TRANSMISSION CHANNEL OPEN", video: "/media/polar/07_Intake_Transition.mp4" },
+  blueprint: { title: "BLUEPRINT™", subtitle: "ARCHITECTURE PROTOCOL INITIALIZED", video: "/media/polar/03_Blueprint.mp4" },
+  drdocx: { title: "DR.DOCX™", subtitle: "DOCUMENTATION CORE ONLINE", video: "/media/polar/06_DrDocx.mp4" },
+  nexus: { title: "NEXUS™", subtitle: "AUTOMATION PATHWAYS CONNECTING", video: "/media/polar/08_Nexus.mp4" },
+  about: { title: "FOUNDER INTELLIGENCE", subtitle: "ACCESSING ORIGIN RECORD", video: "/media/polar/01_About_POLAR.mp4" },
+  intake: { title: "P.O.L.A.R. INTAKE", subtitle: "SECURE TRANSMISSION CHANNEL OPEN", video: "/media/polar/12_Final_CTA.mp4" },
 };
 
 function resolveModule(target: HTMLAnchorElement): ModuleKey | null {
@@ -153,7 +153,7 @@ export function PolarExperience() {
     <>
       {introOpen && (
         <section className={`${styles.overlay} ${videoStyles.videoOverlay} ${reducedMotion ? styles.reduced : ""}`} aria-label="P.O.L.A.R. introduction">
-          <video key={`intro-${introReplayKey}`} className={videoStyles.fullVideo} src={INTRO_VIDEO} autoPlay playsInline muted={!soundEnabled} preload="auto" onEnded={closeIntro} />
+          <video key={`intro-${introReplayKey}`} className={videoStyles.fullVideo} src={INTRO_VIDEO} autoPlay playsInline muted={!soundEnabled} preload="auto" onEnded={closeIntro} onError={closeIntro} />
           <div className={videoStyles.videoShade} aria-hidden="true" />
           <div className={videoStyles.videoStatus}>POLAR OS // SYSTEM READY</div>
           <div className={styles.controls}>
