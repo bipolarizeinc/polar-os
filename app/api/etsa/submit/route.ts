@@ -13,7 +13,7 @@ export async function POST(request: Request) {
     const assessmentId = String(body.assessmentId ?? "");
     if (!assessmentId) return NextResponse.json({ error: "Assessment ID required." }, { status: 400 });
 
-    const responses = await etsaRest<any[]>(`etsa_responses?assessment_id=eq.${assessmentId}&user_id=eq.${user.id}&select=question_id`, token);
+    const responses = await etsaRest<Array<{question_id:number}>>(`etsa_responses?assessment_id=eq.${assessmentId}&user_id=eq.${user.id}&select=question_id`, token);
     const answered = new Set(responses.map(r => Number(r.question_id)));
     const missing = Array.from({ length: 70 }, (_, i) => i + 1).filter(id => !answered.has(id));
     if (missing.length) return NextResponse.json({ error: "Assessment is incomplete.", missing }, { status: 400 });
