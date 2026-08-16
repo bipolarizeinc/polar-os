@@ -6,10 +6,17 @@ import { ETSA_QUESTIONS } from "@/app/lib/etsa/questions";
 
 type ResponseRow={question_id:number;answer_value:unknown;answer_text:string|null};
 type ScoreRow={question_id:number;score:number;notes:string|null};
+type ReviewPayload={
+  participant?:{preferred_name?:string|null;full_name?:string|null};
+  session:{assessment_version:string};
+  responses:ResponseRow[];
+  scores:ScoreRow[];
+  error?:string;
+};
 
 export default function EtsaReviewPage(){
   const params=useParams<{assessmentId:string}>(); const assessmentId=params.assessmentId; const router=useRouter();
-  const [data,setData]=useState<any>(null); const [scores,setScores]=useState<Record<number,number>>({}); const [notes,setNotes]=useState<Record<number,string>>({}); const [error,setError]=useState(""); const [saving,setSaving]=useState<number|null>(null); const [finalizing,setFinalizing]=useState(false);
+  const [data,setData]=useState<ReviewPayload|null>(null); const [scores,setScores]=useState<Record<number,number>>({}); const [notes,setNotes]=useState<Record<number,string>>({}); const [error,setError]=useState(""); const [saving,setSaving]=useState<number|null>(null); const [finalizing,setFinalizing]=useState(false);
   useEffect(()=>{(async()=>{const r=await fetch(`/api/etsa/admin/review/${assessmentId}`);const b=await r.json().catch(()=>({}));if(!r.ok){setError(b.error||"Unable to load review.");return;}setData(b);const s:Record<number,number>={};const n:Record<number,string>={};(b.scores as ScoreRow[]).forEach(x=>{s[x.question_id]=x.score;n[x.question_id]=x.notes||""});setScores(s);setNotes(n);})();},[assessmentId]);
   const responses=useMemo(()=>new Map<number,ResponseRow>((data?.responses||[]).map((r:ResponseRow)=>[r.question_id,r])),[data]);
   const allScored=[66,67,68,69,70].every(id=>scores[id]!==undefined);
