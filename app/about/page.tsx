@@ -205,11 +205,11 @@ export default function AboutPage() {
                 </span>
               </blockquote>
             </div>
-            <aside className="founder-aside">
+            <aside id="douglas-arnold-long-jr" className="founder-aside">
               <div className="founder-frame">
                 <Image
                   src="/founder.jpg"
-                  alt="Founder and Director of Operations"
+                  alt="Douglas Arnold Long Jr., Founder and Director of Operations of BI POLARIZE ENTERPRISES, INC."
                   fill
                   sizes="(max-width: 900px) 90vw, 32vw"
                 />
@@ -230,7 +230,8 @@ export default function AboutPage() {
               />
               <div className="founder-bio">
                 <small>FOUNDER // DIRECTOR OF OPERATIONS</small>
-                <h3>Architect of the Bipolarization Method</h3>
+                <h3>Douglas Arnold Long Jr.</h3>
+                <p><strong>Architect of the Bipolarization Method™</strong></p>
                 <p>
                   A multidisciplinary business architect, researcher, creative
                   producer, and unconventional problem-solver based in Ogden,
