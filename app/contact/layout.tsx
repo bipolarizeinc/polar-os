@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Contact",
+  title: "Contact BI POLARIZE | Ogden, Utah Business Services",
   description:
-    "Contact BI POLARIZE ENTERPRISES, INC. in Ogden, Utah or start the P.O.L.A.R. intake to tell us about your thing.",
+    "Contact BI POLARIZE ENTERPRISES, INC. for business architecture, startup services, AI systems, branding, documentation, and automation in Ogden, Utah.",
   alternates: { canonical: "/contact" },
   openGraph: {
     title: "Contact | BI POLARIZE",
