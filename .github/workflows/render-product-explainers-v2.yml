@@ -39,11 +39,10 @@ jobs:
           set -euxo pipefail
           ROOT='tools/hyperframes/product-explainers/generated'
           test "$(find "$ROOT" -mindepth 1 -maxdepth 1 -type d | wc -l)" -eq 9
-          ffmpeg -y -i public/brand/polar/full-body-master.png -frames:v 1 /tmp/polar-full-body-master.png
-          test -s /tmp/polar-full-body-master.png
+          test -s public/brand/launch-888/polar-portrait.png
           for PROJECT in "$ROOT"/*; do
             cp public/brand/official/17_branded_environment.png "$PROJECT/assets/17_branded_environment.png"
-            cp /tmp/polar-full-body-master.png "$PROJECT/assets/full-body-master.png"
+            cp public/brand/launch-888/polar-portrait.png "$PROJECT/assets/full-body-master.png"
             cp public/brand/bipolarization-symbol.png "$PROJECT/assets/bipolarization-symbol.png"
             espeak-ng -v en-us+m3 -s 168 -p 76 -a 120 -f "$PROJECT/narration.txt" -w "$PROJECT/audio/narration-raw.wav"
             ffmpeg -y -i "$PROJECT/audio/narration-raw.wav" -af "highpass=f=85,lowpass=f=10000,acompressor=threshold=-18dB:ratio=2.4:attack=18:release=180,loudnorm=I=-16:TP=-1.5:LRA=10,apad=pad_dur=27" -t 27 "$PROJECT/audio/narration.wav"
