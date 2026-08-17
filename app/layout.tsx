@@ -4,8 +4,6 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { AmbientAudio } from "./components/AmbientAudio";
 import { PolarExperience } from "./components/PolarExperience";
-import { PolarIntroAutoRelease } from "./components/PolarIntroAutoRelease";
-import { RouteIntentGuard } from "./components/RouteIntentGuard";
 import "./globals.css";
 import "./brand-enhancements.css";
 
@@ -117,9 +115,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
-        <RouteIntentGuard />
         <PolarExperience />
-        <PolarIntroAutoRelease />
         {children}
         <AmbientAudio />
         <Analytics />

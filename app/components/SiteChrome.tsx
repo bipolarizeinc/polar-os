@@ -23,7 +23,7 @@ export function SiteHeader() {
       </div>
       <div className="nav-shell">
         <Link href="/" className="brand-lockup" aria-label="BI POLARIZE home">
-          <Image src="/brand/official/05_compact_icon_mark.png" alt="" width={90} height={46} priority />
+          <Image src="/brand/official/05_compact_icon_mark.png" alt="" width={90} height={46} />
           <span>BI POLARIZE<small>ENTERPRISES, INC.</small></span>
         </Link>
         <nav aria-label="Primary navigation">
