@@ -7,6 +7,8 @@ import { PolarExperience } from "./components/PolarExperience";
 import "./globals.css";
 import "./brand-enhancements.css";
 
+const siteUrl = "https://www.polarpaw.online";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -18,7 +20,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://PolarPaw.Online"),
+  metadataBase: new URL(siteUrl),
   title: {
     default: "BI POLARIZE ENTERPRISES, INC. | All the Business for Your Business",
     template: "%s | BI POLARIZE",
@@ -44,7 +46,7 @@ export const metadata: Metadata = {
     title: "BI POLARIZE ENTERPRISES, INC. | All the Business for Your Business",
     description:
       "Bring us the thing in your head. P.O.L.A.R. helps extract it, pressure-test it, architect what it needs, and turn it into operating reality.",
-    url: "https://PolarPaw.Online",
+    url: siteUrl,
     siteName: "BI POLARIZE ENTERPRISES, INC.",
     locale: "en_US",
     type: "website",
@@ -76,8 +78,8 @@ const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: "BI POLARIZE ENTERPRISES, INC.",
-  url: "https://polarpaw.online",
-  logo: "https://polarpaw.online/brand/official/01_primary_corporate_logo.png",
+  url: siteUrl,
+  logo: `${siteUrl}/brand/official/01_primary_corporate_logo.png`,
   email: "YourThing@PolarPaw.Online",
   telephone: "+1-801-686-8143",
   slogan: "All the Business for Your Business",
@@ -94,11 +96,11 @@ const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   name: "BI POLARIZE ENTERPRISES, INC.",
-  url: "https://polarpaw.online",
+  url: siteUrl,
   description: "Innovation infrastructure, business architecture, AI systems, documentation, branding, automation, media, and the Bipolarized Blueprint™.",
   potentialAction: {
     "@type": "CommunicateAction",
-    target: "https://polarpaw.online/intake",
+    target: `${siteUrl}/intake`,
     name: "Tell Us About Your Thing",
   },
 };

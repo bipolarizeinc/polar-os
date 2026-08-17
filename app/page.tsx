@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { PageShell } from "./components/SiteChrome";
@@ -5,6 +6,10 @@ import { PolarConsole } from "./components/PolarConsole";
 import { IntakeLink } from "./components/IntakeLink";
 import { DeferredVideo } from "./components/DeferredVideo";
 import styles from "./home.module.css";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 const method = [
   ["01", "Discover", "P.O.L.A.R. retrieves the entire idea, contradictions included, before anything gets simplified away."],
@@ -172,7 +177,7 @@ export default function Home() {
         </div></section>
 
         <section className={styles.polarField}>
-          <Image src="/brand/official/07_off_the_wall_concept.png" alt="BI POLARIZE Off the Wall and Out of the Box concept" fill sizes="100vw" />
+          <Image src="/brand/launch-888/brand-philosophy.png" alt="BI POLARIZE Off the Wall and Out of the Box philosophy" fill sizes="100vw" />
           <div><p className="eyebrow">OFF THE WALL AND OUT OF THE BOX</p><h2>COMPLEXITY IS A FEATURE.<br /><em>NOT A BUG.</em></h2></div>
         </section>
 

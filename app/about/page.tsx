@@ -223,8 +223,8 @@ export default function AboutPage() {
               />
               <Image
                 className="founder-seal"
-                src="/brand/official/02_official_corporate_seal.png"
-                alt="Official corporate seal"
+                src="/brand/official/03_secondary_circular_logo.png"
+                alt="Official BI POLARIZE circular authentication mark"
                 width={150}
                 height={114}
               />

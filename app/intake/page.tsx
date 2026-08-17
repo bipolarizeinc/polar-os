@@ -63,22 +63,26 @@ export default function IntakePage() {
     setSubmitting(true);
     setError("");
 
-    const data = Object.fromEntries(new FormData(event.currentTarget).entries());
-    const response = await fetch("/api/intake", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
-    const body = await response.json();
+    try {
+      const data = Object.fromEntries(new FormData(event.currentTarget).entries());
+      const response = await fetch("/api/intake", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      const body = await response.json().catch(() => ({}));
 
-    if (!response.ok) {
-      setError(body.error ?? "POLAR could not process this intake.");
+      if (!response.ok) {
+        setError(body.error ?? "POLAR could not process this intake.");
+        return;
+      }
+
+      setResult(body);
+    } catch {
+      setError("POLAR could not reach the intake system. Check your connection and try again.");
+    } finally {
       setSubmitting(false);
-      return;
     }
-
-    setResult(body);
-    setSubmitting(false);
   }
 
   if (result) {
