@@ -22,6 +22,14 @@ const nextConfig: NextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
   },
+  async redirects() {
+    return [
+      { source: "/etas", destination: "/etsa", permanent: true },
+      { source: "/ecosystem", destination: "/services", permanent: true },
+      { source: "/products", destination: "/services", permanent: true },
+      { source: "/solutions", destination: "/services", permanent: true },
+    ];
+  },
   async headers() {
     return [
       {
