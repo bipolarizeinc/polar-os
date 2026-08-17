@@ -7,17 +7,20 @@ export function IntakeLink({
   division,
   service,
   source,
+  ariaLabel,
 }: {
   className?: string;
   children?: ReactNode;
   division?: string;
   service?: string;
   source?: string;
+  ariaLabel?: string;
 }) {
   const params = new URLSearchParams();
   if (division) params.set("division", division);
   if (service) params.set("service", service);
   if (source) params.set("source", source);
   const query = params.toString();
-  return <Link className={className} href={query ? `/intake?${query}` : "/intake"}>{children}</Link>;
+  const accessibleName = ariaLabel ?? (service ? `Start ${service} intake` : undefined);
+  return <Link className={className} href={query ? `/intake?${query}` : "/intake"} aria-label={accessibleName}>{children}</Link>;
 }
