@@ -22,10 +22,10 @@ jobs:
         working-directory: tools/hyperframes
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Node.js 22
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 22
           registry-url: https://registry.npmjs.org
@@ -73,18 +73,38 @@ jobs:
           render_project about-transition 06-about-transition.mp4
           render_project intake-transition 07-intake-transition.mp4
           render_project idle-inquiry 08-polar-idle-inquiry.mp4
-          test "$(find "$OUTPUT_DIR" -maxdepth 1 -name '*.mp4' | wc -l)" -eq 8
+          expected=(
+            01-polar-greeting.mp4
+            02-products-transition.mp4
+            03-blueprint-transition.mp4
+            04-drdocx-transition.mp4
+            05-nexus-transition.mp4
+            06-about-transition.mp4
+            07-intake-transition.mp4
+            08-polar-idle-inquiry.mp4
+          )
+          for file in "${expected[@]}"; do
+            test -s "$OUTPUT_DIR/$file"
+          done
 
       - name: Upload final video pack
         uses: actions/upload-artifact@v4
         with:
           name: polar-os-hyperframes-final
-          path: public/media/polar/*.mp4
+          path: |
+            public/media/polar/01-polar-greeting.mp4
+            public/media/polar/02-products-transition.mp4
+            public/media/polar/03-blueprint-transition.mp4
+            public/media/polar/04-drdocx-transition.mp4
+            public/media/polar/05-nexus-transition.mp4
+            public/media/polar/06-about-transition.mp4
+            public/media/polar/07-intake-transition.mp4
+            public/media/polar/08-polar-idle-inquiry.mp4
           if-no-files-found: error
           retention-days: 30
 
       - name: Publish rendered media to main
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
         working-directory: .
         run: |
           git config user.name "github-actions[bot]"

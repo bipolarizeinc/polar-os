@@ -16,10 +16,10 @@ jobs:
     timeout-minutes: 45
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node 22
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: '22'
 
@@ -34,8 +34,9 @@ jobs:
           PROJECT='tools/hyperframes/full-blueprint'
           mkdir -p "$PROJECT/assets" "$PROJECT/audio" renders
           cp public/brand/official/17_branded_environment.png "$PROJECT/assets/17_branded_environment.png"
-          cp public/brand/polar/full-body-master.png "$PROJECT/assets/full-body-master.png"
-          cp public/brand/polar/deep-scan.png "$PROJECT/assets/deep-scan.png"
+          cp public/brand/launch-888/polar-portrait.png "$PROJECT/assets/full-body-master.png"
+          test -s "$PROJECT/assets/full-body-master.png"
+          cp public/brand/launch-888/polar-deep-scan.png "$PROJECT/assets/deep-scan.png"
           cp public/brand/bipolarization-symbol.png "$PROJECT/assets/bipolarization-symbol.png"
 
       - name: Generate P.O.L.A.R. narration
@@ -55,8 +56,8 @@ jobs:
 
           Do not shrink the idea. Engineer the system. Tell P.O.L.A.R. about your thing at Polar Paw dot online.
           EOF
-          espeak-ng -v en-us+m3 -s 158 -p 72 -a 155 -f /tmp/narration.txt -w tools/hyperframes/full-blueprint/audio/narration-raw.wav
-          ffmpeg -y -i tools/hyperframes/full-blueprint/audio/narration-raw.wav -af "highpass=f=80,lowpass=f=12000,acompressor=threshold=-18dB:ratio=2.5:attack=20:release=200,loudnorm=I=-16:TP=-1.5:LRA=11,apad=pad_dur=72" -t 72 tools/hyperframes/full-blueprint/audio/narration.wav
+          espeak-ng -v en-us+m3 -s 158 -p 72 -a 120 -f /tmp/narration.txt -w tools/hyperframes/full-blueprint/audio/narration-raw.wav
+          ffmpeg -y -i tools/hyperframes/full-blueprint/audio/narration-raw.wav -af "highpass=f=80,lowpass=f=10000,acompressor=threshold=-18dB:ratio=2.5:attack=20:release=200,loudnorm=I=-16:TP=-1.5:LRA=11,apad=pad_dur=72" -t 72 tools/hyperframes/full-blueprint/audio/narration.wav
 
       - name: Install HyperFrames
         run: npm install --no-save hyperframes@0.7.77
@@ -84,6 +85,7 @@ jobs:
           retention-days: 30
 
       - name: Publish website media
+        if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
         run: |
           mkdir -p public/media/polar
           cp renders/BPEI_The_Bipolarized_Blueprint_v1.mp4 public/media/polar/BPEI_The_Bipolarized_Blueprint_v1.mp4
