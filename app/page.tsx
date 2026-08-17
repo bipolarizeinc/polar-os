@@ -202,7 +202,7 @@ export default function Home() {
             {["Identity + positioning", "Business architecture", "Operational documentation", "AI-ready knowledge systems", "Automation pathways", "Revenue deployment plan"].map((x, i) => (
               <div className="terminal-row" key={x}><span>0{i + 1}</span><b>{x}</b><i>POLAR VERIFIED</i></div>
             ))}
-            <div className="terminal-status">P.O.L.A.R. SYSTEM READINESS <strong>100%</strong></div>
+            <div className="terminal-status">BLUEPRINT EXTRACTION STATUS <strong>READY</strong></div>
           </div>
         </section>
 
