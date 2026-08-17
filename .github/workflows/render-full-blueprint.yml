@@ -34,9 +34,9 @@ jobs:
           PROJECT='tools/hyperframes/full-blueprint'
           mkdir -p "$PROJECT/assets" "$PROJECT/audio" renders
           cp public/brand/official/17_branded_environment.png "$PROJECT/assets/17_branded_environment.png"
-          ffmpeg -y -i public/brand/polar/full-body-master.png -frames:v 1 "$PROJECT/assets/full-body-master.png"
+          cp public/brand/launch-888/polar-portrait.png "$PROJECT/assets/full-body-master.png"
           test -s "$PROJECT/assets/full-body-master.png"
-          cp public/brand/polar/deep-scan.png "$PROJECT/assets/deep-scan.png"
+          cp public/brand/launch-888/polar-deep-scan.png "$PROJECT/assets/deep-scan.png"
           cp public/brand/bipolarization-symbol.png "$PROJECT/assets/bipolarization-symbol.png"
 
       - name: Generate P.O.L.A.R. narration
