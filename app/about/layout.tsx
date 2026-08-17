@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About",
+  title: "Douglas Arnold Long Jr. | Founder of BI POLARIZE",
   description:
-    "Learn how BI POLARIZE ENTERPRISES, INC. turns unconventional ideas into functioning enterprises through the Bipolarization Method, P.O.L.A.R., and connected business infrastructure.",
+    "Meet Douglas Arnold Long Jr., Founder and Director of Operations of BI POLARIZE ENTERPRISES, INC. and architect of the Bipolarization Method in Ogden, Utah.",
   alternates: { canonical: "/about" },
   openGraph: {
-    title: "About | BI POLARIZE",
+    title: "Douglas Arnold Long Jr. | Founder of BI POLARIZE",
     description:
-      "Innovation infrastructure for unconventional founders, powered by business architecture, operational systems, and P.O.L.A.R.",
+      "Founder profile, company mission, credentials, and the architecture behind BI POLARIZE ENTERPRISES, INC.",
     url: "/about",
   },
 };
