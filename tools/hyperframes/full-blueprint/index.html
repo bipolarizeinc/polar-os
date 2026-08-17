@@ -8,7 +8,7 @@
     :root{--black:#020409;--gun:#101820;--cyan:#00e5ff;--orange:#ff5500;--gold:#ffb300;--white:#eff8ff;--muted:#9db2bd}
     *{box-sizing:border-box} html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--black);color:var(--white)}
     body{font-family:Arial,Inter,sans-serif}.comp{position:relative;width:1920px;height:1080px;overflow:hidden;background:var(--black)}
-    .scene{position:absolute;inset:0;width:100%;height:100%;overflow:hidden;background:var(--black)}
+    .clip{visibility:hidden}.scene{position:absolute;inset:0;width:100%;height:100%;overflow:hidden;background:var(--black)}
     .bg{position:absolute;inset:-3%;width:106%;height:106%;object-fit:cover;filter:saturate(.92) contrast(1.08);opacity:.72}
     .veil{position:absolute;inset:0;background:radial-gradient(circle at 70% 45%,transparent 0 24%,rgba(2,4,9,.34) 55%,rgba(2,4,9,.94) 100%)}
     .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,229,255,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,.055) 1px,transparent 1px);background-size:72px 72px;mask-image:radial-gradient(circle at center,#000 34%,transparent 92%)}
@@ -33,42 +33,42 @@
   </style>
 </head>
 <body>
-<div class="comp" data-composition-id="bpei-blueprint" data-width="1920" data-height="1080">
-  <section id="s1" class="scene" data-start="0" data-duration="9" data-track-index="1">
+<div class="comp" data-composition-id="bpei-blueprint" data-start="0" data-duration="72" data-width="1920" data-height="1080">
+  <section id="s1" class="clip scene" data-start="0" data-duration="9" data-track-index="1">
     <img class="bg" src="assets/17_branded_environment.png" alt=""/><div class="veil"></div><div class="grid"></div>
     <div class="content"><span class="eyebrow">BI POLARIZE ENTERPRISES, INC. // BP-7709</span><h1>YOUR IDEA IS NOT THE PROBLEM.</h1><p class="lede">The problem is what happens when an unconventional vision gets forced into conventional business systems.</p><span class="system">P.O.L.A.R. TRANSMISSION // INITIALIZED</span></div>
   </section>
-  <div id="t1" class="sweep" data-start="8.5" data-duration="1" data-track-index="2"></div>
+  <div id="t1" class="clip sweep" data-start="8.5" data-duration="1" data-track-index="2"></div>
 
-  <section id="s2" class="scene" data-start="9" data-duration="10" data-track-index="1">
+  <section id="s2" class="clip scene" data-start="9" data-duration="10" data-track-index="1">
     <div class="grid"></div><img class="polar" src="assets/full-body-master.png" alt=""/>
     <div class="content"><span class="eyebrow">THE FOUNDER IS THE SOURCE CODE</span><h2>WE RETRIEVE WHAT ONLY <span class="accent">YOU KNOW.</span></h2><p class="lede">P.O.L.A.R. captures the intent, contradictions, decisions, and hidden logic trapped inside the founder’s mind before any of it gets simplified away.</p></div>
   </section>
-  <div id="t2" class="sweep" data-start="18.5" data-duration="1" data-track-index="2"></div>
+  <div id="t2" class="clip sweep" data-start="18.5" data-duration="1" data-track-index="2"></div>
 
-  <section id="s3" class="scene" data-start="19" data-duration="12" data-track-index="1">
+  <section id="s3" class="clip scene" data-start="19" data-duration="12" data-track-index="1">
     <div class="grid"></div><div class="content"><span class="eyebrow">THE BIPOLARIZATION METHOD™</span><h2>CHAOS, ENGINEERED INTO <span class="fire">CLARITY.</span></h2>
       <div class="steps"><div class="step"><small>01</small><b>DISCOVER</b><p>Extract the full vision without flattening its complexity.</p></div><div class="step"><small>02</small><b>POLARIZE</b><p>Challenge the idea from opposing angles and expose weak logic.</p></div><div class="step"><small>03</small><b>ARCHITECT</b><p>Convert founder intelligence into systems, roles, and workflows.</p></div><div class="step"><small>04</small><b>BUILD</b><p>Deploy assets, automation, documentation, and operations.</p></div><div class="step"><small>05</small><b>INSTITUTIONALIZE</b><p>Preserve the intelligence so the enterprise remembers.</p></div></div>
     </div>
   </section>
-  <div id="t3" class="sweep" data-start="30.5" data-duration="1" data-track-index="2"></div>
+  <div id="t3" class="clip sweep" data-start="30.5" data-duration="1" data-track-index="2"></div>
 
-  <section id="s4" class="scene" data-start="31" data-duration="12" data-track-index="1">
+  <section id="s4" class="clip scene" data-start="31" data-duration="12" data-track-index="1">
     <div class="grid"></div><div class="content blueprint"><div><span class="eyebrow">FLAGSHIP SYSTEM // THE BIPOLARIZED BLUEPRINT™</span><h2>FROM FOUNDER INTELLIGENCE TO <span class="accent">OPERATING REALITY.</span></h2><p class="lede">The Blueprint becomes the enterprise architecture your business can actually run on.</p></div>
       <div class="terminal"><div class="terminal-head"><span>POLAR.BLUEPRINT.EXTRACTION</span><span>ACTIVE</span></div><div class="row"><span>01</span><b>Identity + positioning</b><i>VERIFIED</i></div><div class="row"><span>02</span><b>Business architecture</b><i>VERIFIED</i></div><div class="row"><span>03</span><b>Operational documentation</b><i>VERIFIED</i></div><div class="row"><span>04</span><b>Automation pathways</b><i>VERIFIED</i></div><div class="row"><span>05</span><b>Revenue deployment plan</b><i>VERIFIED</i></div></div>
     </div>
   </section>
-  <div id="t4" class="sweep" data-start="42.5" data-duration="1" data-track-index="2"></div>
+  <div id="t4" class="clip sweep" data-start="42.5" data-duration="1" data-track-index="2"></div>
 
-  <section id="s5" class="scene" data-start="43" data-duration="10" data-track-index="1">
+  <section id="s5" class="clip scene" data-start="43" data-duration="10" data-track-index="1">
     <img class="bg" src="assets/deep-scan.png" alt=""/><div class="veil"></div><div class="content"><span class="eyebrow">P.O.L.A.R. // PERSONALIZED OPERATIONS LIAISON AND AUTONOMOUS RETRIEVER</span><h2>NOT A CHATBOT. A <span class="accent">CONNECTIVE INTELLIGENCE LAYER.</span></h2><div class="cards"><div class="card"><b>RETRIEVE</b><span>Preserve institutional intent and founder knowledge.</span></div><div class="card"><b>CHALLENGE</b><span>Stress-test assumptions before they become expensive.</span></div><div class="card"><b>COORDINATE</b><span>Connect documents, systems, people, and execution.</span></div></div></div>
   </section>
-  <div id="t5" class="sweep" data-start="52.5" data-duration="1" data-track-index="2"></div>
+  <div id="t5" class="clip sweep" data-start="52.5" data-duration="1" data-track-index="2"></div>
 
-  <section id="s6" class="scene" data-start="53" data-duration="10" data-track-index="1">
+  <section id="s6" class="clip scene" data-start="53" data-duration="10" data-track-index="1">
     <div class="grid"></div><img class="mark" src="assets/bipolarization-symbol.png" alt=""/><div class="content"><span class="eyebrow">DEPLOYMENT OUTCOME</span><h2>THE BUSINESS STOPS DEPENDING ON MEMORY ALONE.</h2><div class="outcomes"><div class="outcome">Clear roles and repeatable workflows</div><div class="outcome">Governed documents and institutional memory</div><div class="outcome">Automation that follows the original intent</div><div class="outcome">A practical path from idea to revenue</div></div></div>
   </section>
-  <div id="t6" class="sweep" data-start="62.5" data-duration="1" data-track-index="2"></div>
+  <div id="t6" class="clip sweep" data-start="62.5" data-duration="1" data-track-index="2"></div>
 
   <section id="s7" class="scene final" data-start="63" data-duration="9" data-track-index="1">
     <div class="grid"></div><div class="content"><img class="seal" src="assets/bipolarization-symbol.png" alt=""/><span class="eyebrow">BI POLARIZE ENTERPRISES, INC.</span><h2>DON’T SHRINK THE IDEA. <span class="accent">ENGINEER THE SYSTEM.</span></h2><p class="lede">Tell P.O.L.A.R. about your thing. We will turn it into something your enterprise can run, remember, and scale.</p><span class="system">POLARPAW.ONLINE // TRANSMISSION COMPLETE</span></div>
