@@ -5,8 +5,8 @@ import { IntakeLink } from "../components/IntakeLink";
 const directServices = [
   ["launchpad", "Business Structure & Formation", "$199", "Build the legal and operational foundation around the concept."],
   ["launchpad", "State Registration & Compliance", "$149 + fees", "Registration guidance and compliance setup for a cleaner launch."],
-  ["launchpad", "EIN", "$75", "Federal employer identification number application support."],
-  ["launchpad", "D-U-N-S", "$29", "Business identity setup for credibility and commercial systems."],
+  ["launchpad", "EIN Application Assistance", "$75", "Preparation and application support. The IRS issues EINs free; the listed amount is BPEI’s assistance fee."],
+  ["launchpad", "Business Identity / D-U-N-S & UEI Guidance", "$29", "Guidance for commercial D-U-N-S profiles and federal UEI/SAM identification. Identifier issuance remains with the applicable third party or government platform."],
   ["dr-docx", "Operating Agreement / Bylaws", "$129", "Core governance documents aligned to the chosen entity."],
   ["brandforge", "Marketing Strategy Session", "$149", "A focused 60-minute positioning and promotion strategy session."],
   ["nexus", "5-Page Website", "$650", "A professional conversion-ready web presence built around the brand."],
@@ -15,7 +15,7 @@ const directServices = [
   ["launchpad", "Business Credit Development", "$399", "Structured guidance toward stronger commercial credit readiness."],
   ["blueprint", "Comprehensive Business Plan", "$499", "Research-backed plan connecting vision, market, operations, and finance."],
   ["launchpad", "Banking Solution Guidance", "$99", "Practical support selecting business banking solutions."],
-  ["launchpad", "Registered Agent", "$125 / year", "Reliable annual registered agent coverage."],
+  ["launchpad", "Registered Agent", "$125 / year", "Utah registered-agent coverage, subject to address, eligibility, and service-capacity confirmation before acceptance."],
   ["blueprint", "Business Coaching", "$200", "A direct 60-minute session for decisions, obstacles, and execution."],
   ["launchpad", "Annual Compliance Package", "$149", "Ongoing annual filing and compliance organization."],
 ] as const;
