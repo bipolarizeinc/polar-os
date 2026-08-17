@@ -22,13 +22,16 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "BI POLARIZE ENTERPRISES, INC. | All the Business for Your Business",
+    default: "Business Architecture, AI Systems & Startup Services | BI POLARIZE",
     template: "%s | BI POLARIZE",
   },
   description:
-    "BI POLARIZE ENTERPRISES, INC. turns unconventional ideas into functioning enterprises through business architecture, AI systems, documentation, branding, automation, media, and the Bipolarized Blueprint™.",
+    "Ogden, Utah business architecture, startup services, AI systems, documentation, branding, automation, media, and the Bipolarized Blueprint™ from BI POLARIZE ENTERPRISES, INC.",
   applicationName: "POLAR OS",
-  authors: [{ name: "BI POLARIZE ENTERPRISES, INC." }],
+  authors: [
+    { name: "BI POLARIZE ENTERPRISES, INC.", url: siteUrl },
+    { name: "Douglas Arnold Long Jr.", url: `${siteUrl}/about` },
+  ],
   creator: "BI POLARIZE ENTERPRISES, INC.",
   publisher: "BI POLARIZE ENTERPRISES, INC.",
   category: "business services",
@@ -41,6 +44,8 @@ export const metadata: Metadata = {
     "P.O.L.A.R.",
     "business automation",
     "Ogden Utah business services",
+    "Douglas Arnold Long Jr.",
+    "startup services Utah",
   ],
   openGraph: {
     title: "BI POLARIZE ENTERPRISES, INC. | All the Business for Your Business",
@@ -77,19 +82,43 @@ export const metadata: Metadata = {
 const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
+  "@id": `${siteUrl}/#organization`,
   name: "BI POLARIZE ENTERPRISES, INC.",
+  legalName: "BI POLARIZE ENTERPRISES, INC.",
+  alternateName: ["BI POLARIZE", "BPEI"],
+  foundingDate: "2024-12-27",
   url: siteUrl,
   logo: `${siteUrl}/brand/official/01_primary_corporate_logo.png`,
   email: "YourThing@PolarPaw.Online",
   telephone: "+1-801-686-8143",
   slogan: "All the Business for Your Business",
+  founder: { "@id": `${siteUrl}/about#douglas-arnold-long-jr` },
+  areaServed: ["Ogden, Utah", "Utah", "United States"],
   address: {
     "@type": "PostalAddress",
     addressLocality: "Ogden",
     addressRegion: "UT",
     addressCountry: "US",
   },
-  sameAs: ["https://www.instagram.com/bipolarizeinc/"],
+  sameAs: [
+    "https://www.instagram.com/bipolarizeinc/",
+    "https://www.facebook.com/61590119837823",
+    "https://helloskip.com/b/bi-polarize-enterprises-inc",
+    "https://www.bbb.org/us/ut/spanish-fork/profile/business-consultant/bi-polarize-enterprises-inc-1166-90050092",
+  ],
+};
+
+const founderSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": `${siteUrl}/about#douglas-arnold-long-jr`,
+  name: "Douglas Arnold Long Jr.",
+  alternateName: ["Douglas Long", "DAL.J"],
+  jobTitle: "Founder and Director of Operations",
+  description: "Founder of BI POLARIZE ENTERPRISES, INC. and architect of the Bipolarization Method.",
+  url: `${siteUrl}/about`,
+  image: `${siteUrl}/founder.jpg`,
+  worksFor: { "@id": `${siteUrl}/#organization` },
 };
 
 const websiteSchema = {
@@ -116,6 +145,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(founderSchema) }}
         />
         <PolarExperience />
         {children}
