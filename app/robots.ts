@@ -1,5 +1,7 @@
 import type { MetadataRoute } from "next";
 
+const siteUrl = "https://www.polarpaw.online";
+
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
@@ -22,7 +24,7 @@ export default function robots(): MetadataRoute.Robots {
         ],
       },
     ],
-    sitemap: "https://polarpaw.online/sitemap.xml",
-    host: "https://polarpaw.online",
+    sitemap: `${siteUrl}/sitemap.xml`,
+    host: siteUrl,
   };
 }

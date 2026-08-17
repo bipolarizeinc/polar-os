@@ -1,8 +1,29 @@
 import { NextResponse } from "next/server";
+import { z } from "zod";
 import { analyzeIntake, type IntakeAnalysisInput } from "../../../lib/polar/analyze-intake";
 import { createRecoveryToken, getSupabaseConfig, normalizeEmail, supabaseRequest } from "../../lib/polar-memory";
 
-const requiredFields = ["thing", "audience", "problem", "blocker", "desiredOutcome"] as const;
+const requiredText = z.string().trim().min(1).max(5_000);
+const optionalText = z.string().trim().max(5_000).optional();
+
+const intakeSchema = z.object({
+  thing: requiredText,
+  audience: requiredText,
+  problem: requiredText,
+  blocker: requiredText,
+  desiredOutcome: requiredText,
+  existingAssets: optionalText,
+  requestedHelp: optionalText,
+  constraints: optionalText,
+  additionalContext: optionalText,
+  founderName: z.string().trim().max(200).optional(),
+  email: z.union([z.literal(""), z.email().max(320)]).optional(),
+  phone: z.string().trim().max(50).optional(),
+  companyName: z.string().trim().max(200).optional(),
+  requestedDivision: z.string().trim().max(100).optional(),
+  requestedService: z.string().trim().max(200).optional(),
+  referralSource: z.string().trim().max(200).optional(),
+});
 
 type IntakePayload = IntakeAnalysisInput & {
   founderName?: string;
@@ -21,12 +42,20 @@ function createExtractionId() {
 }
 
 export async function POST(request: Request) {
-  const payload = (await request.json()) as IntakePayload;
-  const missing = requiredFields.filter((field) => !payload[field]?.trim());
-
-  if (missing.length) {
-    return NextResponse.json({ error: "Missing required intake fields.", fields: missing }, { status: 400 });
+  let input: unknown;
+  try {
+    input = await request.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON payload." }, { status: 400 });
   }
+
+  const parsed = intakeSchema.safeParse(input);
+  if (!parsed.success) {
+    const fields = [...new Set(parsed.error.issues.map((issue) => String(issue.path[0] ?? "request")))];
+    return NextResponse.json({ error: "Invalid or missing intake fields.", fields }, { status: 400 });
+  }
+
+  const payload: IntakePayload = parsed.data;
 
   const routingContext = {
     division: payload.requestedDivision?.trim() || null,

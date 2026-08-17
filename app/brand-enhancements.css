@@ -1,6 +1,6 @@
-.polar-site{position:relative;background-color:#030506;background-image:linear-gradient(rgba(3,5,6,.88),rgba(3,5,6,.92)),url('/brand/off-the-wall.png');background-size:cover;background-position:center top;background-attachment:fixed}
+.polar-site{position:relative;background-color:#030506;background-image:linear-gradient(rgba(3,5,6,.88),rgba(3,5,6,.92))}
 .polar-site::after{content:'BI POLARIZE ENTERPRISES, INC.  //  BI POLARIZE ENTERPRISES, INC.  //  ';position:fixed;inset:auto -10vw 8vh;z-index:0;pointer-events:none;white-space:nowrap;color:rgba(255,255,255,.018);font:900 clamp(42px,8vw,140px)/1 var(--font-geist-sans);letter-spacing:-.05em;transform:rotate(-5deg);animation:brandDrift 28s linear infinite}
-.hero{overflow:hidden;background-image:linear-gradient(90deg,rgba(3,5,6,.98) 0%,rgba(3,5,6,.88) 48%,rgba(3,5,6,.45) 100%),url('/brand/polar-activated.png');background-size:cover,58vw auto;background-position:center,right -4vw center;background-repeat:no-repeat}
+.hero{overflow:hidden;background-image:linear-gradient(90deg,rgba(3,5,6,.98) 0%,rgba(3,5,6,.88) 48%,rgba(3,5,6,.45) 100%);background-size:cover;background-position:center;background-repeat:no-repeat}
 .hero::before{content:'BI POLARIZE';position:absolute;right:-2vw;top:8%;z-index:-1;color:rgba(0,229,255,.035);font:900 clamp(90px,17vw,300px)/.78 var(--font-geist-sans);letter-spacing:-.09em;writing-mode:vertical-rl;text-orientation:mixed;pointer-events:none}
 .manifesto-band{overflow:hidden;animation:borderPulse 4s ease-in-out infinite}
 .wall-card,.method-section,.blueprint-section,.cta-section{position:relative;isolation:isolate}

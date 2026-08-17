@@ -64,7 +64,9 @@ export function PolarConsole() {
     }
   }
 
-  const polarImage = diagnostic ? "/brand/polar/deep-scan.png" : "/brand/polar/listening.png";
+  const polarImage = diagnostic
+    ? "/brand/launch-888/polar-deep-scan.png"
+    : "/brand/launch-888/polar-portrait.png";
 
   return (
     <div ref={consoleRef} className={styles.console} onMouseEnter={() => setTracking(true)} onMouseMove={trackPointer} onMouseLeave={resetTracking}>
