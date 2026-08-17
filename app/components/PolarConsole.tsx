@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { MouseEvent, useRef, useState } from "react";
 import styles from "./PolarConsole.module.css";
 
@@ -87,7 +88,7 @@ export function PolarConsole() {
             aria-label="Approved P.O.L.A.R. greeting transmission"
           />
         ) : (
-          <img className={styles.entityImage} key={polarImage} src={polarImage} alt="P.O.L.A.R., the BI POLARIZE enterprise intelligence companion" width={1536} height={1024} />
+          <Image className={styles.entityImage} key={polarImage} src={polarImage} alt="P.O.L.A.R., the BI POLARIZE enterprise intelligence companion" fill sizes="(max-width: 900px) 100vw, 45vw" />
         )}
         <div className={styles.scan} />
         <div className={styles.identityTag}><b>P.O.L.A.R.</b><span>PROTECT · GUIDE · RETRIEVE · BUILD</span></div>

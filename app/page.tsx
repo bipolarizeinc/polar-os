@@ -2,8 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { PageShell } from "./components/SiteChrome";
 import { PolarConsole } from "./components/PolarConsole";
-import { BootSequence } from "./components/BootSequence";
 import { IntakeLink } from "./components/IntakeLink";
+import { DeferredVideo } from "./components/DeferredVideo";
 import styles from "./home.module.css";
 
 const method = [
@@ -43,9 +43,7 @@ const ticker = [
 
 export default function Home() {
   return (
-    <>
-      <BootSequence />
-      <PageShell>
+    <PageShell>
         <section className="hero">
           <Image className={styles.heroPolarBackdrop} src="/brand/launch-888/polar-corridor.png" alt="" fill priority sizes="100vw" />
           <div className="hero-energy fire" />
@@ -98,7 +96,7 @@ export default function Home() {
         </section>
 
         <section className={styles.transitionBand} aria-label="P.O.L.A.R. division transition">
-          <video src="/media/polar/02_Products_Transition.mp4" autoPlay muted loop playsInline preload="metadata" aria-hidden="true" />
+          <DeferredVideo src="/media/polar/02_Products_Transition.mp4" />
           <div><span>P.O.L.A.R. ROUTING</span><strong>ENTERING DIVISION NETWORK</strong></div>
         </section>
 
@@ -179,7 +177,7 @@ export default function Home() {
         </section>
 
         <section className={styles.transitionBand} aria-label="Bipolarized Blueprint transition">
-          <video src="/media/polar/03_Blueprint_Transition.mp4" autoPlay muted loop playsInline preload="metadata" aria-hidden="true" />
+          <DeferredVideo src="/media/polar/03_Blueprint_Transition.mp4" />
           <div><span>FLAGSHIP SYSTEM</span><strong>BLUEPRINT EXTRACTION READY</strong></div>
         </section>
 
@@ -204,14 +202,13 @@ export default function Home() {
         </section>
 
         <section className={`cta-section ${styles.videoCta}`}>
-          <video className={styles.ctaVideo} src="/media/polar/07_Intake_Transition.mp4" autoPlay muted loop playsInline preload="metadata" aria-hidden="true" />
-          <div className="cta-mark"><Image src="/brand/bipolarization-symbol.png" alt="" fill /></div>
+          <DeferredVideo className={styles.ctaVideo} src="/media/polar/07_Intake_Transition.mp4" />
+          <div className="cta-mark"><Image src="/brand/bipolarization-symbol.png" alt="" fill sizes="370px" /></div>
           <p className="eyebrow">P.O.L.A.R. INTAKE CHANNEL // OPEN 24 HOURS</p>
           <h2>TELL US ABOUT<br /><em>YOUR THING.</em></h2>
           <p>You do not need a finished pitch deck or consultant-approved vocabulary. Bring the idea as it actually exists. P.O.L.A.R. will extract the signal, identify what is missing, and route the next move through the right BPEI system.</p>
           <IntakeLink />
         </section>
-      </PageShell>
-    </>
+    </PageShell>
   );
 }

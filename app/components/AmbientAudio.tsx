@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export function AmbientAudio() {
   const contextRef = useRef<AudioContext | null>(null);
@@ -8,7 +8,7 @@ export function AmbientAudio() {
   const nodesRef = useRef<AudioScheduledSourceNode[]>([]);
   const [active, setActive] = useState(false);
 
-  function buildSoundscape() {
+  const buildSoundscape = useCallback(() => {
     const AudioContextClass = window.AudioContext ||
       (window as typeof window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
     if (!AudioContextClass || contextRef.current) return;
@@ -48,9 +48,9 @@ export function AmbientAudio() {
     contextRef.current = context;
     masterRef.current = master;
     nodesRef.current = [...oscillators, lfo];
-  }
+  }, []);
 
-  async function start() {
+  const start = useCallback(async () => {
     buildSoundscape();
     const context = contextRef.current;
     if (!context) return;
@@ -58,32 +58,23 @@ export function AmbientAudio() {
     masterRef.current?.gain.cancelScheduledValues(context.currentTime);
     masterRef.current?.gain.setTargetAtTime(0.055, context.currentTime, 0.8);
     setActive(true);
-  }
+  }, [buildSoundscape]);
 
-  function stop() {
+  const stop = useCallback(() => {
     const context = contextRef.current;
     if (!context || !masterRef.current) return;
     masterRef.current.gain.cancelScheduledValues(context.currentTime);
     masterRef.current.gain.setTargetAtTime(0, context.currentTime, 0.3);
     setActive(false);
-  }
+  }, []);
 
-  function toggle() {
+  const toggle = useCallback(() => {
     if (active) stop();
-    else void start();
-  }
+    else void start().catch(() => undefined);
+  }, [active, start, stop]);
 
   useEffect(() => {
-    const attemptStart = () => void start().catch(() => undefined);
-    void start().catch(() => undefined);
-    window.addEventListener("pointerdown", attemptStart, { once: true });
-    window.addEventListener("keydown", attemptStart, { once: true });
-    window.addEventListener("touchstart", attemptStart, { once: true, passive: true });
-
     return () => {
-      window.removeEventListener("pointerdown", attemptStart);
-      window.removeEventListener("keydown", attemptStart);
-      window.removeEventListener("touchstart", attemptStart);
       nodesRef.current.forEach((node) => {
         try { node.stop(); } catch {}
       });
