@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { registerEtsaUser } from "@/app/lib/etsa/auth";
+import { loginEtsaUser, registerEtsaUser } from "@/app/lib/etsa/auth";
 import { ensureEtsaProfile } from "@/app/lib/etsa/data";
 
 export async function POST(request: Request) {
@@ -13,13 +13,13 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Name, valid email, and an 8+ character password are required." }, { status: 400 });
     }
 
-    const session = await registerEtsaUser(email, password, fullName);
+    const signup = await registerEtsaUser(email, password, fullName);
+    const session = signup.access_token && signup.user?.id
+      ? signup
+      : await loginEtsaUser(email, password);
 
     if (!session.access_token || !session.user?.id) {
-      return NextResponse.json(
-        { error: "Your account was created, but ETSA could not open an authenticated session yet. Check your email for a verification message, then return and log in to start the assessment." },
-        { status: 409 }
-      );
+      return NextResponse.json({ error: "ETSA could not open your secure session. Please use the login option and try again." }, { status: 409 });
     }
 
     await ensureEtsaProfile(session.access_token, session.user.id, fullName);
@@ -31,6 +31,11 @@ export async function POST(request: Request) {
     }
     return response;
   } catch (error) {
-    return NextResponse.json({ error: error instanceof Error ? error.message : "Registration failed." }, { status: 400 });
+    const message = error instanceof Error ? error.message : "Registration failed.";
+    const normalized = message.toLowerCase();
+    if (normalized.includes("invalid login credentials") || normalized.includes("already registered")) {
+      return NextResponse.json({ error: "An ETSA account already exists for this email. Select ‘I ALREADY HAVE AN ETSA ACCOUNT’ and log in with your password." }, { status: 409 });
+    }
+    return NextResponse.json({ error: message }, { status: 400 });
   }
 }
