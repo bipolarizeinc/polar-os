@@ -37,7 +37,14 @@ async function authFetch<T>(path: string, init: RequestInit): Promise<T> {
 export function registerEtsaUser(email: string, password: string, fullName: string) {
   return authFetch<EtsaAuthSession>("/signup", {
     method: "POST",
-    body: JSON.stringify({ email, password, data: { full_name: fullName } })
+    body: JSON.stringify({
+      email,
+      password,
+      data: {
+        full_name: fullName,
+        bpei_auth_scope: "etsa_public"
+      }
+    })
   });
 }
 
