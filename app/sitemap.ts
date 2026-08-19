@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { servicePages } from "./services/service-pages";
 
 const baseUrl = "https://www.polarpaw.online";
 
@@ -14,9 +15,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/terms",
   ];
 
-  return routes.map((route) => ({
+  const coreRoutes: MetadataRoute.Sitemap = routes.map((route) => ({
     url: `${baseUrl}${route}`,
-    lastModified: new Date(),
+    lastModified: new Date("2026-08-18"),
     changeFrequency: route === "" ? "weekly" : route === "/services" ? "weekly" : "monthly",
     priority:
       route === ""
@@ -31,4 +32,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
                 ? 0.4
                 : 0.8,
   }));
+
+  const serviceRoutes = servicePages.map(({ slug }) => ({
+    url: `${baseUrl}/services/${slug}`,
+    lastModified: new Date("2026-08-18"),
+    changeFrequency: "monthly" as const,
+    priority: 0.85,
+  }));
+
+  return [...coreRoutes, ...serviceRoutes];
 }
