@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { PageShell } from "../components/SiteChrome";
 import { IntakeLink } from "../components/IntakeLink";
+import { servicePages } from "./service-pages";
 
 const directServices = [
   ["launchpad", "Business Structure & Formation", "$199", "Build the legal and operational foundation around the concept."],
@@ -44,6 +45,21 @@ export default function ServicesPage() {
       </section>
 
       <section className="section-shell catalog">
+        <div className="catalog-intro">
+          <div><p className="eyebrow">POPULAR SERVICE PATHS</p><h2>START WITH THE<br />OUTCOME YOU NEED.</h2></div>
+          <p>These focused service pages explain scope, process, fit, and starting investment for the needs Utah founders search for most often.</p>
+        </div>
+        <div className="service-grid">
+          {servicePages.map((page, index) => (
+            <article key={page.slug}>
+              <div className="service-number">{String(index + 1).padStart(2, "0")}</div>
+              <h3>{page.label}</h3>
+              <p>{page.metaDescription}</p>
+              <Link className="text-action" href={`/services/${page.slug}`}>VIEW SERVICE <span>→</span></Link>
+            </article>
+          ))}
+        </div>
+
         <div className="catalog-intro">
           <div><p className="eyebrow">DIVISION NETWORK</p><h2>NINE DIVISIONS.<br />ONE BUILD SYSTEM.</h2></div>
           <p>Choose the capability closest to what you need, or use Tell Us About Your Thing when the problem crosses divisions or you are not sure where it belongs.</p>
