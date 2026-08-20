@@ -4,7 +4,7 @@ import { CustomerAuthPanel } from "../components/CustomerAuthPanel";
 import styles from "./welcome.module.css";
 
 export const metadata: Metadata = {
-  title: "Welcome | BI POLARIZE",
+  title: "Welcome",
   description: "Enter the BI POLARIZE customer gateway, meet P.O.L.A.R., and access the customer portal.",
   robots: { index: true, follow: true },
   alternates: { canonical: "/welcome" },
