@@ -4,6 +4,7 @@ import { IntakeLink } from "./IntakeLink";
 import { MobileNav } from "./MobileNav";
 
 const links = [
+  ["Portal", "/portal"],
   ["Home", "/"],
   ["Divisions", "/#products"],
   ["Services", "/services"],
@@ -17,17 +18,17 @@ export function SiteHeader() {
   return (
     <header className="site-header">
       <div className="system-strip">
-        <span><i /> SYSTEM ACTIVE</span>
-        <span>CLASSIFICATION: PUBLIC</span>
-        <span>AUTHORIZATION: POLAR VERIFIED</span>
+        <span><i /> CUSTOMER SYSTEM ACTIVE</span>
+        <span>CLASSIFICATION: CUSTOMER</span>
+        <span>AUTHORIZATION: ACCESS VERIFIED</span>
       </div>
       <div className="nav-shell">
-        <Link href="/" className="brand-lockup" aria-label="BI POLARIZE home">
+        <Link href="/portal" className="brand-lockup" aria-label="BI POLARIZE customer portal">
           <Image src="/brand/official/05_compact_icon_mark.png" alt="" width={90} height={46} />
           <span>BI POLARIZE<small>ENTERPRISES, INC.</small></span>
         </Link>
         <nav aria-label="Primary navigation">
-          {links.map(([label, href]) => <Link key={href} href={href}>{label}</Link>)}
+          {links.map(([label, href]) => <Link key={`${label}-${href}`} href={href}>{label}</Link>)}
         </nav>
         <IntakeLink className="nav-cta" />
         <MobileNav />
@@ -46,6 +47,7 @@ export function SiteFooter() {
         </div>
         <div>
           <b>Explore</b>
+          <Link href="/portal">Customer Portal</Link>
           <Link href="/#products">Divisions</Link>
           <Link href="/services">Services</Link>
           <Link href="/etsa">ETSA™</Link>

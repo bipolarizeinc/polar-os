@@ -12,8 +12,8 @@ export default function EtsaPage(){
         <div className={styles.metric}><strong>8</strong><span>core talent dimensions</span></div>
         <div className={styles.metric}><strong>9</strong><span>BPEI department alignments</span></div>
       </div>
-      <p className={styles.notice}>ETSA is not a personality quiz and does not make autonomous employment decisions. Your responses are retained in your account so progress, results, and future reassessments can remain connected.</p>
-      <div className={styles.actions}><Link className={styles.button} href="/etsa/login?mode=register">START ETSA ASSESSMENT</Link></div>
+      <p className={styles.notice}>ETSA is not a personality quiz and does not make autonomous employment decisions. Your customer account already secures this session, so you can move directly into the ETSA acknowledgment and assessment flow.</p>
+      <div className={styles.actions}><Link className={styles.button} href="/etsa/notice">START ETSA ASSESSMENT</Link><Link className={styles.secondary} href="/portal">BACK TO CUSTOMER PORTAL</Link></div>
     </div>
   </div></main>;
 }
