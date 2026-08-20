@@ -4,11 +4,7 @@ export function proxy(request: NextRequest) {
   const access = request.cookies.get("etsa_access")?.value;
 
   if (access) return NextResponse.next();
-
-  const welcome = new URL("/welcome", request.url);
-  const requested = `${request.nextUrl.pathname}${request.nextUrl.search}`;
-  if (requested !== "/") welcome.searchParams.set("next", requested);
-  return NextResponse.redirect(welcome);
+  return NextResponse.redirect(new URL("/welcome", request.url));
 }
 
 export const config = {
