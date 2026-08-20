@@ -10,10 +10,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/welcome" },
 };
 
-export default async function WelcomePage({ searchParams }: { searchParams: Promise<{ next?: string }> }) {
-  const params = await searchParams;
-  const nextPath = params.next?.startsWith("/") ? params.next : "/portal";
-
+export default function WelcomePage() {
   return (
     <main className={styles.gateway}>
       <section className={styles.intro}>
@@ -42,7 +39,7 @@ export default async function WelcomePage({ searchParams }: { searchParams: Prom
         <div className={styles.accessVisual}>
           <Image src="/brand/approved/BPEI_POLAR_TECH_INTERFACE_HD.png" alt="P.O.L.A.R. customer access interface" fill sizes="(max-width: 900px) 100vw, 46vw" />
         </div>
-        <CustomerAuthPanel nextPath={nextPath === "/" ? "/portal" : nextPath} />
+        <CustomerAuthPanel nextPath="/portal" />
       </section>
     </main>
   );
