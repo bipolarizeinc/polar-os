@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import styles from "./CustomerAuthPanel.module.css";
 
 export function CustomerAuthPanel({ nextPath = "/portal" }: { nextPath?: string }) {
   const router = useRouter();
@@ -52,28 +53,28 @@ export function CustomerAuthPanel({ nextPath = "/portal" }: { nextPath?: string 
   }
 
   return (
-    <section className="customer-auth-panel" aria-label="Customer access">
-      <div className="customer-auth-tabs" role="tablist" aria-label="Account access mode">
+    <section className={styles.panel} aria-label="Customer access">
+      <div className={styles.tabs} role="tablist" aria-label="Account access mode">
         <button type="button" data-active={mode === "register"} onClick={() => { setMode("register"); setError(""); }}>CREATE ACCOUNT</button>
         <button type="button" data-active={mode === "login"} onClick={() => { setMode("login"); setError(""); }}>SIGN IN</button>
       </div>
 
-      <div className="customer-auth-copy">
-        <p className="eyebrow">SECURE CUSTOMER ACCESS // P.O.L.A.R. GATE</p>
+      <div className={styles.copy}>
+        <p className={styles.eyebrow}>SECURE CUSTOMER ACCESS // P.O.L.A.R. GATE</p>
         <h2>{mode === "register" ? "CREATE YOUR ACCESS." : "WELCOME BACK."}</h2>
         <p>{mode === "register"
           ? "Create one account to unlock the customer portal, BPEI divisions, ETSA™, services, and P.O.L.A.R. systems."
           : "Use the same email and password attached to your BPEI customer account."}</p>
       </div>
 
-      <form className="customer-auth-form" onSubmit={submit}>
+      <form className={styles.form} onSubmit={submit}>
         {mode === "register" && (
           <label>Full name<input name="fullName" autoComplete="name" required /></label>
         )}
         <label>Email<input name="email" type="email" autoComplete="email" required /></label>
         <label>Password<input name="password" type="password" minLength={8} autoComplete={mode === "login" ? "current-password" : "new-password"} required /></label>
-        {error && <div className="customer-auth-error" role="alert">{error}</div>}
-        <button className="primary-action customer-auth-submit" disabled={loading}>
+        {error && <div className={styles.error} role="alert">{error}</div>}
+        <button className={styles.submit} disabled={loading}>
           {loading ? "AUTHENTICATING…" : mode === "register" ? "CREATE ACCESS & ENTER PORTAL" : "SIGN IN & ENTER PORTAL"}
         </button>
       </form>
