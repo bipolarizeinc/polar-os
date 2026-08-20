@@ -50,7 +50,7 @@ export default function Home() {
   return (
     <PageShell>
         <section className="hero">
-          <Image className={styles.heroPolarBackdrop} src="/brand/launch-888/polar-corridor.png" alt="" fill priority sizes="100vw" />
+          <Image className={styles.heroPolarBackdrop} src="/brand/approved/BPEI_BRANDED_ENVIRONMENT_HD.png" alt="" fill priority sizes="100vw" />
           <div className="hero-energy fire" />
           <div className="hero-energy ice" />
           <div className="hero-grid">
@@ -90,7 +90,7 @@ export default function Home() {
         </section>
 
         <section className={styles.polarDirective}>
-          <div className={styles.directiveImage}><Image src="/brand/launch-888/polar-portrait.png" alt="P.O.L.A.R. enterprise intelligence companion with operational holograms" fill sizes="(max-width: 900px) 100vw, 45vw" /></div>
+          <div className={styles.directiveImage}><Image src="/brand/approved/BPEI_POLAR_TECH_INTERFACE_HD.png" alt="P.O.L.A.R. enterprise intelligence interface" fill sizes="(max-width: 900px) 100vw, 45vw" /></div>
           <div className={styles.directiveCopy}>
             <div className="section-index">P.O.L.A.R. DIRECTIVE // 01</div>
             <p className="eyebrow">THE FOUNDER IS THE SOURCE CODE</p>
@@ -136,7 +136,7 @@ export default function Home() {
 
         <section id="polar" className={styles.polarSection}>
           <div className={styles.polarInner}>
-            <div className={styles.polarVisual}><Image src="/brand/launch-888/polar-deep-scan.png" alt="P.O.L.A.R. performing deep structural analysis" fill sizes="(max-width: 900px) 90vw, 42vw" /></div>
+            <div className={styles.polarVisual}><Image src="/brand/approved/BPEI_LOBBY_INSTALLATION_HD.png" alt="P.O.L.A.R. inside the BI POLARIZE enterprise environment" fill sizes="(max-width: 900px) 90vw, 42vw" /></div>
             <div className={styles.polarCopy}>
               <div className="section-index">LEVEL 02 // P.O.L.A.R. CORE</div>
               <p className="eyebrow">PERSONALIZED OPERATIONS LIAISON AND AUTONOMOUS RETRIEVER</p>
@@ -161,9 +161,9 @@ export default function Home() {
             <Link href="/about" className="text-action">EXPLORE BI POLARIZE <span>→</span></Link>
           </div>
           <div className={styles.identityGallery}>
-            <figure className={styles.philosophyCard}><Image src="/brand/launch-888/brand-philosophy.png" alt="BI POLARIZE brand philosophy: Balancing extremes, creating possibilities" fill sizes="(max-width: 900px) 100vw, 52vw" /></figure>
-            <figure><Image src="/brand/launch-888/bipolarization-symbol.png" alt="Official Bipolarization symbol" fill sizes="(max-width: 900px) 50vw, 26vw" /></figure>
-            <figure><Image src="/brand/launch-888/executive-nameplate.png" alt="BI POLARIZE ENTERPRISES, INC. executive nameplate" fill sizes="(max-width: 900px) 50vw, 26vw" /></figure>
+            <figure className={styles.philosophyCard}><Image src="/brand/approved/BPEI_OFF_THE_WALL_CONCEPT_HD.png" alt="BI POLARIZE Off the Wall and Out of the Box concept" fill sizes="(max-width: 900px) 100vw, 52vw" /></figure>
+            <figure><Image src="/brand/approved/BPEI_OFFICIAL_CORPORATE_SEAL_HD.png" alt="Official BI POLARIZE corporate seal" fill sizes="(max-width: 900px) 50vw, 26vw" /></figure>
+            <figure><Image src="/brand/approved/BPEI_CORPORATE_FLAG_HD.png" alt="Official BI POLARIZE corporate flag" fill sizes="(max-width: 900px) 50vw, 26vw" /></figure>
           </div>
         </section>
 
@@ -177,7 +177,7 @@ export default function Home() {
         </div></section>
 
         <section className={styles.polarField}>
-          <Image src="/brand/launch-888/brand-philosophy.png" alt="BI POLARIZE Off the Wall and Out of the Box philosophy" fill sizes="100vw" />
+          <Image src="/brand/approved/BPEI_OFF_THE_WALL_CONCEPT_HD.png" alt="BI POLARIZE Off the Wall and Out of the Box concept" fill sizes="100vw" />
           <div><p className="eyebrow">OFF THE WALL AND OUT OF THE BOX</p><h2>COMPLEXITY IS A FEATURE.<br /><em>NOT A BUG.</em></h2></div>
         </section>
 
