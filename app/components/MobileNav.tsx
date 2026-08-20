@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import styles from "./MobileNav.module.css";
 
 const links = [
+  ["Portal", "/portal"],
   ["Home", "/"],
   ["Divisions", "/#products"],
   ["Services", "/services"],
@@ -39,7 +40,7 @@ export function MobileNav() {
       <div className={styles.panel} data-open={open ? "true" : "false"}>
         <nav aria-label="Mobile navigation">
           {links.map(([label, href]) => (
-            <Link key={href} href={href} onClick={close}>{label}</Link>
+            <Link key={`${label}-${href}`} href={href} onClick={close}>{label}</Link>
           ))}
           <Link href="/intake" className={styles.cta} onClick={close}>
             TELL US ABOUT YOUR THING
