@@ -6,6 +6,7 @@ import { AmbientAudio } from "./components/AmbientAudio";
 import { PolarExperience } from "./components/PolarExperience";
 import "./globals.css";
 import "./brand-enhancements.css";
+import "./customer-experience.css";
 
 const siteUrl = "https://www.polarpaw.online";
 
@@ -60,15 +61,15 @@ export const metadata: Metadata = {
     locale: "en_US",
     type: "website",
     images: [{
-      url: "/brand/launch-888/polar-corridor.png",
-      alt: "P.O.L.A.R. inside the BI POLARIZE enterprise environment",
+      url: "/brand/approved/BPEI_BRANDED_ENVIRONMENT_HD.png",
+      alt: "BI POLARIZE enterprise environment powered by P.O.L.A.R.",
     }],
   },
   twitter: {
     card: "summary_large_image",
     title: "BI POLARIZE ENTERPRISES, INC.",
     description: "All the Business for Your Business. Tell Us About Your Thing.",
-    images: ["/brand/launch-888/polar-corridor.png"],
+    images: ["/brand/approved/BPEI_BRANDED_ENVIRONMENT_HD.png"],
   },
   robots: {
     index: true,
@@ -133,8 +134,8 @@ const websiteSchema = {
   description: "Innovation infrastructure, business architecture, AI systems, documentation, branding, automation, media, and the Bipolarized Blueprint™.",
   potentialAction: {
     "@type": "CommunicateAction",
-    target: `${siteUrl}/intake`,
-    name: "Tell Us About Your Thing",
+    target: `${siteUrl}/welcome`,
+    name: "Enter the BI POLARIZE customer system",
   },
 };
 
@@ -142,18 +143,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(founderSchema) }}
-        />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(founderSchema) }} />
         <PolarExperience />
         {children}
         <AmbientAudio />
