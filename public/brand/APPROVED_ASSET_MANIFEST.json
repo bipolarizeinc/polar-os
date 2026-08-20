@@ -1,0 +1,18 @@
+{
+  "schema": "BPEI_APPROVED_ASSET_MANIFEST_V1",
+  "effectiveDate": "2026-08-18",
+  "sourceOfTruth": "Google Drive full-resolution approved masters",
+  "deploymentPolicy": "GitHub/Vercel/Supabase receive web-optimized derivatives generated only from approved Drive masters. Legacy brand files not listed as approved are purge candidates.",
+  "divisionLogos": [
+    {"division":"Sav.VidzGen","sourceFile":"SavVidzGen_APPROVED_LOGO.jpeg","driveId":"1Xbdt5PHbg6TwfR6RApC-YwIkHUgsdaB5","sourceSha256":"93428918f505e6bab36f11aeaa4c7d4f95f5d3937cb2e8696692b50e291d5f76","deploymentFile":"SavVidzGen_APPROVED_LOGO.webp"},
+    {"division":"Dr.Docx","sourceFile":"DrDocx_APPROVED_LOGO.jpeg","driveId":"14krjWJr_hZxroDLQjfzIdLevakw7g2tA","sourceSha256":"cfda34279dae74479725eb968fedfa0fa49c4bc6d7beafb81e44bd0e45d61836","deploymentFile":"DrDocx_APPROVED_LOGO.webp"},
+    {"division":"Blueprint","sourceFile":"Blueprint_APPROVED_LOGO.jpeg","driveId":"1LU-yt8aeozOhYgpzf-qKuO_jJ28h4mwn","sourceSha256":"02cdf7455deebc7d81f3ff21dd695d07be550935614206c18fa316bb10b96ff4","deploymentFile":"Blueprint_APPROVED_LOGO.webp"},
+    {"division":"BrandForge","sourceFile":"BrandForge_APPROVED_LOGO.jpeg","driveId":"1-r2FEbmnllOXPNcPcZhQZMHfiyMjew9n","sourceSha256":"1fdf6d9aafddb1603210efc2c0e342d8b7154b8a667f5d60f8660a153d6e31c4","deploymentFile":"BrandForge_APPROVED_LOGO.webp"},
+    {"division":"LaunchPad","sourceFile":"LaunchPad_APPROVED_LOGO.jpeg","driveId":"1wtJWtCFeaPhmVVFGk-hA7uheqKZyzzuR","sourceSha256":"2e5294e49aa8a8b636f0e8a712ac761112d79bd14113714194869eedf264bad4","deploymentFile":"LaunchPad_APPROVED_LOGO.webp"},
+    {"division":"Nexus","sourceFile":"Nexus_APPROVED_LOGO.jpeg","driveId":"1haumiwDUxrUuyydjA8rnDGCHkFQV-3IK","sourceSha256":"be5b4842c5ff1840e995bab73270024325643de123d6c50c17a38b9e450f8871","deploymentFile":"Nexus_APPROVED_LOGO.webp"},
+    {"division":"Pulse","sourceFile":"Pulse_APPROVED_LOGO.jpeg","driveId":"1YZLEyyKqnLr_bg9aMH5wny_9a-m07p2Q","sourceSha256":"1e93f10f091257cab4daff0a8aa2d4546a410831b1fe2171421f6aa6c2ad12d5","deploymentFile":"Pulse_APPROVED_LOGO.webp"},
+    {"division":"Vault","sourceFile":"Vault_APPROVED_LOGO.jpeg","driveId":"1wxJoQIPLjPAmJswKwM8DS3aUX3x2Cumc","sourceSha256":"60f23888858f2f24cddb47ffe620b03599616245548b6714ac23a5c3bd55d9f1","deploymentFile":"Vault_APPROVED_LOGO.webp"},
+    {"division":"Cipher","sourceFile":"Cipher_APPROVED_LOGO.jpeg","driveId":"1WMEdVZEG5wMtsi1Iffpe26N4wYbCKjxd","sourceSha256":"d5f7c9c153cf513f76363fe1857eed40ae239c15306884f75ed67a0b559b7fa0","deploymentFile":"Cipher_APPROVED_LOGO.webp"}
+  ],
+  "deploymentDerivative": {"format":"webp","maxDimension":220,"quality":55}
+}
