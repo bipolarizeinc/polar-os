@@ -9,12 +9,10 @@ export function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/",
     "/portal/:path*",
-    "/services/:path*",
-    "/etsa/:path*",
-    "/about/:path*",
-    "/contact/:path*",
-    "/intake/:path*",
+    "/etsa/assessment/:path*",
+    "/etsa/notice/:path*",
+    "/etsa/results/:path*",
+    "/etsa/unlock/:path*",
   ],
 };
