@@ -6,7 +6,7 @@ import styles from "./welcome.module.css";
 export const metadata: Metadata = {
   title: "Welcome",
   description: "Enter the BI POLARIZE customer gateway, meet P.O.L.A.R., and access the customer portal.",
-  robots: { index: true, follow: true },
+  robots: { index: false, follow: true },
   alternates: { canonical: "/welcome" },
 };
 
