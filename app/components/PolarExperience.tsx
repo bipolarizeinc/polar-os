@@ -19,8 +19,9 @@ const STORAGE = {
   reducedMotion: "polar:reduced-motion:v1",
 };
 
-const INTRO_VIDEO = "/media/polar/01_POLAR_Greeting.mp4";
-const IDLE_VIDEO = "/media/polar/08_POLAR_Idle_Inquiry.mp4";
+const INTRO_VIDEO = "/media/polar-intro.mp4";
+const IDLE_VIDEO = "/media/polar/07_Intake_Transition.mp4";
+const POLAR_POSTER = "/brand/launch-888/polar-portrait.png";
 
 const TRANSITIONS: Record<ModuleKey, Transition> = {
   products: { title: "P.O.L.A.R. MODULE NETWORK", subtitle: "ACCESSING PRODUCT SYSTEMS", video: "/media/polar/02_Products_Transition.mp4" },
@@ -34,16 +35,6 @@ const TRANSITIONS: Record<ModuleKey, Transition> = {
 function resolveModule(target: HTMLAnchorElement): ModuleKey | null {
   const explicit = target.dataset.polarModule as ModuleKey | undefined;
   if (explicit && explicit in TRANSITIONS) return explicit;
-
-  const href = target.getAttribute("href")?.toLowerCase() ?? "";
-  const text = target.textContent?.toLowerCase() ?? "";
-
-  if (text.includes("blueprint")) return "blueprint";
-  if (text.includes("dr.docx") || text.includes("doctor doc")) return "drdocx";
-  if (text.includes("nexus")) return "nexus";
-  if (href.includes("#products") || href.includes("/services") || text.includes("product")) return "products";
-  if (href.includes("/about") || text.includes("founder")) return "about";
-  if (href.includes("/contact") || href.includes("/intake") || text.includes("intake") || text.includes("tell us")) return "intake";
   return null;
 }
 
@@ -153,7 +144,7 @@ export function PolarExperience() {
     <>
       {introOpen && (
         <section className={`${styles.overlay} ${videoStyles.videoOverlay} ${reducedMotion ? styles.reduced : ""}`} aria-label="P.O.L.A.R. introduction">
-          <video key={`intro-${introReplayKey}`} className={videoStyles.fullVideo} src={INTRO_VIDEO} autoPlay playsInline muted={!soundEnabled} preload="auto" onEnded={closeIntro} onError={closeIntro} />
+          <video key={`intro-${introReplayKey}`} className={videoStyles.fullVideo} src={INTRO_VIDEO} poster={POLAR_POSTER} autoPlay playsInline muted={!soundEnabled} preload="auto" onEnded={closeIntro} onError={closeIntro} />
           <div className={videoStyles.videoShade} aria-hidden="true" />
           <div className={videoStyles.videoStatus}>POLAR OS // SYSTEM READY</div>
           <div className={styles.controls}>
@@ -165,7 +156,7 @@ export function PolarExperience() {
 
       {activeTransition && (
         <section className={`${styles.overlay} ${videoStyles.videoOverlay} ${reducedMotion ? styles.reduced : ""}`} aria-live="polite">
-          <video className={videoStyles.fullVideo} src={activeTransition.video} autoPlay playsInline muted={!soundEnabled} preload="auto" onEnded={completeNavigation} onError={completeNavigation} />
+          <video className={videoStyles.fullVideo} src={activeTransition.video} poster={POLAR_POSTER} autoPlay playsInline muted={!soundEnabled} preload="auto" onEnded={completeNavigation} onError={completeNavigation} />
           <div className={videoStyles.videoShade} aria-hidden="true" />
           <div className={videoStyles.moduleLabel}>
             <small>POLAR OS // MODULE ACCESS</small>
@@ -178,7 +169,7 @@ export function PolarExperience() {
       {idleOpen && !introOpen && !activeTransition && (
         <aside className={styles.idle} role="status">
           <button type="button" aria-label="Dismiss P.O.L.A.R. check-in" onClick={resetIdle}>×</button>
-          <video className={videoStyles.idleVideo} src={IDLE_VIDEO} autoPlay playsInline muted={!soundEnabled} preload="metadata" />
+          <video className={videoStyles.idleVideo} src={IDLE_VIDEO} poster={POLAR_POSTER} autoPlay playsInline muted={!soundEnabled} preload="metadata" />
           <small>P.O.L.A.R. // PRESENCE CHECK</small>
           <h2>UMMM… ARE YOU OKAY?</h2>
           <p>Is everything alright? You can always tell me about your thing, idea, or issue directly.</p>

@@ -101,7 +101,7 @@ export default function Home() {
         </section>
 
         <section className={styles.transitionBand} aria-label="P.O.L.A.R. division transition">
-          <DeferredVideo src="/media/polar/02_Products_Transition.mp4" />
+          <DeferredVideo src="/media/polar/02_Products_Transition.mp4" poster="/brand/launch-888/polar-deep-scan.png" />
           <div><span>P.O.L.A.R. ROUTING</span><strong>ENTERING DIVISION NETWORK</strong></div>
         </section>
 
@@ -126,7 +126,15 @@ export default function Home() {
                     <span className={styles.productCode}>{code} // {featured ? "FLAGSHIP ENTRY POINT" : "P.O.L.A.R. LINKED"}</span>
                     <h3>{name}</h3>
                     <p>{description}</p>
-                    <Link href={href}>{featured ? "START WITH BLUEPRINT →" : "OPEN DIVISION →"}</Link>
+                    <Link
+                      href={href}
+                      aria-label={`Open ${name}`}
+                      style={{ position: "absolute", inset: 0, zIndex: 3, marginTop: 0 }}
+                    >
+                      <span style={{ position: "absolute", left: 30, bottom: 30 }}>
+                        {featured ? "START WITH BLUEPRINT →" : "OPEN DIVISION →"}
+                      </span>
+                    </Link>
                   </article>
                 );
               })}
@@ -182,7 +190,7 @@ export default function Home() {
         </section>
 
         <section className={styles.transitionBand} aria-label="Bipolarized Blueprint transition">
-          <DeferredVideo src="/media/polar/03_Blueprint_Transition.mp4" />
+          <DeferredVideo src="/media/polar/03_Blueprint_Transition.mp4" poster="/brand/divisions/polar/blueprint.webp" />
           <div><span>FLAGSHIP SYSTEM</span><strong>BLUEPRINT EXTRACTION READY</strong></div>
         </section>
 
@@ -207,7 +215,7 @@ export default function Home() {
         </section>
 
         <section className={`cta-section ${styles.videoCta}`}>
-          <DeferredVideo className={styles.ctaVideo} src="/media/polar/07_Intake_Transition.mp4" />
+          <DeferredVideo className={styles.ctaVideo} src="/media/polar/07_Intake_Transition.mp4" poster="/brand/launch-888/polar-corridor.png" />
           <div className="cta-mark"><Image src="/brand/bipolarization-symbol.png" alt="" fill sizes="370px" /></div>
           <p className="eyebrow">P.O.L.A.R. INTAKE CHANNEL // OPEN 24 HOURS</p>
           <h2>TELL US ABOUT<br /><em>YOUR THING.</em></h2>

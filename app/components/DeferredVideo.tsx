@@ -5,11 +5,15 @@ import { useEffect, useRef, useState } from "react";
 type DeferredVideoProps = {
   src: string;
   className?: string;
+  poster?: string;
+  controls?: boolean;
+  label?: string;
 };
 
-export function DeferredVideo({ src, className }: DeferredVideoProps) {
+export function DeferredVideo({ src, className, poster, controls = false, label }: DeferredVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [shouldLoad, setShouldLoad] = useState(false);
+  const [failed, setFailed] = useState(false);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -38,12 +42,18 @@ export function DeferredVideo({ src, className }: DeferredVideoProps) {
       ref={videoRef}
       className={className}
       src={shouldLoad ? src : undefined}
-      autoPlay={shouldLoad}
+      poster={poster}
+      autoPlay={shouldLoad && !controls}
       muted
       loop
       playsInline
-      preload="none"
-      aria-hidden="true"
+      preload={controls ? "metadata" : "none"}
+      controls={controls && shouldLoad && !failed}
+      aria-label={label}
+      aria-hidden={label ? undefined : true}
+      data-media-status={failed ? "fallback" : shouldLoad ? "loading" : "deferred"}
+      onCanPlay={() => setFailed(false)}
+      onError={() => setFailed(true)}
     />
   );
 }

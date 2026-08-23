@@ -24,15 +24,15 @@ const directServices = [
 ] as const;
 
 const divisions = [
-  { slug: "sav-vidzgen", name: "Sav.VidzGen™", code: "SVG-001", description: "Commercials, explainers, social video, branded media, and AI-assisted production systems.", tags: ["Video", "Explainers", "Commercials", "Social Media", "AI Production"] },
-  { slug: "dr-docx", name: "Dr.Docx™", code: "DOC-001", description: "SOPs, policies, agreements, manuals, proposals, and enterprise knowledge systems.", tags: ["Documents", "SOPs", "Policies", "Proposals", "Knowledge Systems"] },
-  { slug: "blueprint", name: "Blueprint™", code: "BLP-001", description: "Flagship business architecture that converts founder intelligence into an executable operating model.", tags: ["Architecture", "Business Plans", "Strategy", "Operations", "Flagship"] },
-  { slug: "brandforge", name: "BrandForge™", code: "BRF-001", description: "Identity engineering, visual systems, brand standards, campaigns, and production assets.", tags: ["Branding", "Identity", "Marketing", "Campaigns", "Creative"] },
-  { slug: "launchpad", name: "LaunchPad™", code: "LCH-001", description: "Formation, registration, compliance, banking readiness, and operational business setup.", tags: ["Formation", "Compliance", "EIN", "Banking", "Business Credit"] },
-  { slug: "nexus", name: "Nexus™", code: "NXS-001", description: "AI agents, integrations, APIs, CRM systems, websites, client portals, and workflow automation.", tags: ["AI", "Automation", "Websites", "CRM", "Integrations"] },
-  { slug: "pulse", name: "Pulse™", code: "PLS-001", description: "Dashboards, KPIs, forecasts, reporting, analytics, and executive business intelligence.", tags: ["Analytics", "KPIs", "Forecasting", "Dashboards", "Intelligence"] },
-  { slug: "vault", name: "Vault™", code: "VLT-001", description: "Institutional memory, governed archives, knowledge graphs, version control, and asset registries.", tags: ["Archives", "Knowledge", "Version Control", "Registers", "Institutional Memory"] },
-  { slug: "cipher", name: "Cipher™", code: "CPH-001", description: "Cybersecurity architecture, identity protection, compliance, monitoring, and digital defense.", tags: ["Security", "Identity", "Monitoring", "Compliance", "Defense"] },
+  { slug: "sav-vidzgen", name: "Sav.VidzGen™", code: "SVG-001", description: "Commercials, explainers, social video, branded media, and AI-assisted production systems.", tags: ["Video", "Explainers", "Commercials", "Social Media", "AI Production"], poster: "/brand/divisions/polar/sav-vidzgen.webp" },
+  { slug: "dr-docx", name: "Dr.Docx™", code: "DOC-001", description: "SOPs, policies, agreements, manuals, proposals, and enterprise knowledge systems.", tags: ["Documents", "SOPs", "Policies", "Proposals", "Knowledge Systems"], poster: "/brand/divisions/polar/dr-docx.webp" },
+  { slug: "blueprint", name: "Blueprint™", code: "BLP-001", description: "Flagship business architecture that converts founder intelligence into an executable operating model.", tags: ["Architecture", "Business Plans", "Strategy", "Operations", "Flagship"], poster: "/brand/divisions/polar/blueprint.webp" },
+  { slug: "brandforge", name: "BrandForge™", code: "BRF-001", description: "Identity engineering, visual systems, brand standards, campaigns, and production assets.", tags: ["Branding", "Identity", "Marketing", "Campaigns", "Creative"], poster: "/brand/divisions/polar/brandforge.webp" },
+  { slug: "launchpad", name: "LaunchPad™", code: "LCH-001", description: "Formation, registration, compliance, banking readiness, and operational business setup.", tags: ["Formation", "Compliance", "EIN", "Banking", "Business Credit"], poster: "/brand/divisions/polar/launchpad.webp" },
+  { slug: "nexus", name: "Nexus™", code: "NXS-001", description: "AI agents, integrations, APIs, CRM systems, websites, client portals, and workflow automation.", tags: ["AI", "Automation", "Websites", "CRM", "Integrations"], poster: "/brand/divisions/polar/nexus.webp" },
+  { slug: "pulse", name: "Pulse™", code: "PLS-001", description: "Dashboards, KPIs, forecasts, reporting, analytics, and executive business intelligence.", tags: ["Analytics", "KPIs", "Forecasting", "Dashboards", "Intelligence"], poster: "/brand/divisions/polar/pulse.webp" },
+  { slug: "vault", name: "Vault™", code: "VLT-001", description: "Institutional memory, governed archives, knowledge graphs, version control, and asset registries.", tags: ["Archives", "Knowledge", "Version Control", "Registers", "Institutional Memory"], poster: "/brand/divisions/polar/vault.webp" },
+  { slug: "cipher", name: "Cipher™", code: "CPH-001", description: "Cybersecurity architecture, identity protection, compliance, monitoring, and digital defense.", tags: ["Security", "Identity", "Monitoring", "Compliance", "Defense"], poster: "/brand/divisions/polar/cipher.webp" },
 ] as const;
 
 export default function ServicesPage() {
@@ -76,8 +76,8 @@ export default function ServicesPage() {
           {divisions.map((division) => (
             <section id={division.slug} key={division.slug} className="division-service-block division-service-block-media">
               <div className="division-polar-transmission">
-                <DeferredVideo src={`/media/polar/products/${division.slug}.mp4`} />
-                <div className="division-transmission-label"><span>{division.name} // P.O.L.A.R.</span><span>TRANSMISSION ACTIVE</span></div>
+                <DeferredVideo src={`/media/polar/products/${division.slug}.mp4`} poster={division.poster} controls label={`${division.name} P.O.L.A.R. transmission`} />
+                <div className="division-transmission-label"><span>{division.name} // P.O.L.A.R.</span><span>PLAY TRANSMISSION</span></div>
               </div>
               <div className="division-service-copy">
                 <div className="section-index">{division.code} // P.O.L.A.R. LINKED DIVISION</div>

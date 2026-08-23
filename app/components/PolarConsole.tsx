@@ -13,7 +13,7 @@ const transmissions = [
 ];
 
 const modules = ["RESEARCH", "ARCHITECTURE", "DOCUMENTATION", "DEPLOYMENT"];
-const approvedGreeting = "/media/polar/01_POLAR_Greeting.mp4";
+const approvedGreeting = "/media/polar-intro.mp4";
 
 export function PolarConsole() {
   const [messageIndex, setMessageIndex] = useState(0);
