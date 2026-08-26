@@ -1,0 +1,907 @@
+{
+  "schema_version": "1.0",
+  "source_of_truth": "Google Drive / 03_MEDIA/IMAGES",
+  "source_folder_id": "1TJZ_aEq_dlFrajnM6ACJLJpftBPLo-9b",
+  "division_folder_id": "1EKB06agoVGRwEE8RVwpj-asCpxes96E8",
+  "founder_folder_id": "1SnLukQ4nHoyVhm0_gNmGUB-rBGRIEBdr",
+  "synced_at": "2026-08-26T00:00:00Z",
+  "counts": {
+    "master_images": 78,
+    "division_logos": 9,
+    "founder_images": 2,
+    "total": 89
+  },
+  "policy": "Drive is authoritative. Existing production media paths are preserved unless explicitly replaced by a mapped approved asset.",
+  "assets": [
+    {
+      "name": "BPEI_APPROVED_BIPOLARIZED_BLUEPRINT_ENTERPRISE_INFOGRAPHIC_HD.png",
+      "drive_file_id": "10XiQDN8Bdpc-D3RFp-DBzeKDgDvGhMXq",
+      "mime_type": "image/png",
+      "size_bytes": 2296078,
+      "modified_time": "2026-08-11T21:50:40.825Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/BPEI_APPROVED_BIPOLARIZED_BLUEPRINT_ENTERPRISE_INFOGRAPHIC_HD.png",
+      "git_blob_sha": "b182166311c981b98fa9a43354e02a0c208c97d2"
+    },
+    {
+      "name": "BPEI_APPROVED_POLAR_CORPORATE_LOGO_ENERGY_HD.png",
+      "drive_file_id": "1wfGNmzFhlluDyZfE8gy4ztR8093l5jzt",
+      "mime_type": "image/png",
+      "size_bytes": 2317046,
+      "modified_time": "2026-08-11T21:51:35.656Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/BPEI_APPROVED_POLAR_CORPORATE_LOGO_ENERGY_HD.png",
+      "git_blob_sha": "69335a17e7fbd7f2e5805e6c9e07c3f835aa9ff1"
+    },
+    {
+      "name": "BPEI_BRANDED_ENVIRONMENT_HD.png",
+      "drive_file_id": "1WiDkp0qnoh_3Ck6nCp_XCQCpzlaMWpRv",
+      "mime_type": "image/png",
+      "size_bytes": 2037737,
+      "modified_time": "2026-08-02T12:31:37.824Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/BPEI_BRANDED_ENVIRONMENT_HD.png",
+      "git_blob_sha": "fb7880bb4f61dce95811ec3d5be915dc467ab580"
+    },
+    {
+      "name": "BPEI_BUILDING_SIGNAGE_HD.png",
+      "drive_file_id": "184gH4V2sPgXbJZS4oEbN4QEJ_ojiAjiJ",
+      "mime_type": "image/png",
+      "size_bytes": 1811212,
+      "modified_time": "2026-08-02T12:31:58.983Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/BPEI_BUILDING_SIGNAGE_HD.png",
+      "git_blob_sha": "5ddba28442964a625344725a3d59365cd03e0882"
+    },
+    {
+      "name": "BPEI_CORPORATE_FLAG_HD.png",
+      "drive_file_id": "1ClcKJWN93I3vhbsiqUlxmG1x1A_G-BL2",
+      "mime_type": "image/png",
+      "size_bytes": 1816473,
+      "modified_time": "2026-08-02T12:32:17.793Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/BPEI_CORPORATE_FLAG_HD.png",
+      "git_blob_sha": "4f883be1f6b9a1d5d92b9a4beca63e32e01c42bd"
+    },
+    {
+      "name": "BPEI_CORPORATE_HD_CONTACT_SHEET.jpg",
+      "drive_file_id": "1G9lW7j7sYwDLXA-F6UV8embY8JIr7AN5",
+      "mime_type": "image/jpeg",
+      "size_bytes": 417480,
+      "modified_time": "2026-08-02T12:37:03.600Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/BPEI_CORPORATE_HD_CONTACT_SHEET.jpg",
+      "git_blob_sha": "38186dad3e26603fe66c5fdf98823b193ae8e903"
+    },
+    {
+      "name": "BPEI_DUALITY_EMBLEM_ICE_FIRE_MOUNTAIN.png",
+      "drive_file_id": "1yv8Boi4tcOcxwd_0tpZTKIwqik36_Mra",
+      "mime_type": "image/png",
+      "size_bytes": 1178813,
+      "modified_time": "2026-08-26T02:50:55.588Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/BPEI_DUALITY_EMBLEM_ICE_FIRE_MOUNTAIN.png",
+      "git_blob_sha": "7e267fbed3c028782340a9b11f53accef1d018af"
+    },
+    {
+      "name": "BPEI_DUALITY_ICE_AND_FIRE_LANDSCAPE.png",
+      "drive_file_id": "1XHDF22fyjPxhU4oH8u_jB00W8Gox6sGP",
+      "mime_type": "image/png",
+      "size_bytes": 851473,
+      "modified_time": "2026-08-26T02:50:54.843Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/BPEI_DUALITY_ICE_AND_FIRE_LANDSCAPE.png",
+      "git_blob_sha": "679902165fc3b59be41334556725dcd72c61a196"
+    },
+    {
+      "name": "BPEI_DUALITY_LOGO_WALL_POSTER.png",
+      "drive_file_id": "18uImvPXLJRb_XGXB0tF7ACtp7EHoCtMJ",
+      "mime_type": "image/png",
+      "size_bytes": 2018914,
+      "modified_time": "2026-08-26T02:50:37.883Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/BPEI_DUALITY_LOGO_WALL_POSTER.png",
+      "git_blob_sha": "30c9972a547b6b4e1e5d09bb16162fdd3224a224"
+    },
+    {
+      "name": "BPEI_DUALITY_MIRRORED_FIGURE_ICE_FIRE.png",
+      "drive_file_id": "1dMw_A5AeCmbsa0HCfdtgiqPRweP9bYc5",
+      "mime_type": "image/png",
+      "size_bytes": 1414963,
+      "modified_time": "2026-08-26T02:50:57.840Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/BPEI_DUALITY_MIRRORED_FIGURE_ICE_FIRE.png",
+      "git_blob_sha": "9b20f4d98b6147f682a045d9e03721d637c8ef5a"
+    },
+    {
+      "name": "BPEI_LAUNCHPAD_REVENUE_STRESS_CONCEPT.png",
+      "drive_file_id": "12krPVI1WdAD3yrL6uTT1lj52uugKY5UH",
+      "mime_type": "image/png",
+      "size_bytes": 3806879,
+      "modified_time": "2026-08-26T02:50:39.562Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/BPEI_LAUNCHPAD_REVENUE_STRESS_CONCEPT.png",
+      "git_blob_sha": "2fe50f00e817591311ef41f140deaa9d8b9e6fb2"
+    },
+    {
+      "name": "BPEI_LEGACY_LOGO_BLACK_ON_WHITE.png",
+      "drive_file_id": "1nVIFite2IGPkmak_mcBIWp4CPnQTSukR",
+      "mime_type": "image/png",
+      "size_bytes": 26419,
+      "modified_time": "2026-08-26T02:50:54.289Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/BPEI_LEGACY_LOGO_BLACK_ON_WHITE.png",
+      "git_blob_sha": "58171f3a3481f8dd5b87c98aea051d0187dc9793"
+    },
+    {
+      "name": "BPEI_LEGACY_LOGO_GOLD_ON_BLACK.png",
+      "drive_file_id": "1FPBHf_2myjlQYF6VXrj_wiE-6i1__f-Q",
+      "mime_type": "image/png",
+      "size_bytes": 117409,
+      "modified_time": "2026-08-26T02:50:52.594Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/BPEI_LEGACY_LOGO_GOLD_ON_BLACK.png",
+      "git_blob_sha": "6b5e0fd6543bf8ff4322db49a816290574824510"
+    },
+    {
+      "name": "BPEI_LEGACY_LOGO_GOLD_ON_WHITE.png",
+      "drive_file_id": "1cCdZa7QBLB84tnq-MV60HDiv-9CYSSKL",
+      "mime_type": "image/png",
+      "size_bytes": 96899,
+      "modified_time": "2026-08-26T02:50:56.319Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/BPEI_LEGACY_LOGO_GOLD_ON_WHITE.png",
+      "git_blob_sha": "75b169fc4fa1d33a169da3c95c9ed1ef2127f516"
+    },
+    {
+      "name": "BPEI_LEGACY_LOGO_WHITE_ON_BLACK.png",
+      "drive_file_id": "1z7wjKGlSDP6S0jBclbUu9hB9CzLZhZOo",
+      "mime_type": "image/png",
+      "size_bytes": 42414,
+      "modified_time": "2026-08-26T02:50:57.139Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/BPEI_LEGACY_LOGO_WHITE_ON_BLACK.png",
+      "git_blob_sha": "355a32abdc247a671e7005791d40c918fea150cd"
+    },
+    {
+      "name": "BPEI_LOBBY_ENTRYWAY_INSTALLATION.png",
+      "drive_file_id": "1_8kT5ODBfMGhNalMKzrHivrCF-IaqBvY",
+      "mime_type": "image/png",
+      "size_bytes": 1576952,
+      "modified_time": "2026-08-26T02:50:41.959Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/BPEI_LOBBY_ENTRYWAY_INSTALLATION.png",
+      "git_blob_sha": "0b8450446392c0429a397bfda5ad3ad3634af55e"
+    },
+    {
+      "name": "BPEI_LOBBY_INSTALLATION_HD.png",
+      "drive_file_id": "1-YxGJ5xyFoJiK2rO301V0_CgrVbb0H9U",
+      "mime_type": "image/png",
+      "size_bytes": 2046379,
+      "modified_time": "2026-08-02T12:31:53.171Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/BPEI_LOBBY_INSTALLATION_HD.png",
+      "git_blob_sha": "e0cedcee59dbc5075982f453f54b9ded2033473e"
+    },
+    {
+      "name": "BPEI_MAD_SCIENTIST_POLAR_CONCEPT.png",
+      "drive_file_id": "1eSFcydrUf4Q2m8famascX-qsuYGR8HrW",
+      "mime_type": "image/png",
+      "size_bytes": 4294112,
+      "modified_time": "2026-08-26T02:50:46.959Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/BPEI_MAD_SCIENTIST_POLAR_CONCEPT.png",
+      "git_blob_sha": "0526f3a29244be8f21819873901aee63e950bb0f"
+    },
+    {
+      "name": "BPEI_OFF_THE_WALL_CONCEPT_HD.png",
+      "drive_file_id": "1nbANX6YGkk7xRfahsOJ9n8nMA4U6MkLo",
+      "mime_type": "image/png",
+      "size_bytes": 2489885,
+      "modified_time": "2026-08-02T12:32:30.931Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/BPEI_OFF_THE_WALL_CONCEPT_HD.png",
+      "git_blob_sha": "2bb14bc6665b6fbf465aa158404a62063274c953"
+    },
+    {
+      "name": "BPEI_OFF_THE_WALL_ENERGY_POSTER.png",
+      "drive_file_id": "19sP3JUmRaV8Y_0KBRy4qnYKWE58OEhay",
+      "mime_type": "image/png",
+      "size_bytes": 1808114,
+      "modified_time": "2026-08-26T02:50:36.951Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/BPEI_OFF_THE_WALL_ENERGY_POSTER.png",
+      "git_blob_sha": "d2ef4e2ad2e57ff7791c144d3dab82a6127465c1"
+    },
+    {
+      "name": "BPEI_OFFICIAL_CORPORATE_SEAL_HD.png",
+      "drive_file_id": "1pBbyc4z5LrypyoyuzoQihOQwq6isKaGN",
+      "mime_type": "image/png",
+      "size_bytes": 1833226,
+      "modified_time": "2026-08-02T12:31:47.343Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/BPEI_OFFICIAL_CORPORATE_SEAL_HD.png",
+      "git_blob_sha": "9a6375c32d21d5f8a05267de787b294078fb4acf"
+    },
+    {
+      "name": "BPEI_ORIGINAL_HAND_DRAWN_CONCEPT_SKETCH.jpg",
+      "drive_file_id": "15EMH6-PUIti8QiNxl_X15cQM8m5SDxHD",
+      "mime_type": "image/jpeg",
+      "size_bytes": 2168271,
+      "modified_time": "2026-08-26T02:50:43.053Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/BPEI_ORIGINAL_HAND_DRAWN_CONCEPT_SKETCH.jpg",
+      "git_blob_sha": "5c05470f614f330744058b0b4b5939f1f2cb24eb"
+    },
+    {
+      "name": "BPEI_POLAR_TECH_INTERFACE_HD.png",
+      "drive_file_id": "10bMlMQRIXI4oa2DbQeyTl7fh2TF0vgK9",
+      "mime_type": "image/png",
+      "size_bytes": 1646651,
+      "modified_time": "2026-08-02T12:32:24.754Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/BPEI_POLAR_TECH_INTERFACE_HD.png",
+      "git_blob_sha": "ee75247a48556c6dd1b3336f1333ccea54dea77e"
+    },
+    {
+      "name": "BPEI_PRIMARY_CORPORATE_LOGO_HD.png",
+      "drive_file_id": "1tuPLjYPxvq3WvjmkFGkRim2PqtXLFRHP",
+      "mime_type": "image/png",
+      "size_bytes": 1149457,
+      "modified_time": "2026-08-02T12:32:11.760Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/BPEI_PRIMARY_CORPORATE_LOGO_HD.png",
+      "git_blob_sha": "8473d58943699d650c2e6d5815ecc4fe9c7b626e"
+    },
+    {
+      "name": "BPEI_SEAL_OF_BIPOLARIZATION_DUAL_MEDALLIONS.png",
+      "drive_file_id": "1r6Plwt_LHgJVj7x7FYYlSzxr-pbPasjs",
+      "mime_type": "image/png",
+      "size_bytes": 3151913,
+      "modified_time": "2026-08-26T02:50:38.683Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/BPEI_SEAL_OF_BIPOLARIZATION_DUAL_MEDALLIONS.png",
+      "git_blob_sha": "034daa320448b65ee0ef290d28f609184236389b"
+    },
+    {
+      "name": "BPEI_WEBSITE_ABOUT_BANNER_APPROVED.png",
+      "drive_file_id": "1h_f55PptNiG44n4MelvNW2h1HFhmrvxA",
+      "mime_type": "image/png",
+      "size_bytes": 1353164,
+      "modified_time": "2026-08-05T10:43:01.075Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/BPEI_WEBSITE_ABOUT_BANNER_APPROVED.png",
+      "git_blob_sha": "65eaf8b6a957d1293a39caaea8fac683445d64c2"
+    },
+    {
+      "name": "BPEI_WEBSITE_ABOUT_HERO_APPROVED.png",
+      "drive_file_id": "1oZBcvpdjTaaiB-b6LtJS6zKI2n-WM20G",
+      "mime_type": "image/png",
+      "size_bytes": 1574757,
+      "modified_time": "2026-08-05T10:41:40.952Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/BPEI_WEBSITE_ABOUT_HERO_APPROVED.png",
+      "git_blob_sha": "b3344c8f72bcce0e00b4c56bf1d438163ed31793"
+    },
+    {
+      "name": "BPEI_WEBSITE_ABOUT_MOBILE_APPROVED.png",
+      "drive_file_id": "1Ml402Y55CaHoyYqVkzjT3OTXG-ggtcwH",
+      "mime_type": "image/png",
+      "size_bytes": 1511051,
+      "modified_time": "2026-08-05T10:42:11.463Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/BPEI_WEBSITE_ABOUT_MOBILE_APPROVED.png",
+      "git_blob_sha": "1d43e2515c8373df2bc6eeb1551df0c6492bcd99"
+    },
+    {
+      "name": "BPEI_WEBSITE_ECOSYSTEM_BANNER_APPROVED.png",
+      "drive_file_id": "15g1EbwMr_0H4KaaFNs63INeKiQ_99xqP",
+      "mime_type": "image/png",
+      "size_bytes": 1813466,
+      "modified_time": "2026-08-05T10:42:39.991Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/BPEI_WEBSITE_ECOSYSTEM_BANNER_APPROVED.png",
+      "git_blob_sha": "1882f27d77fd03309e0f14c86ca4e3ed684fc3b1"
+    },
+    {
+      "name": "BPEI_WEBSITE_ECOSYSTEM_MOBILE_APPROVED.png",
+      "drive_file_id": "1N3ikEc2FnZsx4Iq8Dd6NB8cgnSICNq4I",
+      "mime_type": "image/png",
+      "size_bytes": 2074972,
+      "modified_time": "2026-08-05T10:41:51.180Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/BPEI_WEBSITE_ECOSYSTEM_MOBILE_APPROVED.png",
+      "git_blob_sha": "5107b267ca73c7fc9b92c8caa40e7098cb60e463"
+    },
+    {
+      "name": "BPEI_WEBSITE_ETSA_BANNER_APPROVED.png",
+      "drive_file_id": "19lTbQgYyh_6BFXF90Fdv91mN1xwNhotl",
+      "mime_type": "image/png",
+      "size_bytes": 1983551,
+      "modified_time": "2026-08-26T02:50:51.999Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/BPEI_WEBSITE_ETSA_BANNER_APPROVED.png",
+      "git_blob_sha": "99694ea0fbe7c2831c34513535995996005f90e0"
+    },
+    {
+      "name": "BPEI_WEBSITE_ETSA_HERO_APPROVED.png",
+      "drive_file_id": "1GMt14HcKGGHRnVj33JfCkACKs1tN09zg",
+      "mime_type": "image/png",
+      "size_bytes": 2397612,
+      "modified_time": "2026-08-26T02:50:50.442Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/BPEI_WEBSITE_ETSA_HERO_APPROVED.png",
+      "git_blob_sha": "76d0484e8193acdfaf8c122348d54e6f7405535c"
+    },
+    {
+      "name": "BPEI_WEBSITE_ETSA_MOBILE_APPROVED.png",
+      "drive_file_id": "1wb9uUXJN14iKM0k93sFK5e2CoFg_dUpd",
+      "mime_type": "image/png",
+      "size_bytes": 2311311,
+      "modified_time": "2026-08-26T02:50:51.170Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/BPEI_WEBSITE_ETSA_MOBILE_APPROVED.png",
+      "git_blob_sha": "c664841e5a30a7265cab084dfb853e0667a43a0e"
+    },
+    {
+      "name": "BPEI_WEBSITE_HOME_BANNER_APPROVED.png",
+      "drive_file_id": "1gLlKo0H5I_Gi8-QVUeFEf-bJr_rFaZjh",
+      "mime_type": "image/png",
+      "size_bytes": 1845851,
+      "modified_time": "2026-08-05T10:42:29.324Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/BPEI_WEBSITE_HOME_BANNER_APPROVED.png",
+      "git_blob_sha": "18cbc5bbf6f3fd30b5afc689797f529ed02002db"
+    },
+    {
+      "name": "BPEI_WEBSITE_HOME_HERO_APPROVED.png",
+      "drive_file_id": "1JPyMZaMZMn4j89zt-8IuvYKz-_uGxdxq",
+      "mime_type": "image/png",
+      "size_bytes": 1943461,
+      "modified_time": "2026-08-05T10:41:13.593Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/BPEI_WEBSITE_HOME_HERO_APPROVED.png",
+      "git_blob_sha": "f9125faae1b44cdbdd697cac73fc0b5329989fef"
+    },
+    {
+      "name": "BPEI_WEBSITE_HOME_MOBILE_APPROVED.png",
+      "drive_file_id": "1Gaa_T00ivXIB5nIQDrk3ImgzgsBFKobr",
+      "mime_type": "image/png",
+      "size_bytes": 2013954,
+      "modified_time": "2026-08-05T10:42:20.097Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/BPEI_WEBSITE_HOME_MOBILE_APPROVED.png",
+      "git_blob_sha": "ced09ebb061f44b92f815ee8605f21f1ab9a2aa5"
+    },
+    {
+      "name": "BPEI_WEBSITE_LENDER_READINESS_HERO_APPROVED.png",
+      "drive_file_id": "1l3d6h7sxAQpDbUkn-knW_2CNThfZy_eU",
+      "mime_type": "image/png",
+      "size_bytes": 1846276,
+      "modified_time": "2026-08-05T10:43:13.120Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/BPEI_WEBSITE_LENDER_READINESS_HERO_APPROVED.png",
+      "git_blob_sha": "3b9c8c5265cbbcd365870d0633caf9be02238cd2"
+    },
+    {
+      "name": "BPEI-WEB-AST-010_brand-color-palette-reference.png",
+      "drive_file_id": "1HnWGdHyC8H-P89PuUoU6DS8B9SdmhDIq",
+      "mime_type": "image/png",
+      "size_bytes": 422999,
+      "modified_time": "2026-08-02T04:24:42.557Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/BPEI-WEB-AST-010_brand-color-palette-reference.png",
+      "git_blob_sha": "c487db457d6f55c0440b6af4326dbf8e6acf59e8"
+    },
+    {
+      "name": "BPEI-WEB-ICON-COMPACT-R01-transparent.png",
+      "drive_file_id": "1g5Ll3KKA8W_6W9GinFcDkZYqweU7Smqp",
+      "mime_type": "image/png",
+      "size_bytes": 79646,
+      "modified_time": "2026-08-02T04:50:36.639Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/BPEI-WEB-ICON-COMPACT-R01-transparent.png",
+      "git_blob_sha": "c58b4891c45fd534c231c9f47631c9b9d9f6e9a3"
+    },
+    {
+      "name": "BPEI-WEB-LOGO-SECONDARY-R01-transparent.png",
+      "drive_file_id": "1h-Mm8DhiRE0uO7mJ0A7cAfSMg5V7JxFM",
+      "mime_type": "image/png",
+      "size_bytes": 346344,
+      "modified_time": "2026-08-02T04:50:34.517Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/BPEI-WEB-LOGO-SECONDARY-R01-transparent.png",
+      "git_blob_sha": "4b6f5acbc9793061f133ce0912268c3a2276061d"
+    },
+    {
+      "name": "LLL-HLD-0001_GRAND_HERALDIC_ACHIEVEMENT.png",
+      "drive_file_id": "1KENmMxXVw4KDHSWeQbxBdH450X9XtYEz",
+      "mime_type": "image/jpeg",
+      "size_bytes": 863578,
+      "modified_time": "2026-08-03T06:40:40.576Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/LLL-HLD-0001_GRAND_HERALDIC_ACHIEVEMENT.png",
+      "git_blob_sha": "fec184a3dac87611eacefb46bef122082535a1fa"
+    },
+    {
+      "name": "LLL-MED-0001_OFFICIAL_LLL_MEDALLION.png",
+      "drive_file_id": "1M4zlLs50jehQg14iYFWVqFfMMBfSvsBL",
+      "mime_type": "image/png",
+      "size_bytes": 1980048,
+      "modified_time": "2026-08-03T06:41:07.035Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/LLL-MED-0001_OFFICIAL_LLL_MEDALLION.png",
+      "git_blob_sha": "33a8e0f1947274b7cdfb528c2dedbe13ad07e073"
+    },
+    {
+      "name": "LLL-SEA-0001_GREAT_TRUST_SEAL.png",
+      "drive_file_id": "1oR15MQQbSKW8EnLWqdJT0l3uCYOQ-dJ2",
+      "mime_type": "image/jpeg",
+      "size_bytes": 789224,
+      "modified_time": "2026-08-03T06:40:54.109Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/LLL-SEA-0001_GREAT_TRUST_SEAL.png",
+      "git_blob_sha": "670a53ab89e39a50797d82ab47a0a86e16fb578f"
+    },
+    {
+      "name": "POLAR_ALERT_PROTECTION.png",
+      "drive_file_id": "1eiBcKeE5XAQnVuqr7vEQ2DE684sZK-_N",
+      "mime_type": "image/png",
+      "size_bytes": 2170297,
+      "modified_time": "2026-08-02T12:32:43.299Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/POLAR_ALERT_PROTECTION.png",
+      "git_blob_sha": "63eb1301b917ad7e267d150ef3333423835f0f8f"
+    },
+    {
+      "name": "POLAR_BLUEPRINT_CONSTRUCTION.png",
+      "drive_file_id": "1B7Mv7n1WiRWm-UC5E86WYMMNpVOo4xSk",
+      "mime_type": "image/png",
+      "size_bytes": 1121792,
+      "modified_time": "2026-08-02T12:33:41.579Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/POLAR_BLUEPRINT_CONSTRUCTION.png",
+      "git_blob_sha": "1d373c24f7223a0f540f5703ebc90869eaac32d2"
+    },
+    {
+      "name": "POLAR_BOOT_ACTIVATION.png",
+      "drive_file_id": "1HUAjflc4t8xmzpxCNBP6k_n8psmLy-Uu",
+      "mime_type": "image/png",
+      "size_bytes": 2597548,
+      "modified_time": "2026-08-02T12:33:47.408Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/POLAR_BOOT_ACTIVATION.png",
+      "git_blob_sha": "bfcd31757674eeb50da06abccfd2fd0aa7074f4e"
+    },
+    {
+      "name": "POLAR_CHROME_PORTRAIT_GRAY_BACKGROUND.png",
+      "drive_file_id": "1ApNP0sKlrK6GK6Hu-8L3d49nizdiHigG",
+      "mime_type": "image/png",
+      "size_bytes": 1910421,
+      "modified_time": "2026-08-26T02:50:36.271Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/POLAR_CHROME_PORTRAIT_GRAY_BACKGROUND.png",
+      "git_blob_sha": "dd8277e4f2a8f004fdc01dd32b685c1ad37d16b3"
+    },
+    {
+      "name": "POLAR_CHROME_PORTRAIT_WHITE_BACKGROUND.jpg",
+      "drive_file_id": "13yGCLLKpJoHpWseC9YuNzXtscwTXZA-6",
+      "mime_type": "image/jpeg",
+      "size_bytes": 319907,
+      "modified_time": "2026-08-26T02:50:33.351Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/POLAR_CHROME_PORTRAIT_WHITE_BACKGROUND.jpg",
+      "git_blob_sha": "381f29ebf83229c35f15586ba4d7b86d5a56f7e4"
+    },
+    {
+      "name": "POLAR_CLIENT_HANDOFF_DELIVERY.png",
+      "drive_file_id": "11y-eWu4TXB949qeVImhkqv6zfED2j6h2",
+      "mime_type": "image/png",
+      "size_bytes": 2475026,
+      "modified_time": "2026-08-02T12:33:53.407Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/POLAR_CLIENT_HANDOFF_DELIVERY.png",
+      "git_blob_sha": "b656f8d49972c70582a21cd6019a647096ec3530"
+    },
+    {
+      "name": "POLAR_CLIENT_SUCCESS_FOLLOWUP.png",
+      "drive_file_id": "1GN1Xd0p1P4kpSSH-ehTxvnfxbSTcRhx4",
+      "mime_type": "image/png",
+      "size_bytes": 2375679,
+      "modified_time": "2026-08-02T12:34:00.007Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/POLAR_CLIENT_SUCCESS_FOLLOWUP.png",
+      "git_blob_sha": "50e39ec2fcca1b232237372cf57853fa3c05e740"
+    },
+    {
+      "name": "POLAR_COMPLETE_POSE_CONTACT_SHEET.jpg",
+      "drive_file_id": "1c3foRWMs9si9kT7Z8l4TOQVD6NyK3xo2",
+      "mime_type": "image/jpeg",
+      "size_bytes": 1088360,
+      "modified_time": "2026-08-02T12:36:58.182Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/POLAR_COMPLETE_POSE_CONTACT_SHEET.jpg",
+      "git_blob_sha": "7347f649130bf19966478679a5754f780cafcfe1"
+    },
+    {
+      "name": "POLAR_CONTINUOUS_MONITORING.png",
+      "drive_file_id": "1mjWet2ElXM8S0WKv-ox5apQwLFVwrQMl",
+      "mime_type": "image/png",
+      "size_bytes": 2418885,
+      "modified_time": "2026-08-02T12:34:08.968Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/POLAR_CONTINUOUS_MONITORING.png",
+      "git_blob_sha": "225c07b0da3daec97f9d5c258d5015e1041edcc3"
+    },
+    {
+      "name": "POLAR_CORE_INTERFACE_WIDE.jpg",
+      "drive_file_id": "1_28mcpvlsN_d_KpDVQlD15vywwanuQ2v",
+      "mime_type": "image/jpeg",
+      "size_bytes": 33204,
+      "modified_time": "2026-08-26T02:50:49.838Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/POLAR_CORE_INTERFACE_WIDE.jpg",
+      "git_blob_sha": "5cbe74c763301b59e6c0a96f5cba21f24507bb25"
+    },
+    {
+      "name": "POLAR_DATA_RETRIEVAL.png",
+      "drive_file_id": "1VSmr7lwQPulHNbS4TakPW4fchDDrTAwk",
+      "mime_type": "image/png",
+      "size_bytes": 2251312,
+      "modified_time": "2026-08-02T12:32:49.043Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/POLAR_DATA_RETRIEVAL.png",
+      "git_blob_sha": "e90ba60df1d85b8352bdd873c396ce69e5711881"
+    },
+    {
+      "name": "POLAR_DEEP_SCAN_ANALYSIS.png",
+      "drive_file_id": "1NDF0dNpCs-MHFJ2TQWXBxeK0PBpp9a5T",
+      "mime_type": "image/png",
+      "size_bytes": 2447806,
+      "modified_time": "2026-08-02T12:34:15.075Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/POLAR_DEEP_SCAN_ANALYSIS.png",
+      "git_blob_sha": "1b23547bbb37155b769b4db2fa0e5500fe2881c9"
+    },
+    {
+      "name": "POLAR_DEFINITIVE_FULL_BODY_MASTER.png",
+      "drive_file_id": "10UJA7VAiIiBqTsGBzBg4bXnF_f_xDomy",
+      "mime_type": "image/png",
+      "size_bytes": 2339420,
+      "modified_time": "2026-08-02T12:32:05.790Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/POLAR_DEFINITIVE_FULL_BODY_MASTER.png",
+      "git_blob_sha": "d628b016594c5990d8378a0e30490dd316c4af74"
+    },
+    {
+      "name": "POLAR_DEPLOYMENT_LAUNCH.png",
+      "drive_file_id": "16prOx-K35kSHjnBp7_80zIVGWkQCiBg3",
+      "mime_type": "image/png",
+      "size_bytes": 2756600,
+      "modified_time": "2026-08-02T12:34:21.282Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/POLAR_DEPLOYMENT_LAUNCH.png",
+      "git_blob_sha": "0cf4cdec0fdd4ebea40ff110c2422973405a55c7"
+    },
+    {
+      "name": "POLAR_ERROR_PLEADING_EYES.png",
+      "drive_file_id": "14mFNwKU1v6oWVcEP1eABhNA7Lz367i63",
+      "mime_type": "image/png",
+      "size_bytes": 2352001,
+      "modified_time": "2026-08-02T12:32:55.089Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/POLAR_ERROR_PLEADING_EYES.png",
+      "git_blob_sha": "7da25014cae35fa9d5ecfaf05165be8203943a4b"
+    },
+    {
+      "name": "POLAR_FACILITY_GUARDIAN_APPROVED.jpg",
+      "drive_file_id": "14TUr1OB5Rj-3LQ22Mxo5oLP3NO8Jx7Zr",
+      "mime_type": "image/jpeg",
+      "size_bytes": 417293,
+      "modified_time": "2026-08-11T15:30:25.837Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/POLAR_FACILITY_GUARDIAN_APPROVED.jpg",
+      "git_blob_sha": "2c9073193d7734daf6908830073d2fa752557a6d"
+    },
+    {
+      "name": "POLAR_FULL_BODY_DIAGNOSTIC_SCAN_LAB.png",
+      "drive_file_id": "1y179Sml7st-CJX9VBQe9xX7WMAg0f4nF",
+      "mime_type": "image/png",
+      "size_bytes": 1430116,
+      "modified_time": "2026-08-26T02:50:34.331Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/POLAR_FULL_BODY_DIAGNOSTIC_SCAN_LAB.png",
+      "git_blob_sha": "340025f357d667287a6854292ea70eb0481c4453"
+    },
+    {
+      "name": "POLAR_GREETING_ONBOARDING.png",
+      "drive_file_id": "1XPisBZiOEnsI0tXTBMGXu9yH8xmS4BeM",
+      "mime_type": "image/png",
+      "size_bytes": 2371797,
+      "modified_time": "2026-08-02T12:33:00.900Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/POLAR_GREETING_ONBOARDING.png",
+      "git_blob_sha": "b8d6ca5a29b847a0ef637b27953467a5805604eb"
+    },
+    {
+      "name": "POLAR_GROWTH_INTELLIGENCE.png",
+      "drive_file_id": "1SnEUiLBmucI8TFnx0q5Apy0LUEnj3pVs",
+      "mime_type": "image/png",
+      "size_bytes": 2404521,
+      "modified_time": "2026-08-02T12:34:28.121Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/POLAR_GROWTH_INTELLIGENCE.png",
+      "git_blob_sha": "d197f58e30b5e8579c347d167ee381cf36261f60"
+    },
+    {
+      "name": "POLAR_HOLOGRAPHIC_PORTRAIT_APPROVED.png",
+      "drive_file_id": "1pguYncJuFAwCQhmn_jFIrptfA7aUZcnB",
+      "mime_type": "image/png",
+      "size_bytes": 1487127,
+      "modified_time": "2026-08-11T15:30:28.054Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/POLAR_HOLOGRAPHIC_PORTRAIT_APPROVED.png",
+      "git_blob_sha": "229fe5db599633d3fc2db5e0a8b933520c2199b9"
+    },
+    {
+      "name": "POLAR_HOLOGRAPHIC_SYSTEMS_APPROVED.jpg",
+      "drive_file_id": "13rtZL4E_voAGd3pHOENLgUkbSGcDxEhH",
+      "mime_type": "image/jpeg",
+      "size_bytes": 328567,
+      "modified_time": "2026-08-11T15:30:27.030Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/POLAR_HOLOGRAPHIC_SYSTEMS_APPROVED.jpg",
+      "git_blob_sha": "1786de5abde8fd8c268d4d26b0eeac6bceb2eb63"
+    },
+    {
+      "name": "POLAR_IDLE_SLEEP_STANDBY.png",
+      "drive_file_id": "1Nw6zXUsXX2cjdtfr0viNgf3RhPuvZH-9",
+      "mime_type": "image/png",
+      "size_bytes": 2335305,
+      "modified_time": "2026-08-02T12:35:04.407Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/POLAR_IDLE_SLEEP_STANDBY.png",
+      "git_blob_sha": "6a25aab660de4fb159bb28a3cd5463c81766b138"
+    },
+    {
+      "name": "POLAR_INTERFACE_PROJECTION.png",
+      "drive_file_id": "1an1SSQGoTuCMsKRq0aP4BzI3KYZkF-ZH",
+      "mime_type": "image/png",
+      "size_bytes": 2071798,
+      "modified_time": "2026-08-02T12:33:07.594Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/POLAR_INTERFACE_PROJECTION.png",
+      "git_blob_sha": "aaaa97f02342839646a4e3ba65b54b73fc55eeaf"
+    },
+    {
+      "name": "POLAR_INVALID_SELECTION_GNAW.png",
+      "drive_file_id": "1x-CAPAGFLo1FnRNQAueCevUdCEHNoSxq",
+      "mime_type": "image/png",
+      "size_bytes": 2417704,
+      "modified_time": "2026-08-02T12:33:13.684Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/POLAR_INVALID_SELECTION_GNAW.png",
+      "git_blob_sha": "3ca73163e33b5491b35104cfe18992b9b09ef054"
+    },
+    {
+      "name": "POLAR_KNOWLEDGE_VAULT_ARCHIVE.png",
+      "drive_file_id": "1oAKLtrhxw0AhIL9RQd5fIqO5EYD-HwpX",
+      "mime_type": "image/png",
+      "size_bytes": 2452611,
+      "modified_time": "2026-08-02T12:34:38.547Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/POLAR_KNOWLEDGE_VAULT_ARCHIVE.png",
+      "git_blob_sha": "a39b63f59f199f924f8c17f621cecfc52758d678"
+    },
+    {
+      "name": "POLAR_LEADING_POINTING.png",
+      "drive_file_id": "16N0I5JdeurAO5yx_THoYChZg14Q9Z13a",
+      "mime_type": "image/png",
+      "size_bytes": 2225280,
+      "modified_time": "2026-08-02T12:33:21.254Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/POLAR_LEADING_POINTING.png",
+      "git_blob_sha": "8564b15a1d229fac64e07364ee0169421d215c27"
+    },
+    {
+      "name": "POLAR_LISTENING_AWAITING_INPUT.png",
+      "drive_file_id": "1pdSqBXNJQDrCNG7GwicdAsJmsTnfM-Ku",
+      "mime_type": "image/png",
+      "size_bytes": 2243344,
+      "modified_time": "2026-08-02T12:35:10.150Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/POLAR_LISTENING_AWAITING_INPUT.png",
+      "git_blob_sha": "1f33445b0672a2738fbcf9144bc084c4605d8f63"
+    },
+    {
+      "name": "POLAR_MAINTENANCE_SELF_REPAIR.png",
+      "drive_file_id": "1aoihtiEm1LDL5r_6Vuy4Ah0kn0UYHs9J",
+      "mime_type": "image/png",
+      "size_bytes": 2416281,
+      "modified_time": "2026-08-02T12:34:45.991Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/POLAR_MAINTENANCE_SELF_REPAIR.png",
+      "git_blob_sha": "b2cb7dc270fd6422f0076de349ef6717ad9b1935"
+    },
+    {
+      "name": "POLAR_OPTIMIZATION_UPGRADE.png",
+      "drive_file_id": "1tXzE8HPCtnaUEmobTZ7dvuR0VjeHznn4",
+      "mime_type": "image/png",
+      "size_bytes": 2320000,
+      "modified_time": "2026-08-02T12:34:52.258Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/POLAR_OPTIMIZATION_UPGRADE.png",
+      "git_blob_sha": "2c9ae5c6dbb2c8e9c057d51306fbf5a0f775b24c"
+    },
+    {
+      "name": "POLAR_ORIGINAL_CHARACTER_REVEAL.png",
+      "drive_file_id": "1F-wtXUFEMQASS-ubZCXSoLm77PT-0me3",
+      "mime_type": "image/png",
+      "size_bytes": 2078003,
+      "modified_time": "2026-08-02T12:32:36.949Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/POLAR_ORIGINAL_CHARACTER_REVEAL.png",
+      "git_blob_sha": "c73d0fec52584cf4cd400c3e163edbb9b912da2a"
+    },
+    {
+      "name": "POLAR_POUNCE_LANDING.png",
+      "drive_file_id": "14aImab6m5GKUj-QZThaVWYuAx_NF_3__",
+      "mime_type": "image/png",
+      "size_bytes": 2327330,
+      "modified_time": "2026-08-02T12:33:26.902Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/POLAR_POUNCE_LANDING.png",
+      "git_blob_sha": "3dbcc568532ec49aa2d4de171cf51ddb18790ce1"
+    },
+    {
+      "name": "POLAR_PROUD_COMPLETION.png",
+      "drive_file_id": "1ZstgTOWuCSPMqSVEPcVvVxWZZC9pfkn8",
+      "mime_type": "image/png",
+      "size_bytes": 2270629,
+      "modified_time": "2026-08-02T12:33:36.154Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/POLAR_PROUD_COMPLETION.png",
+      "git_blob_sha": "efccd4ea02f38489f698f4a2ee36111e67626f67"
+    },
+    {
+      "name": "POLAR_SPEAKING_ACTIVE_RESPONSE.png",
+      "drive_file_id": "1HorcFUkpX0O04rjmYVCZkefaYxaLFlpI",
+      "mime_type": "image/png",
+      "size_bytes": 2345543,
+      "modified_time": "2026-08-02T12:35:25.050Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/POLAR_SPEAKING_ACTIVE_RESPONSE.png",
+      "git_blob_sha": "c762d59af9548e31a5a6d507a19c80a74b4c4fab"
+    },
+    {
+      "name": "POLAR_SYSTEM_ARCHITECTURE_INFOGRAPHIC.png",
+      "drive_file_id": "1FPzXA0UqTWoj_FqAsA__S7d3W1YO8LlG",
+      "mime_type": "image/png",
+      "size_bytes": 2084696,
+      "modified_time": "2026-08-26T02:50:49.082Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/POLAR_SYSTEM_ARCHITECTURE_INFOGRAPHIC.png",
+      "git_blob_sha": "43b886cead11c29d25cb241b19b9fe1556ee035b"
+    },
+    {
+      "name": "POLAR_SYSTEM_ORCHESTRATION.png",
+      "drive_file_id": "1asQraWGwRVMQl6Ac9Pg7eINcwl033taI",
+      "mime_type": "image/png",
+      "size_bytes": 2684885,
+      "modified_time": "2026-08-02T12:34:58.562Z",
+      "source_group": "03_MEDIA/IMAGES",
+      "github_path": "public/brand/approved/POLAR_SYSTEM_ORCHESTRATION.png",
+      "git_blob_sha": "0e489820632c0d28a08cad94dbeaa4bea52aabcc"
+    },
+    {
+      "name": "SavVidzGen_APPROVED_LOGO.jpeg",
+      "drive_file_id": "1Xbdt5PHbg6TwfR6RApC-YwIkHUgsdaB5",
+      "mime_type": "image/jpeg",
+      "size_bytes": 62679,
+      "modified_time": "2026-08-18T11:27:14.182Z",
+      "source_group": "DIVISION_SYSTEMS/01_SavVidzGen",
+      "github_path": "public/brand/divisions/approved/01_SavVidzGen/SavVidzGen_APPROVED_LOGO.jpeg",
+      "git_blob_sha": "04b22985734754b561ed705a8823a64b0571fd14"
+    },
+    {
+      "name": "DrDocx_APPROVED_LOGO.jpeg",
+      "drive_file_id": "14krjWJr_hZxroDLQjfzIdLevakw7g2tA",
+      "mime_type": "image/jpeg",
+      "size_bytes": 49766,
+      "modified_time": "2026-08-18T11:27:18.256Z",
+      "source_group": "DIVISION_SYSTEMS/02_DrDocx",
+      "github_path": "public/brand/divisions/approved/02_DrDocx/DrDocx_APPROVED_LOGO.jpeg",
+      "git_blob_sha": "19e8712a7e18392a0e762fdf44cfdc9982aca128"
+    },
+    {
+      "name": "Blueprint_APPROVED_LOGO.jpeg",
+      "drive_file_id": "1LU-yt8aeozOhYgpzf-qKuO_jJ28h4mwn",
+      "mime_type": "image/jpeg",
+      "size_bytes": 72029,
+      "modified_time": "2026-08-18T11:27:23.695Z",
+      "source_group": "DIVISION_SYSTEMS/03_Blueprint",
+      "github_path": "public/brand/divisions/approved/03_Blueprint/Blueprint_APPROVED_LOGO.jpeg",
+      "git_blob_sha": "c5b91a8589b3e5cea3a304bb44e41a93e8d59a60"
+    },
+    {
+      "name": "BrandForge_APPROVED_LOGO.jpeg",
+      "drive_file_id": "1-r2FEbmnllOXPNcPcZhQZMHfiyMjew9n",
+      "mime_type": "image/jpeg",
+      "size_bytes": 58091,
+      "modified_time": "2026-08-18T11:27:28.289Z",
+      "source_group": "DIVISION_SYSTEMS/04_BrandForge",
+      "github_path": "public/brand/divisions/approved/04_BrandForge/BrandForge_APPROVED_LOGO.jpeg",
+      "git_blob_sha": "875d765e0b9b58b66e08a43e64eb754b8a9da061"
+    },
+    {
+      "name": "LaunchPad_APPROVED_LOGO.jpeg",
+      "drive_file_id": "1wtJWtCFeaPhmVVFGk-hA7uheqKZyzzuR",
+      "mime_type": "image/jpeg",
+      "size_bytes": 65512,
+      "modified_time": "2026-08-18T11:27:33.705Z",
+      "source_group": "DIVISION_SYSTEMS/05_LaunchPad",
+      "github_path": "public/brand/divisions/approved/05_LaunchPad/LaunchPad_APPROVED_LOGO.jpeg",
+      "git_blob_sha": "4e0574c823a59e713ae92270049aabf1a003ab94"
+    },
+    {
+      "name": "Nexus_APPROVED_LOGO.jpeg",
+      "drive_file_id": "1haumiwDUxrUuyydjA8rnDGCHkFQV-3IK",
+      "mime_type": "image/jpeg",
+      "size_bytes": 50455,
+      "modified_time": "2026-08-18T11:27:39.038Z",
+      "source_group": "DIVISION_SYSTEMS/06_Nexus",
+      "github_path": "public/brand/divisions/approved/06_Nexus/Nexus_APPROVED_LOGO.jpeg",
+      "git_blob_sha": "20be5a2fcf9ef7183f9e51fc9338c77eb0ab9034"
+    },
+    {
+      "name": "Pulse_APPROVED_LOGO.jpeg",
+      "drive_file_id": "1YZLEyyKqnLr_bg9aMH5wny_9a-m07p2Q",
+      "mime_type": "image/jpeg",
+      "size_bytes": 55728,
+      "modified_time": "2026-08-18T11:27:44.633Z",
+      "source_group": "DIVISION_SYSTEMS/07_Pulse",
+      "github_path": "public/brand/divisions/approved/07_Pulse/Pulse_APPROVED_LOGO.jpeg",
+      "git_blob_sha": "24e8998497e3f85cb3ff2ffd7aac9c9d5f80e043"
+    },
+    {
+      "name": "Vault_APPROVED_LOGO.jpeg",
+      "drive_file_id": "1wxJoQIPLjPAmJswKwM8DS3aUX3x2Cumc",
+      "mime_type": "image/jpeg",
+      "size_bytes": 61343,
+      "modified_time": "2026-08-18T11:27:49.494Z",
+      "source_group": "DIVISION_SYSTEMS/08_Vault",
+      "github_path": "public/brand/divisions/approved/08_Vault/Vault_APPROVED_LOGO.jpeg",
+      "git_blob_sha": "5848318018413dfbb99ccdd6b4dfcb92a41bf232"
+    },
+    {
+      "name": "Cipher_APPROVED_LOGO.jpeg",
+      "drive_file_id": "1WMEdVZEG5wMtsi1Iffpe26N4wYbCKjxd",
+      "mime_type": "image/jpeg",
+      "size_bytes": 51621,
+      "modified_time": "2026-08-18T11:27:55.041Z",
+      "source_group": "DIVISION_SYSTEMS/09_Cipher",
+      "github_path": "public/brand/divisions/approved/09_Cipher/Cipher_APPROVED_LOGO.jpeg",
+      "git_blob_sha": "c7e8cd1374cfae3e931ca43cf7a53f7f45d53601"
+    },
+    {
+      "name": "DALJ_at_POLAR_Command_Center_Cartoon.png",
+      "drive_file_id": "1knDCrQJ46S7EoFti-2xJiZkGmdlDqhz2",
+      "mime_type": "image/png",
+      "size_bytes": 2678857,
+      "modified_time": "2026-08-26T22:00:06.875Z",
+      "source_group": "FOUNDER",
+      "github_path": "public/brand/founder/DALJ_at_POLAR_Command_Center_Cartoon.png",
+      "git_blob_sha": "0bd18853506f98fbe1a22856f1344339e1579cef"
+    },
+    {
+      "name": "Founder_Douglas_Arnold_Long_Jr_Official.jpg",
+      "drive_file_id": "1vzp-l6XYDLHPrp2RU2mgQZJaaTv6LGPh",
+      "mime_type": "image/jpeg",
+      "size_bytes": 124494,
+      "modified_time": "2026-08-26T22:00:04.144Z",
+      "source_group": "FOUNDER",
+      "github_path": "public/founder.jpg",
+      "git_blob_sha": "3a7e3ceb0a895ca7fc0a259136ceafd954f684f1"
+    }
+  ]
+}
