@@ -4,6 +4,7 @@ import { IntakeLink } from "./IntakeLink";
 import { MobileNav } from "./MobileNav";
 
 const links = [
+  ["Dashboard", "/dashboard"],
   ["Portal", "/portal"],
   ["Home", "/"],
   ["Divisions", "/#products"],
@@ -23,7 +24,7 @@ export function SiteHeader() {
         <span>AUTHORIZATION: ACCESS VERIFIED</span>
       </div>
       <div className="nav-shell">
-        <Link href="/portal" className="brand-lockup" aria-label="BI POLARIZE customer portal">
+        <Link href="/dashboard" className="brand-lockup" aria-label="BI POLARIZE client dashboard">
           <Image src="/brand/official/05_compact_icon_mark.png" alt="" width={90} height={46} />
           <span>BI POLARIZE<small>ENTERPRISES, INC.</small></span>
         </Link>
@@ -47,6 +48,7 @@ export function SiteFooter() {
         </div>
         <div>
           <b>Explore</b>
+          <Link href="/dashboard">Client Dashboard</Link>
           <Link href="/portal">Customer Portal</Link>
           <Link href="/#products">Divisions</Link>
           <Link href="/services">Services</Link>

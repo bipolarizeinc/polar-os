@@ -39,7 +39,7 @@ export default function WelcomePage() {
         <div className={styles.accessVisual}>
           <Image src="/brand/approved/BPEI_POLAR_TECH_INTERFACE_HD.png" alt="P.O.L.A.R. customer access interface" fill sizes="(max-width: 900px) 100vw, 46vw" />
         </div>
-        <CustomerAuthPanel nextPath="/portal" />
+        <CustomerAuthPanel nextPath="/dashboard" />
       </section>
     </main>
   );
