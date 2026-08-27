@@ -68,7 +68,7 @@ export default async function DashboardPage() {
           <div className={styles.blueprintCopy}>
             <p className={styles.kicker}>THE BIPOLARIZED BLUEPRINT™</p>
             <h2>YOUR THING<br /><em>STARTS HERE.</em></h2>
-            <p>No Blueprint engagement is attached to this account yet. That is an honest empty state—not a fake-ass progress bar. Begin intake and we will create the operating record from your actual submission.</p>
+            <p>No Blueprint engagement is attached to this account yet. That is an honest empty state—not fabricated progress data. Begin intake and we will create the operating record from your actual submission.</p>
             <Link href="/intake?source=dashboard">INITIALIZE BLUEPRINT EXTRACTION →</Link>
           </div>
           <div className={styles.blueprintVisual}>
