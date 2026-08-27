@@ -59,8 +59,8 @@ export function SiteFooter() {
           <a href="tel:+18016868143">801-686-8143</a>
           <a href="mailto:YourThing@PolarPaw.Online">YourThing@PolarPaw.Online</a>
           <span>Intake open 24 / 7</span>
-          <Link href="/privacy">Privacy</Link>
-          <Link href="/terms">Terms</Link>
+          <Link href="/privacy">Privacy Policy</Link>
+          <Link href="/terms">Terms of Use</Link>
         </div>
       </div>
       <div className="footer-base">
