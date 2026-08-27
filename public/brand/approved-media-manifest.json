@@ -4,7 +4,7 @@
   "source_folder_id": "1TJZ_aEq_dlFrajnM6ACJLJpftBPLo-9b",
   "division_folder_id": "1EKB06agoVGRwEE8RVwpj-asCpxes96E8",
   "founder_folder_id": "1SnLukQ4nHoyVhm0_gNmGUB-rBGRIEBdr",
-  "synced_at": "2026-08-26T00:00:00Z",
+  "synced_at": "2026-08-27T03:21:57.158Z",
   "counts": {
     "master_images": 78,
     "division_logos": 9,
@@ -416,12 +416,12 @@
     {
       "name": "LLL-HLD-0001_GRAND_HERALDIC_ACHIEVEMENT.png",
       "drive_file_id": "1KENmMxXVw4KDHSWeQbxBdH450X9XtYEz",
-      "mime_type": "image/jpeg",
-      "size_bytes": 863578,
-      "modified_time": "2026-08-03T06:40:40.576Z",
+      "mime_type": "image/png",
+      "size_bytes": 3555584,
+      "modified_time": "2026-08-27T03:21:57.158Z",
       "source_group": "03_MEDIA/IMAGES",
       "github_path": "public/brand/approved/LLL-HLD-0001_GRAND_HERALDIC_ACHIEVEMENT.png",
-      "git_blob_sha": "fec184a3dac87611eacefb46bef122082535a1fa"
+      "git_blob_sha": "a71d0158fc8f18bb3623df9359bcff637045303a"
     },
     {
       "name": "LLL-MED-0001_OFFICIAL_LLL_MEDALLION.png",
@@ -436,12 +436,12 @@
     {
       "name": "LLL-SEA-0001_GREAT_TRUST_SEAL.png",
       "drive_file_id": "1oR15MQQbSKW8EnLWqdJT0l3uCYOQ-dJ2",
-      "mime_type": "image/jpeg",
-      "size_bytes": 789224,
-      "modified_time": "2026-08-03T06:40:54.109Z",
+      "mime_type": "image/png",
+      "size_bytes": 3821852,
+      "modified_time": "2026-08-27T03:21:53.030Z",
       "source_group": "03_MEDIA/IMAGES",
       "github_path": "public/brand/approved/LLL-SEA-0001_GREAT_TRUST_SEAL.png",
-      "git_blob_sha": "670a53ab89e39a50797d82ab47a0a86e16fb578f"
+      "git_blob_sha": "30feb04eaf24c92794277356b0b62bb12c241315"
     },
     {
       "name": "POLAR_ALERT_PROTECTION.png",
