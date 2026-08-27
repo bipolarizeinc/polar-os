@@ -4,7 +4,7 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./CustomerAuthPanel.module.css";
 
-export function CustomerAuthPanel({ nextPath = "/portal" }: { nextPath?: string }) {
+export function CustomerAuthPanel({ nextPath = "/dashboard" }: { nextPath?: string }) {
   const router = useRouter();
   const [mode, setMode] = useState<"register" | "login">("register");
   const [loading, setLoading] = useState(false);
@@ -48,7 +48,13 @@ export function CustomerAuthPanel({ nextPath = "/portal" }: { nextPath?: string 
       return;
     }
 
-    router.push(nextPath.startsWith("/") ? nextPath : "/portal");
+    try {
+      sessionStorage.setItem("bpei_dashboard_login", "1");
+    } catch {
+      // Session storage may be unavailable in strict privacy modes.
+    }
+
+    router.push(nextPath.startsWith("/") ? nextPath : "/dashboard");
     router.refresh();
   }
 
