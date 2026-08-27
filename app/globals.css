@@ -1361,3 +1361,72 @@ button {
   letter-spacing: 0.15em;
   cursor: pointer;
 }
+
+
+/* Compact legal footer for gateway, intake, and ETSA system surfaces. */
+.legal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 20px max(22px, calc((100vw - 1320px) / 2));
+  border-top: 1px solid var(--line);
+  background: #020303;
+  color: #7f9095;
+  font: 600 8px/1.5 var(--font-geist-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.legal-footer nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+}
+.legal-footer a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+.legal-footer a:hover {
+  color: var(--cyan);
+}
+.policy-page {
+  max-width: 980px;
+}
+.policy-page h2 {
+  margin: 0 0 18px;
+  font: 900 clamp(38px, 5vw, 62px)/1 var(--font-geist-sans);
+  letter-spacing: -0.04em;
+}
+.policy-page h3 {
+  margin: 42px 0 12px;
+  color: #dffcff;
+  font: 800 19px/1.3 var(--font-geist-sans);
+}
+.policy-page p,
+.policy-page li {
+  color: #9aabb0;
+  font-size: 15px;
+  line-height: 1.8;
+}
+.policy-page li + li {
+  margin-top: 10px;
+}
+.policy-page a {
+  color: var(--cyan);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+@media (max-width: 700px) {
+  .legal-footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .legal-footer nav {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 4px 20px;
+  }
+}

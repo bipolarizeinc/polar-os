@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { LegalFooter } from "../components/LegalFooter";
 
 export const metadata: Metadata = {
   title: "ETSA™ | Enterprise Talent & Skills Alignment",
@@ -13,5 +14,5 @@ export const metadata: Metadata = {
 };
 
 export default function EtsaLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return children;
+  return <>{children}<LegalFooter /></>;
 }
