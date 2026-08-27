@@ -81,7 +81,7 @@ export function CustomerAuthPanel({ nextPath = "/dashboard" }: { nextPath?: stri
         <label>Password<input name="password" type="password" minLength={8} autoComplete={mode === "login" ? "current-password" : "new-password"} required /></label>
         {error && <div className={styles.error} role="alert">{error}</div>}
         <button className={styles.submit} disabled={loading}>
-          {loading ? "AUTHENTICATING…" : mode === "register" ? "CREATE ACCESS & ENTER PORTAL" : "SIGN IN & ENTER PORTAL"}
+          {loading ? "AUTHENTICATING…" : mode === "register" ? "CREATE ACCESS & ENTER DASHBOARD" : "SIGN IN & ENTER DASHBOARD"}
         </button>
       </form>
     </section>
