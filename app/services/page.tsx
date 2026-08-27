@@ -2,7 +2,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { PageShell } from "../components/SiteChrome";
 import { IntakeLink } from "../components/IntakeLink";
-import { DeferredVideo } from "../components/DeferredVideo";
 import { servicePages } from "./service-pages";
 
 const directServices = [
@@ -39,7 +38,7 @@ export default function ServicesPage() {
   return (
     <PageShell>
       <section className="page-hero services-hero">
-        <Image src="/brand/approved/BPEI_BUILDING_SIGNAGE_HD.png" alt="" fill priority sizes="100vw" className="page-hero-media" />
+        <Image src="/brand/divisions/polar/division-network-headquarters.webp" alt="Nine approved divisional P.O.L.A.R. agents assembled at BPEI headquarters" fill priority sizes="100vw" className="page-hero-media" />
         <div className="section-index">CAPABILITIES // SERVICE CATALOG</div>
         <p className="eyebrow">ALL THE BUSINESS FOR YOUR BUSINESS</p>
         <h1>STRUCTURE.<br />SYSTEMS. <em>MOMENTUM.</em></h1>
@@ -64,8 +63,8 @@ export default function ServicesPage() {
         </div>
 
         <div className="catalog-intro">
-          <div><p className="eyebrow">DIVISION NETWORK</p><h2>NINE DIVISIONS.<br />NINE P.O.L.A.R. TRANSMISSIONS.</h2></div>
-          <p>Each division now carries its own dedicated P.O.L.A.R. transmission so the visual identity, service purpose, and intake route stay aligned.</p>
+          <div><p className="eyebrow">DIVISION NETWORK</p><h2>NINE DIVISIONS.<br />NINE P.O.L.A.R. IDENTITIES.</h2></div>
+          <p>Each division is represented by its officially approved P.O.L.A.R., keeping the visual identity, service purpose, and intake route aligned.</p>
         </div>
 
         <nav aria-label="BPEI service divisions" className="service-tags">
@@ -76,8 +75,8 @@ export default function ServicesPage() {
           {divisions.map((division) => (
             <section id={division.slug} key={division.slug} className="division-service-block division-service-block-media">
               <div className="division-polar-transmission">
-                <DeferredVideo src={`/media/polar/products/${division.slug}.mp4`} poster={division.poster} controls label={`${division.name} P.O.L.A.R. transmission`} />
-                <div className="division-transmission-label"><span>{division.name} // P.O.L.A.R.</span><span>PLAY TRANSMISSION</span></div>
+                <Image src={division.poster} alt={`${division.name} approved divisional P.O.L.A.R.`} fill sizes="(max-width: 880px) 100vw, 45vw" className="division-polar-profile" />
+                <div className="division-transmission-label"><span>{division.name} // P.O.L.A.R.</span><span>DIVISION POLAR // ACTIVE</span></div>
               </div>
               <div className="division-service-copy">
                 <div className="section-index">{division.code} // P.O.L.A.R. LINKED DIVISION</div>
