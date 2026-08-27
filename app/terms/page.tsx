@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { PageShell } from "../components/SiteChrome";
 
 export default function TermsPage() {
@@ -15,7 +16,7 @@ export default function TermsPage() {
         <p><strong>Effective and last updated:</strong> August 27, 2026</p>
 
         <h3>1. Agreement to these terms</h3>
-        <p>These Terms of Use are a binding agreement between you and BI POLARIZE ENTERPRISES, INC. (“BPEI,” “we,” “us,” or “our”) governing PolarPaw.Online and its public and authenticated online systems, including P.O.L.A.R., customer accounts, the customer portal, Identify Your Thing™, and ETSA™. By accessing or using these systems, you accept these Terms and our <a href="/privacy">Privacy Policy</a>. If you do not agree, do not use them.</p>
+        <p>These Terms of Use are a binding agreement between you and BI POLARIZE ENTERPRISES, INC. (“BPEI,” “we,” “us,” or “our”) governing PolarPaw.Online and its public and authenticated online systems, including P.O.L.A.R., customer accounts, the customer portal, Identify Your Thing™, and ETSA™. By accessing or using these systems, you accept these Terms and our <Link href="/privacy">Privacy Policy</Link>. If you do not agree, do not use them.</p>
 
         <h3>2. Eligibility and authority</h3>
         <p>You must be at least 18 years old to create an account, submit an intake, take ETSA, or purchase services unless BPEI has documented authorization from a parent, guardian, school, or other legally authorized sponsor. If you act for a business or another person, you represent that you have authority to bind that party and submit its information.</p>
