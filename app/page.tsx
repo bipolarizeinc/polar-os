@@ -12,11 +12,11 @@ export const metadata: Metadata = {
 };
 
 const method = [
-  ["01", "Discover", "P.O.L.A.R. retrieves the entire idea, contradictions included, before anything gets simplified away."],
-  ["02", "Polarize", "He challenges the vision from opposing angles, stress-testing assumptions and exposing weak points."],
-  ["03", "Architect", "The system converts founder intelligence into documented workflows, governance, and automation pathways."],
-  ["04", "Build", "P.O.L.A.R. coordinates practical operations, assets, integrations, and deployment across the enterprise stack."],
-  ["05", "Institutionalize", "The intelligence becomes a permanent enterprise asset instead of tribal knowledge trapped in one person."],
+  ["01", "Idea Extraction", "We pull the raw brilliance out of your vision before simplifying anything away."],
+  ["02", "Concept Polarization", "We challenge, refine, and examine the idea from opposing angles for maximum clarity."],
+  ["03", "System Architecture", "We design the structural framework, workflows, governance, and connected systems that make it real."],
+  ["04", "Blueprint Engineering", "We build the operational plan, systems, documentation, and strategy required for execution."],
+  ["05", "Deployment", "We launch, optimize, and connect the enterprise infrastructure so the work can operate and grow."],
 ] as const;
 
 const products = [
@@ -50,7 +50,8 @@ export default function Home() {
   return (
     <PageShell>
         <section className="hero">
-          <Image className={styles.heroPolarBackdrop} src="/brand/approved/BPEI_BRANDED_ENVIRONMENT_HD.png" alt="" fill priority sizes="100vw" />
+          <Image className={`${styles.heroPolarBackdrop} ${styles.heroDesktopBackdrop}`} src="/brand/approved/BPEI_WEBSITE_HOME_HERO_APPROVED.png" alt="" fill priority sizes="100vw" />
+          <Image className={`${styles.heroPolarBackdrop} ${styles.heroMobileBackdrop}`} src="/brand/approved/BPEI_WEBSITE_HOME_MOBILE_APPROVED.png" alt="" fill priority sizes="100vw" />
           <div className="hero-energy fire" />
           <div className="hero-energy ice" />
           <div className="hero-grid">
@@ -78,11 +79,11 @@ export default function Home() {
           {[...ticker, ...ticker].map((item, index) => <span key={`${item}-${index}`}><strong>◆</strong> {item}</span>)}
         </div></div>
 
-        <section className={styles.outcomeBand} aria-label="What BI POLARIZE does">
+        <section id="how-it-works" className={styles.outcomeBand} aria-label="How BI POLARIZE works">
           <div className={styles.outcomeIntro}>
-            <p className="eyebrow">FROM IDEA TO FUNCTIONAL</p>
+            <p className="eyebrow">HOW IT WORKS</p>
             <h2>YOU BRING THE THING. <em>WE BUILD THE SYSTEM AROUND IT.</em></h2>
-            <p>Strategy without infrastructure dies in a folder. Infrastructure without the founder&apos;s intent becomes somebody else&apos;s company. BPEI connects both.</p>
+            <p>Tell us what you are building, fixing, or launching. We identify what it actually needs, route the work through the right BPEI divisions, and build usable business infrastructure around the original vision.</p>
           </div>
           <div className={styles.outcomeGrid}>{outcomes.map(([n, title, description]) => (
             <article className={styles.outcomeCard} key={n}><span>{n}</span><h3>{title}</h3><p>{description}</p></article>
@@ -90,7 +91,7 @@ export default function Home() {
         </section>
 
         <section className={styles.polarDirective}>
-          <div className={styles.directiveImage}><Image src="/brand/approved/BPEI_POLAR_TECH_INTERFACE_HD.png" alt="P.O.L.A.R. enterprise intelligence interface" fill sizes="(max-width: 900px) 100vw, 45vw" /></div>
+          <div className={styles.directiveImage}><Image src="/brand/approved/POLAR_INTERFACE_PROJECTION.png" alt="P.O.L.A.R. projecting an enterprise interface" fill sizes="(max-width: 900px) 100vw, 45vw" /></div>
           <div className={styles.directiveCopy}>
             <div className="section-index">P.O.L.A.R. DIRECTIVE // 01</div>
             <p className="eyebrow">THE FOUNDER IS THE SOURCE CODE</p>
@@ -101,7 +102,7 @@ export default function Home() {
         </section>
 
         <section className={styles.transitionBand} aria-label="P.O.L.A.R. division transition">
-          <DeferredVideo src="/media/polar/02_Products_Transition.mp4" poster="/brand/launch-888/polar-deep-scan.png" />
+          <DeferredVideo src="/media/polar/02_Products_Transition.mp4" poster="/brand/approved/POLAR_DEEP_SCAN_ANALYSIS.png" />
           <div><span>P.O.L.A.R. ROUTING</span><strong>ENTERING DIVISION NETWORK</strong></div>
         </section>
 
@@ -144,7 +145,7 @@ export default function Home() {
 
         <section id="polar" className={styles.polarSection}>
           <div className={styles.polarInner}>
-            <div className={styles.polarVisual}><Image src="/brand/approved/BPEI_LOBBY_INSTALLATION_HD.png" alt="P.O.L.A.R. inside the BI POLARIZE enterprise environment" fill sizes="(max-width: 900px) 90vw, 42vw" /></div>
+            <div className={styles.polarVisual}><Image src="/brand/approved/POLAR_SYSTEM_ORCHESTRATION.png" alt="P.O.L.A.R. coordinating connected enterprise systems" fill sizes="(max-width: 900px) 90vw, 42vw" /></div>
             <div className={styles.polarCopy}>
               <div className="section-index">LEVEL 02 // P.O.L.A.R. CORE</div>
               <p className="eyebrow">PERSONALIZED OPERATIONS LIAISON AND AUTONOMOUS RETRIEVER</p>
@@ -176,10 +177,10 @@ export default function Home() {
         </section>
 
         <section className="method-section"><div className="section-shell">
-          <div className="section-index">LEVEL 03 // BIPOLARIZATION PROTOCOL</div>
+          <div className="section-index">LEVEL 03 // BIPOLARIZATION METHOD</div>
           <div className="method-head">
-            <h2>CHAOS, ENGINEERED<br />INTO <em>CLARITY.</em></h2>
-            <p>P.O.L.A.R. does not generate before the idea is polarized, and he does not institutionalize until the logic holds. The five-stage protocol converts unconventional thinking into durable enterprise intelligence without simplifying away what makes it valuable.</p>
+            <h2>FROM COMPLEX IDEA<br />TO <em>FUNCTIONING ENTERPRISE.</em></h2>
+            <p>The Bipolarization Method™ protects the original idea while forcing it through the five stages required to become something that can actually operate: extraction, polarization, architecture, blueprint engineering, and deployment.</p>
           </div>
           <div className="method-grid">{method.map(([n, t, d]) => <article key={n}><span>{n}</span><h3>{t}</h3><p>{d}</p></article>)}</div>
         </div></section>
@@ -190,7 +191,7 @@ export default function Home() {
         </section>
 
         <section className={styles.transitionBand} aria-label="Bipolarized Blueprint transition">
-          <DeferredVideo src="/media/polar/03_Blueprint_Transition.mp4" poster="/brand/divisions/polar/blueprint.webp" />
+          <DeferredVideo src="/media/polar/03_Blueprint_Transition.mp4" poster="/brand/approved/POLAR_BLUEPRINT_CONSTRUCTION.png" />
           <div><span>FLAGSHIP SYSTEM</span><strong>BLUEPRINT EXTRACTION READY</strong></div>
         </section>
 
@@ -215,11 +216,11 @@ export default function Home() {
         </section>
 
         <section className={`cta-section ${styles.videoCta}`}>
-          <DeferredVideo className={styles.ctaVideo} src="/media/polar/07_Intake_Transition.mp4" poster="/brand/launch-888/polar-corridor.png" />
+          <DeferredVideo className={styles.ctaVideo} src="/media/polar/07_Intake_Transition.mp4" poster="/brand/approved/POLAR_GREETING_ONBOARDING.png" />
           <div className="cta-mark"><Image src="/brand/bipolarization-symbol.png" alt="" fill sizes="370px" /></div>
           <p className="eyebrow">P.O.L.A.R. INTAKE CHANNEL // OPEN 24 HOURS</p>
           <h2>TELL US ABOUT<br /><em>YOUR THING.</em></h2>
-          <p>You do not need a finished pitch deck or consultant-approved vocabulary. Bring the idea as it actually exists. P.O.L.A.R. will extract the signal, identify what is missing, and route the next move through the right BPEI system.</p>
+          <p>A short guided intake helps us understand what you are building, what is missing, and where you need help. You do not need a finished pitch deck or consultant-approved vocabulary. Bring the idea as it actually exists.</p>
           <IntakeLink />
         </section>
     </PageShell>
