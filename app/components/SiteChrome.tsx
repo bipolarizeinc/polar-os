@@ -30,8 +30,8 @@ export function SiteHeader() {
         <nav aria-label="Primary navigation">
           {links.map(([label, href]) => <Link key={`${label}-${href}`} href={href}>{label}</Link>)}
         </nav>
-        <div className="header-actions">
-          <Link href="/portal" className="client-access-link">CLIENT LOGIN</Link>
+        <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
+          <Link href="/portal" className="text-action">CLIENT LOGIN</Link>
           <IntakeLink className="nav-cta" />
         </div>
         <MobileNav />
