@@ -14,6 +14,8 @@ const transmissions = [
 
 const modules = ["RESEARCH", "ARCHITECTURE", "DOCUMENTATION", "DEPLOYMENT"];
 const approvedGreeting = "/media/polar-intro.mp4";
+const canonicalPolar = "/brand/approved/POLAR_DEFINITIVE_FULL_BODY_MASTER.png";
+const diagnosticPolar = "/brand/approved/POLAR_DEEP_SCAN_ANALYSIS.png";
 
 export function PolarConsole() {
   const [messageIndex, setMessageIndex] = useState(0);
@@ -27,7 +29,7 @@ export function PolarConsole() {
 
   function trackPointer(event: MouseEvent<HTMLDivElement>) {
     const node = consoleRef.current;
-    if (!node) return;
+    if (!node || window.matchMedia("(max-width: 900px), (pointer: coarse)").matches) return;
     const rect = node.getBoundingClientRect();
     const x = (event.clientX - rect.left) / rect.width - 0.5;
     const y = (event.clientY - rect.top) / rect.height - 0.5;
@@ -64,9 +66,7 @@ export function PolarConsole() {
     }
   }
 
-  const polarImage = diagnostic
-    ? "/brand/launch-888/polar-deep-scan.png"
-    : "/brand/launch-888/polar-portrait.png";
+  const polarImage = diagnostic ? diagnosticPolar : canonicalPolar;
 
   return (
     <div ref={consoleRef} className={styles.console} onMouseEnter={() => setTracking(true)} onMouseMove={trackPointer} onMouseLeave={resetTracking}>
