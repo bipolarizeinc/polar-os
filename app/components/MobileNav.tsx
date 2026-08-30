@@ -6,10 +6,10 @@ import { usePathname } from "next/navigation";
 import styles from "./MobileNav.module.css";
 
 const links = [
-  ["Portal", "/portal"],
   ["Home", "/"],
-  ["Divisions", "/#products"],
   ["Services", "/services"],
+  ["How It Works", "/#how-it-works"],
+  ["Divisions", "/#products"],
   ["ETSA™", "/etsa"],
   ["P.O.L.A.R.", "/#polar"],
   ["About", "/about"],
@@ -44,6 +44,9 @@ export function MobileNav() {
           ))}
           <Link href="/intake" className={styles.cta} onClick={close}>
             TELL US ABOUT YOUR THING
+          </Link>
+          <Link href="/portal" className={styles.clientLink} onClick={close}>
+            CLIENT LOGIN
           </Link>
         </nav>
       </div>
