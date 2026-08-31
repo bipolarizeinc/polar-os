@@ -3,7 +3,7 @@ import { PageShell } from "../components/SiteChrome";
 export default function PrivacyPage() {
   return (
     <PageShell>
-      <section className="page-hero">
+      <section className="page-hero policy-hero privacy-page-hero">
         <div className="section-index">PUBLIC POLICY // PRIVACY</div>
         <p className="eyebrow">KEEPING YOUR BUSINESS YOUR BUSINESS</p>
         <h1>PRIVACY<br /><em>BY DESIGN.</em></h1>

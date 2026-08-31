@@ -2,14 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { IntakeLink } from "./IntakeLink";
 import { MobileNav } from "./MobileNav";
+import { flagships } from "../brand-data";
 
 const links = [
   ["Home", "/"],
-  ["Services", "/services"],
-  ["How It Works", "/#how-it-works"],
-  ["Divisions", "/#products"],
-  ["ETSA™", "/etsa"],
-  ["P.O.L.A.R.", "/#polar"],
+  ["Divisions", "/divisions"],
   ["About", "/about"],
   ["Contact", "/contact"],
 ] as const;
@@ -28,7 +25,14 @@ export function SiteHeader() {
           <span>BI POLARIZE<small>ENTERPRISES, INC.</small></span>
         </Link>
         <nav aria-label="Primary navigation">
-          {links.map(([label, href]) => <Link key={`${label}-${href}`} href={href}>{label}</Link>)}
+          {links.slice(0,1).map(([label, href]) => <Link key={`${label}-${href}`} href={href}>{label}</Link>)}
+          <div className="desktop-nav-menu">
+            <Link href="/flagships">Flagships <span>⌄</span></Link>
+            <div className="desktop-nav-dropdown">
+              {flagships.map((item)=><Link key={item.slug} href={`/flagships/${item.slug}`}><small>{item.step}</small>{item.shortName}</Link>)}
+            </div>
+          </div>
+          {links.slice(1).map(([label, href]) => <Link key={`${label}-${href}`} href={href}>{label}</Link>)}
         </nav>
         <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
           <Link href="/portal" className="text-action">CLIENT LOGIN</Link>
@@ -50,11 +54,10 @@ export function SiteFooter() {
         </div>
         <div>
           <b>Explore</b>
-          <Link href="/#products">Divisions</Link>
+          <Link href="/flagships">Flagships</Link>
+          <Link href="/divisions">Divisions</Link>
           <Link href="/services">Services</Link>
-          <Link href="/#how-it-works">How It Works</Link>
           <Link href="/etsa">ETSA™</Link>
-          <Link href="/#polar">P.O.L.A.R.</Link>
           <Link href="/about">About</Link>
         </div>
         <div>

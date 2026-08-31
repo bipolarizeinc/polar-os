@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { PageShell } from "../components/SiteChrome";
+import { DeferredVideo } from "../components/DeferredVideo";
 
 const approvedAssets = [
   ["BPEI_BRANDED_ENVIRONMENT_HD.png", "BRANDED ENVIRONMENT", true, false],
@@ -15,11 +16,17 @@ const approvedAssets = [
 export default function AboutPage() {
   return (
     <PageShell>
-      <section className="page-hero">
+      <section className="page-hero about-page-hero">
+        <Image src="/brand/approved/BPEI_WEBSITE_ABOUT_HERO_APPROVED.png" alt="" fill priority sizes="100vw" className="page-hero-media" />
         <div className="section-index">ABOUT // CORPORATE IDENTITY</div>
         <p className="eyebrow">BUILT FOR WHAT DOES NOT FIT</p>
         <h1>VISION DESERVES<br /><em>ARCHITECTURE.</em></h1>
         <p>BI POLARIZE ENTERPRISES, INC. is a business infrastructure and AI systems company engineered for founders, creators, and unconventional visionaries.</p>
+      </section>
+
+      <section className="approved-media-band">
+        <DeferredVideo src="/media/polar/06_About_Transition.mp4" poster="/founder.jpg" label="BI POLARIZE founder and company transition" />
+        <div><p className="eyebrow">FROM MISUNDERSTOOD TO UNDENIABLE</p><h2>THE VISION WAS NEVER THE PROBLEM.<br/><em>THE MISSING ARCHITECTURE WAS.</em></h2><p>BI POLARIZE exists to build the structure around ideas that conventional systems overlook, misunderstand, or flatten into something ordinary.</p></div>
       </section>
 
       <section className="section-shell values-section">

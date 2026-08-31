@@ -1,0 +1,11 @@
+import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
+import { DeferredVideo } from "../components/DeferredVideo";
+import { PageShell } from "../components/SiteChrome";
+import { divisions } from "../brand-data";
+import styles from "../marketing-pages.module.css";
+
+export const metadata: Metadata = { title: "BI POLARIZE Divisions", description: "Nine specialized BPEI divisions connected through one Blueprint and the P.O.L.A.R. operating system.", alternates: { canonical: "/divisions" } };
+
+export default function DivisionsPage(){return <PageShell><section className={`${styles.hero} ${styles.divisionHero}`}><Image className={styles.heroImage} src="/brand/divisions/polar/division-network-headquarters.webp" alt="Nine approved divisional P.O.L.A.R. agents assembled at BPEI headquarters" fill priority sizes="100vw"/><div className={styles.heroShade}/><div className={styles.heroCopy}><p className="eyebrow">NINE SPECIALISTS. ONE CONNECTED SYSTEM.</p><h1>MEET THE<br/><em>DIVISIONS.</em></h1><p>The approved divisional P.O.L.A.R.s represent the nine specialized build lanes that execute what the Blueprint requires.</p></div></section><section className={styles.mediaBand}><div className={styles.mediaFrame}><DeferredVideo src="/media/polar/02_Products_Transition.mp4" poster="/brand/divisions/polar/division-network-headquarters.webp" label="P.O.L.A.R. entering the BI POLARIZE division network"/></div><div className={styles.mediaCopy}><p className="eyebrow">P.O.L.A.R. // DIVISION INTELLIGENCE</p><h2>ONE NETWORK.<br/><em>NINE BUILD LANES.</em></h2><p>Each specialist keeps its own visual identity and capability lane while working from the same approved Blueprint.</p></div></section><section className={styles.divisionGrid}>{divisions.map((division)=><Link className={styles.divisionCard} key={division.slug} href={`/divisions/${division.slug}`}><div className={styles.divisionImage}><Image src={division.image} alt={`${division.name} approved divisional P.O.L.A.R.`} fill sizes="(max-width: 640px) 45vw, 17vw"/></div><div><span>{division.code}</span><h2>{division.name}</h2><p>{division.description}</p><small>ENTER DIVISION →</small></div></Link>)}</section></PageShell>}

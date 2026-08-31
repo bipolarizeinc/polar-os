@@ -33,9 +33,9 @@ export function AmbientAudio() {
 
   return (
     <>
-      <audio ref={audioRef} src="/media/polar-ambient.mp3" loop preload="none" />
-      <button className="ambient-control" data-active={active} onClick={toggle} aria-pressed={active}>
-        <i /> {active ? "BACKGROUND MUSIC ON" : "PLAY BACKGROUND MUSIC"}
+      <audio ref={audioRef} src="/media/innovate.mp3" loop preload="none" />
+      <button className="ambient-control" data-active={active} onClick={toggle} aria-pressed={active} aria-label={active ? "Pause Innovate" : "Play Innovate"}>
+        <i /> {active ? "INNOVATE PLAYING" : "PLAY INNOVATE"}
       </button>
     </>
   );

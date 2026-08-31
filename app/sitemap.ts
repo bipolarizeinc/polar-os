@@ -6,6 +6,10 @@ const baseUrl = "https://www.polarpaw.online";
 export default function sitemap(): MetadataRoute.Sitemap {
   const routes = [
     "",
+    "/flagships",
+    ...["extraction", "blueprint", "buildout", "funding-readiness", "deployment"].map((slug) => `/flagships/${slug}`),
+    "/divisions",
+    ...["sav-vidzgen", "dr-docx", "blueprint", "brandforge", "launchpad", "nexus", "pulse", "vault", "cipher"].map((slug) => `/divisions/${slug}`),
     "/services",
     "/about",
     "/contact",

@@ -1,11 +1,14 @@
 import Link from "next/link";
 import { PageShell } from "../components/SiteChrome";
 import { IntakeLink } from "../components/IntakeLink";
+import { DeferredVideo } from "../components/DeferredVideo";
+import Image from "next/image";
 
 export default function ContactPage() {
   return (
     <PageShell>
       <section className="page-hero contact-hero">
+        <Image src="/brand/approved/BPEI_POLAR_TECH_INTERFACE_HD.png" alt="" fill priority sizes="100vw" className="page-hero-media" />
         <div className="section-index">P.O.L.A.R. INTAKE // CHANNEL OPEN</div>
         <p className="eyebrow">TELL US ABOUT YOUR THING</p>
         <h1>
@@ -17,6 +20,11 @@ export default function ContactPage() {
           Give us the raw version: the idea, the problem, the obstacle, and the
           outcome you can see even if the structure is not there yet.
         </p>
+      </section>
+
+      <section className="approved-media-band contact-media-band">
+        <DeferredVideo src="/media/polar/07_Intake_Transition.mp4" poster="/brand/approved/POLAR_GREETING_ONBOARDING.png" label="P.O.L.A.R. opening the Tell Us About Your Thing intake channel" />
+        <div><p className="eyebrow">CHANNEL OPEN // 24 / 7</p><h2>YOU DON’T NEED A PERFECT PITCH.<br/><em>YOU NEED AN HONEST START.</em></h2><p>Bring the raw idea, the complication, the obstacle, and the result you can already see. P.O.L.A.R. will help organize the rest.</p></div>
       </section>
 
       <section className="section-shell contact-grid">

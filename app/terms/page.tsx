@@ -4,7 +4,7 @@ import { PageShell } from "../components/SiteChrome";
 export default function TermsPage() {
   return (
     <PageShell>
-      <section className="page-hero">
+      <section className="page-hero policy-hero terms-page-hero">
         <div className="section-index">PUBLIC POLICY // WEBSITE TERMS</div>
         <p className="eyebrow">CLEAR RULES. CLEAN EXPECTATIONS.</p>
         <h1>TERMS OF<br /><em>USE.</em></h1>
