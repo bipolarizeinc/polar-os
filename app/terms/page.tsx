@@ -1,17 +1,20 @@
 import Link from "next/link";
-import { PageShell } from "../components/SiteChrome";
+import { MarketingShell } from "../components/MarketingShell";
 
 export default function TermsPage() {
   return (
-    <PageShell>
-      <section className="page-hero">
-        <div className="section-index">PUBLIC POLICY // WEBSITE TERMS</div>
-        <p className="eyebrow">CLEAR RULES. CLEAN EXPECTATIONS.</p>
+    <MarketingShell>
+      <section className="parity-page-hero parity-policy-hero">
+        <div className="parity-page-hero-image parity-terms-hero-image" />
+        <div className="parity-gridlines" />
+        <div className="parity-page-hero-copy"><div className="parity-status"><i /> PUBLIC POLICY // CURRENT</div>
+        <p className="parity-eyebrow">CLEAR RULES. CLEAN EXPECTATIONS.</p>
         <h1>TERMS OF<br /><em>USE.</em></h1>
         <p>The rules governing PolarPaw.Online, P.O.L.A.R., customer access, and ETSA™.</p>
+        </div>
       </section>
 
-      <section className="section-shell policy-page">
+      <section className="parity-policy-content">
         <h2>Terms of Use</h2>
         <p><strong>Effective and last updated:</strong> August 27, 2026</p>
 
@@ -66,6 +69,6 @@ export default function TermsPage() {
         <h3>17. Contact</h3>
         <p>BI POLARIZE ENTERPRISES, INC.<br />Ogden, Utah, United States<br /><a href="mailto:YourThing@PolarPaw.Online">YourThing@PolarPaw.Online</a><br /><a href="tel:+18016868143">801-686-8143</a></p>
       </section>
-    </PageShell>
+    </MarketingShell>
   );
 }

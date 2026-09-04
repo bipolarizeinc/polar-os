@@ -2,15 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { IntakeLink } from "./IntakeLink";
 import { MobileNav } from "./MobileNav";
+import { flagships } from "../brand-data";
 
 const links = [
-  ["Dashboard", "/dashboard"],
-  ["Portal", "/portal"],
   ["Home", "/"],
-  ["Divisions", "/#products"],
-  ["Services", "/services"],
-  ["ETSA™", "/etsa"],
-  ["P.O.L.A.R.", "/#polar"],
+  ["Divisions", "/divisions"],
   ["About", "/about"],
   ["Contact", "/contact"],
 ] as const;
@@ -19,19 +15,29 @@ export function SiteHeader() {
   return (
     <header className="site-header">
       <div className="system-strip">
-        <span><i /> CUSTOMER SYSTEM ACTIVE</span>
-        <span>CLASSIFICATION: CUSTOMER</span>
-        <span>AUTHORIZATION: ACCESS VERIFIED</span>
+        <span><i /> PUBLIC SYSTEM ACTIVE</span>
+        <span>CLASSIFICATION: PUBLIC</span>
+        <span>POLARPAW.ONLINE</span>
       </div>
       <div className="nav-shell">
-        <Link href="/dashboard" className="brand-lockup" aria-label="BI POLARIZE client dashboard">
+        <Link href="/" className="brand-lockup" aria-label="BI POLARIZE ENTERPRISES home">
           <Image src="/brand/official/05_compact_icon_mark.png" alt="" width={90} height={46} />
           <span>BI POLARIZE<small>ENTERPRISES, INC.</small></span>
         </Link>
         <nav aria-label="Primary navigation">
-          {links.map(([label, href]) => <Link key={`${label}-${href}`} href={href}>{label}</Link>)}
+          {links.slice(0,1).map(([label, href]) => <Link key={`${label}-${href}`} href={href}>{label}</Link>)}
+          <div className="desktop-nav-menu">
+            <Link href="/flagships">Flagships <span>⌄</span></Link>
+            <div className="desktop-nav-dropdown">
+              {flagships.map((item)=><Link key={item.slug} href={`/flagships/${item.slug}`}><small>{item.step}</small>{item.shortName}</Link>)}
+            </div>
+          </div>
+          {links.slice(1).map(([label, href]) => <Link key={`${label}-${href}`} href={href}>{label}</Link>)}
         </nav>
-        <IntakeLink className="nav-cta" />
+        <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
+          <Link href="/portal" className="text-action">CLIENT LOGIN</Link>
+          <IntakeLink className="nav-cta" />
+        </div>
         <MobileNav />
       </div>
     </header>
@@ -48,12 +54,10 @@ export function SiteFooter() {
         </div>
         <div>
           <b>Explore</b>
-          <Link href="/dashboard">Client Dashboard</Link>
-          <Link href="/portal">Customer Portal</Link>
-          <Link href="/#products">Divisions</Link>
+          <Link href="/flagships">Flagships</Link>
+          <Link href="/divisions">Divisions</Link>
           <Link href="/services">Services</Link>
           <Link href="/etsa">ETSA™</Link>
-          <Link href="/#polar">P.O.L.A.R.</Link>
           <Link href="/about">About</Link>
         </div>
         <div>
@@ -61,8 +65,14 @@ export function SiteFooter() {
           <a href="tel:+18016868143">801-686-8143</a>
           <a href="mailto:YourThing@PolarPaw.Online">YourThing@PolarPaw.Online</a>
           <span>Intake open 24 / 7</span>
+          <Link href="/contact">Ask Us a Question</Link>
           <Link href="/privacy">Privacy Policy</Link>
           <Link href="/terms">Terms of Use</Link>
+        </div>
+        <div>
+          <b>Client Access</b>
+          <Link href="/portal">Customer Portal</Link>
+          <Link href="/dashboard">Client Dashboard</Link>
         </div>
       </div>
       <div className="footer-base">

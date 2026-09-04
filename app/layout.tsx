@@ -3,10 +3,10 @@ import localFont from "next/font/local";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { AmbientAudio } from "./components/AmbientAudio";
-import { PolarExperience } from "./components/PolarExperience";
 import "./globals.css";
 import "./brand-enhancements.css";
 import "./customer-experience.css";
+import "./sites-parity.css";
 
 const siteUrl = "https://www.polarpaw.online";
 
@@ -146,7 +146,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(founderSchema) }} />
-        <PolarExperience />
         {children}
         <AmbientAudio />
         <Analytics />

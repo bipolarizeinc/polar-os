@@ -951,7 +951,7 @@ button {
 }
 .footer-grid {
   display: grid;
-  grid-template-columns: 1.5fr 0.6fr 1fr;
+  grid-template-columns: 1.5fr 0.65fr 1fr 0.7fr;
   gap: 70px;
 }
 .footer-grid img {
@@ -1428,5 +1428,129 @@ button {
     flex-wrap: wrap;
     justify-content: flex-start;
     gap: 4px 20px;
+  }
+}
+
+/* Approved public-site navigation, media, and policy treatments. */
+.desktop-nav-menu {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.desktop-nav-menu > a span {
+  margin-left: 7px;
+  color: var(--cyan);
+}
+.desktop-nav-dropdown {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% - 2px);
+  left: 50%;
+  width: 245px;
+  padding: 10px;
+  border: 1px solid rgba(0, 229, 255, 0.24);
+  background: rgba(2, 7, 9, 0.98);
+  box-shadow: 0 24px 55px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 8px);
+  transition: opacity 0.2s, transform 0.2s;
+}
+.desktop-nav-menu:hover .desktop-nav-dropdown,
+.desktop-nav-menu:focus-within .desktop-nav-dropdown {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, 0);
+}
+.desktop-nav-dropdown a {
+  gap: 12px;
+  min-height: 42px !important;
+  padding: 0 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.desktop-nav-dropdown a:last-child {
+  border-bottom: 0;
+}
+.desktop-nav-dropdown small {
+  color: var(--fire);
+  font: 800 8px var(--font-geist-mono);
+}
+.page-hero.about-page-hero,
+.page-hero.contact-hero,
+.page-hero.policy-hero {
+  position: relative;
+  isolation: isolate;
+  max-width: none;
+  min-height: 620px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+  padding-inline: max(22px, calc((100vw - 1320px) / 2));
+}
+.page-hero-media {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  object-fit: cover;
+  opacity: 0.48;
+}
+.page-hero.about-page-hero::after,
+.page-hero.contact-hero::after,
+.page-hero.policy-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(90deg, rgba(3, 5, 6, 0.98), rgba(3, 5, 6, 0.72) 60%, rgba(3, 5, 6, 0.34)), linear-gradient(0deg, #030506, transparent 55%);
+}
+.page-hero.privacy-page-hero {
+  background: url("/brand/approved/BPEI_BRANDED_ENVIRONMENT_HD.png") center / cover no-repeat;
+}
+.page-hero.terms-page-hero {
+  background: url("/brand/approved/BPEI_OFF_THE_WALL_CONCEPT_HD.png") center / cover no-repeat;
+}
+.approved-media-band {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 560px;
+  border-bottom: 1px solid var(--line);
+  background: #040708;
+}
+.approved-media-band > video {
+  width: 100%;
+  height: 560px;
+  object-fit: cover;
+}
+.approved-media-band > div {
+  align-self: center;
+  padding: 75px 7vw;
+}
+.approved-media-band h2 {
+  margin: 18px 0 25px;
+  font: 900 clamp(42px, 5vw, 72px) / 0.92 var(--font-geist-sans);
+  letter-spacing: -0.055em;
+}
+.approved-media-band h2 em {
+  color: transparent;
+  font-style: normal;
+  -webkit-text-stroke: 1px var(--cyan);
+}
+.approved-media-band > div > p:last-child {
+  max-width: 650px;
+  color: #93a4a8;
+  line-height: 1.8;
+}
+@media (max-width: 900px) {
+  .approved-media-band {
+    grid-template-columns: 1fr;
+  }
+  .approved-media-band > video {
+    height: min(68vw, 520px);
+  }
+  .page-hero.about-page-hero,
+  .page-hero.contact-hero,
+  .page-hero.policy-hero {
+    min-height: 540px;
   }
 }

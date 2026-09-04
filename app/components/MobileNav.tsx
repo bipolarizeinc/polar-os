@@ -4,14 +4,11 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import styles from "./MobileNav.module.css";
+import { flagships } from "../brand-data";
 
 const links = [
-  ["Portal", "/portal"],
   ["Home", "/"],
-  ["Divisions", "/#products"],
-  ["Services", "/services"],
-  ["ETSA™", "/etsa"],
-  ["P.O.L.A.R.", "/#polar"],
+  ["Divisions", "/divisions"],
   ["About", "/about"],
   ["Contact", "/contact"],
 ] as const;
@@ -39,11 +36,19 @@ export function MobileNav() {
       </button>
       <div className={styles.panel} data-open={open ? "true" : "false"}>
         <nav aria-label="Mobile navigation">
-          {links.map(([label, href]) => (
+          <Link href="/" onClick={close}>Home</Link>
+          <span className={styles.groupLabel}>FLAGSHIPS // FIVE-STAGE BUILD PATH</span>
+          {flagships.map((item)=><Link className={styles.subLink} key={item.slug} href={`/flagships/${item.slug}`} onClick={close}><small>{item.step}</small>{item.shortName}</Link>)}
+          {links.slice(1).map(([label, href]) => (
             <Link key={`${label}-${href}`} href={href} onClick={close}>{label}</Link>
           ))}
+          <Link href="/services" onClick={close}>Focused Services</Link>
+          <Link href="/etsa" onClick={close}>ETSA™</Link>
           <Link href="/intake" className={styles.cta} onClick={close}>
             TELL US ABOUT YOUR THING
+          </Link>
+          <Link href="/portal" className={styles.clientLink} onClick={close}>
+            CLIENT LOGIN
           </Link>
         </nav>
       </div>

@@ -1,16 +1,19 @@
-import { PageShell } from "../components/SiteChrome";
+import { MarketingShell } from "../components/MarketingShell";
 
 export default function PrivacyPage() {
   return (
-    <PageShell>
-      <section className="page-hero">
-        <div className="section-index">PUBLIC POLICY // PRIVACY</div>
-        <p className="eyebrow">KEEPING YOUR BUSINESS YOUR BUSINESS</p>
+    <MarketingShell>
+      <section className="parity-page-hero parity-policy-hero parity-privacy-hero">
+        <div className="parity-page-hero-image parity-policy-hero-image" />
+        <div className="parity-gridlines" />
+        <div className="parity-page-hero-copy"><div className="parity-status"><i /> PUBLIC POLICY // CURRENT</div>
+        <p className="parity-eyebrow">KEEPING YOUR BUSINESS YOUR BUSINESS</p>
         <h1>PRIVACY<br /><em>BY DESIGN.</em></h1>
         <p>How BI POLARIZE ENTERPRISES, INC. handles information across PolarPaw.Online, P.O.L.A.R., customer access, and ETSA™.</p>
+        </div>
       </section>
 
-      <section className="section-shell policy-page">
+      <section className="parity-policy-content">
         <h2>Privacy Policy</h2>
         <p><strong>Effective and last updated:</strong> August 27, 2026</p>
 
@@ -76,6 +79,6 @@ export default function PrivacyPage() {
         <h3>17. Contact</h3>
         <p>BI POLARIZE ENTERPRISES, INC.<br />Ogden, Utah, United States<br /><a href="mailto:YourThing@PolarPaw.Online">YourThing@PolarPaw.Online</a><br /><a href="tel:+18016868143">801-686-8143</a></p>
       </section>
-    </PageShell>
+    </MarketingShell>
   );
 }
