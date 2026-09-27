@@ -15,47 +15,50 @@ export function CustomerAuthPanel({ nextPath = "/dashboard" }: { nextPath?: stri
     setLoading(true);
     setError("");
 
-    const data = new FormData(event.currentTarget);
-    const payload = mode === "register"
-      ? {
-          fullName: String(data.get("fullName") || "").trim(),
-          email: String(data.get("email") || "").trim(),
-          password: String(data.get("password") || ""),
-        }
-      : {
-          email: String(data.get("email") || "").trim(),
-          password: String(data.get("password") || ""),
-        };
-
-    const response = await fetch(`/api/etsa/auth/${mode}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-    const body = await response.json().catch(() => ({}));
-    setLoading(false);
-
-    if (!response.ok) {
-      const message = String(body.error || "Unable to continue.");
-      if (mode === "login") {
-        setError("That email/password combination did not match. If this is your first visit, create a new customer account instead.");
-      } else if (/already registered|already exists|user exists/i.test(message)) {
-        setMode("login");
-        setError("An account already exists for that email. Sign in with the password you created.");
-      } else {
-        setError(message);
-      }
-      return;
-    }
-
     try {
-      sessionStorage.setItem("bpei_dashboard_login", "1");
-    } catch {
-      // Session storage may be unavailable in strict privacy modes.
-    }
+      const data = new FormData(event.currentTarget);
+      const payload = mode === "register"
+        ? {
+            fullName: String(data.get("fullName") || "").trim(),
+            email: String(data.get("email") || "").trim(),
+            password: String(data.get("password") || ""),
+          }
+        : {
+            email: String(data.get("email") || "").trim(),
+            password: String(data.get("password") || ""),
+          };
 
-    router.push(nextPath.startsWith("/") ? nextPath : "/dashboard");
-    router.refresh();
+      const response = await fetch(`/api/etsa/auth/${mode}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const body = await response.json().catch(() => ({}));
+      setLoading(false);
+
+      if (!response.ok) {
+        const message = String(body.error || "Unable to continue.");
+        if (mode === "login") {
+          setError(message);
+        } else if (/already registered|already exists/i.test(message)) {
+          setMode("login");
+          setError("An account already exists for that email. Sign in with the password you created.");
+        } else {
+          setError(message);
+        }
+        return;
+      }
+
+      try {
+        sessionStorage.setItem("bpei_dashboard_login", "1");
+      } catch {}
+
+      router.push(nextPath.startsWith("/") ? nextPath : "/dashboard");
+      router.refresh();
+    } catch {
+      setLoading(false);
+      setError("The customer gateway could not reach the authentication service. Please try again.");
+    }
   }
 
   return (
@@ -74,9 +77,7 @@ export function CustomerAuthPanel({ nextPath = "/dashboard" }: { nextPath?: stri
       </div>
 
       <form className={styles.form} onSubmit={submit}>
-        {mode === "register" && (
-          <label>Full name<input name="fullName" autoComplete="name" required /></label>
-        )}
+        {mode === "register" && <label>Full name<input name="fullName" autoComplete="name" required /></label>}
         <label>Email<input name="email" type="email" autoComplete="email" required /></label>
         <label>Password<input name="password" type="password" minLength={8} autoComplete={mode === "login" ? "current-password" : "new-password"} required /></label>
         {error && <div className={styles.error} role="alert">{error}</div>}
