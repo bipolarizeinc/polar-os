@@ -10,7 +10,11 @@ export const metadata: Metadata = {
   alternates: { canonical: "/welcome" },
 };
 
-export default function WelcomePage() {
+export default async function WelcomePage({ searchParams }: { searchParams: Promise<{ next?: string | string[]; reason?: string | string[] }> }) {
+  const params = await searchParams;
+  const rawNext = Array.isArray(params.next) ? params.next[0] : params.next;
+  const nextPath = rawNext && rawNext.startsWith("/") && !rawNext.startsWith("//") ? rawNext : "/dashboard";
+
   return (
     <main className={styles.gateway}>
       <section className={styles.intro}>
@@ -21,15 +25,7 @@ export default function WelcomePage() {
           <h1>WELCOME TO<br /><em>THE SYSTEM.</em></h1>
           <p>Meet P.O.L.A.R., then create or enter your customer account. One login unlocks the portal, divisions, ETSA™, services, and customer-facing operating systems.</p>
           <div className={styles.videoFrame}>
-            <video
-              src="/media/polar-intro.mp4"
-              poster="/brand/approved/BPEI_POLAR_TECH_INTERFACE_HD.png"
-              controls
-              autoPlay
-              muted
-              playsInline
-              preload="metadata"
-            />
+            <video src="/media/polar-intro.mp4" poster="/brand/approved/BPEI_POLAR_TECH_INTERFACE_HD.png" controls autoPlay muted playsInline preload="metadata" />
             <div className={styles.videoLabel}><span>P.O.L.A.R. INTRO TRANSMISSION</span><span>01 // VERIFIED</span></div>
           </div>
         </div>
@@ -39,7 +35,7 @@ export default function WelcomePage() {
         <div className={styles.accessVisual}>
           <Image src="/brand/approved/BPEI_POLAR_TECH_INTERFACE_HD.png" alt="P.O.L.A.R. customer access interface" fill sizes="(max-width: 900px) 100vw, 46vw" />
         </div>
-        <CustomerAuthPanel nextPath="/dashboard" />
+        <CustomerAuthPanel nextPath={nextPath} />
       </section>
     </main>
   );
