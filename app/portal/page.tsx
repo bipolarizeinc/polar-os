@@ -8,11 +8,12 @@ import styles from "./portal.module.css";
 
 const destinations = [
   ["HOME", "/", "Enter the full BI POLARIZE website and P.O.L.A.R. operating environment."],
-  ["DIVISIONS", "/#products", "Explore all nine BPEI divisions and their dedicated P.O.L.A.R. transmissions."],
+  ["DIVISIONS", "/divisions", "Explore all nine BPEI divisions and their dedicated P.O.L.A.R. transmissions."],
   ["SERVICES", "/services", "Browse capabilities, direct services, starting prices, and routed intake paths."],
   ["ETSA™", "/etsa", "Take or continue the Enterprise Talent & Skills Alignment assessment."],
-  ["P.O.L.A.R.", "/#polar", "Enter the P.O.L.A.R. intelligence and enterprise memory layer."],
-  ["ABOUT", "/about", "Understand the company, methodology, founder doctrine, and operating philosophy."],
+  ["P.O.L.A.R. OPERATIONS", "/dashboard", "Open your authenticated client dashboard and active operating paths."],
+  ["PLATFORMS", "/platforms", "Open the BPEI product layer: Blueprint Extraction and ETSA™."],
+  ["ABOUT", "/about", "Understand the company, methodology, and operating philosophy."],
   ["CONTACT", "/contact", "Reach BI POLARIZE directly."],
   ["TELL US ABOUT YOUR THING", "/intake", "Start a routed intake with your customer context already connected."],
 ] as const;
@@ -20,13 +21,13 @@ const destinations = [
 export default async function CustomerPortalPage() {
   const store = await cookies();
   const token = store.get("etsa_access")?.value;
-  if (!token) redirect("/welcome");
+  if (!token) redirect("/welcome?next=/portal");
 
   let user: { id: string; email?: string; user_metadata?: Record<string, unknown> };
   try {
     user = await getEtsaUser(token);
   } catch {
-    redirect("/welcome?reason=session");
+    redirect("/welcome?reason=session&next=/portal");
   }
 
   const displayName = String(user.user_metadata?.full_name || user.email || "Customer");
