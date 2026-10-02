@@ -76,3 +76,18 @@ export function getEtsaUser(accessToken: string) {
 export function logoutEtsaUser(accessToken: string) {
   return authFetch("/logout?scope=local", { method: "POST", headers: { Authorization: `Bearer ${accessToken}` } });
 }
+
+export function requestCustomerPasswordReset(email: string, redirectTo: string) {
+  return authFetch<{ message?: string }>(`/recover?redirect_to=${encodeURIComponent(redirectTo)}`, {
+    method: "POST",
+    body: JSON.stringify({ email })
+  });
+}
+
+export function updateCustomerPassword(accessToken: string, password: string) {
+  return authFetch<{ id: string; email?: string }>("/user", {
+    method: "PUT",
+    headers: { Authorization: `Bearer ${accessToken}` },
+    body: JSON.stringify({ password })
+  });
+}
