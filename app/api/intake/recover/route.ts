@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
-import { recoverPolarSession } from "../../../lib/polar-session";
+import { cookies } from "next/headers";
+import { claimPolarSession, recoverPolarSession } from "../../../lib/polar-session";
+import { getEtsaUser } from "../../../lib/etsa/auth";
 
 type RecoveryRequest = {
   extractionId?: string;
@@ -16,7 +18,14 @@ export async function POST(request: Request) {
   }
 
   try {
-    const session = await recoverPolarSession(body);
+    const accessToken = (await cookies()).get("etsa_access")?.value;
+    let userId: string | null = null;
+    if (accessToken) {
+      try { userId = (await getEtsaUser(accessToken)).id; } catch {}
+    }
+    const session = userId
+      ? await claimPolarSession({ ...body, userId })
+      : await recoverPolarSession(body);
     if (!session) {
       // Intentionally avoid telling the caller which credential was wrong.
       return NextResponse.json(
