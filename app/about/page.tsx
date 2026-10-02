@@ -1,5 +1,64 @@
+import Image from "next/image";
 import Link from "next/link";
 import { DeferredVideo } from "../components/DeferredVideo";
 import { MarketingShell } from "../components/MarketingShell";
 
-export default function AboutPage(){return <MarketingShell><section className="parity-page-hero"><div className="parity-page-hero-image about-hero-image"/><div className="parity-gridlines"/><div className="parity-page-hero-copy"><div className="parity-status"><i/> CORPORATE IDENTITY // ACTIVE</div><p className="parity-eyebrow">BUILT FOR WHAT DOES NOT FIT</p><h1>VISION DESERVES<br/><em>ARCHITECTURE.</em></h1><p>BI POLARIZE ENTERPRISES, INC. is a business infrastructure and AI systems company engineered for founders, creators, and unconventional visionaries.</p></div></section><section className="parity-about-story"><div><p className="parity-eyebrow">THE BUSINESS BEHIND THE BLUEPRINT</p><h2>WE SEE WHAT<br/><em>OTHERS DISMISS.</em></h2><p>Our mission is to identify unrealized potential within people, ideas, and emerging markets—and engineer the infrastructure needed to move beyond the limitations of any single individual.</p><p>Our vision is an entrepreneurial ecosystem where unconventional concepts are protected, documented, automation-ready, and positioned for sustainable growth.</p></div><div className="parity-founder-motion"><DeferredVideo src="/media/sites/dal-j.mp4" poster="/brand/approved/BPEI_BRANDED_ENVIRONMENT_HD.png" label="Douglas Arnold Long Jr., founder of BI POLARIZE"/><span>DOUGLAS ARNOLD LONG JR. // FOUNDER</span></div></section><section className="parity-values"><article><span>01</span><h3>Creativity + discipline</h3><p>Original thought gets room to breathe and a structure strong enough to carry it.</p></article><article><span>02</span><h3>Spirit + strategy</h3><p>Purpose can guide the work without replacing research, evidence, or execution.</p></article><article><span>03</span><h3>Human + machine</h3><p>Knowledge is built for human clarity and clean machine-readable intelligence.</p></article></section><section className="parity-about-close"><p className="parity-eyebrow">FROM MISUNDERSTOOD TO UNDENIABLE</p><h2>WE QUESTION IT. CHALLENGE IT.<br/><em>POLARIZE IT. THEN BUILD IT.</em></h2><p>Bring us the raw thought, complicated problem, unfinished concept, strange invention, unconventional solution, or big vision nobody else understands.</p><Link className="parity-button parity-primary" href="/contact">TELL US ABOUT YOUR THING™ <span>↗</span></Link></section></MarketingShell>}
+export default function AboutPage() {
+  return <MarketingShell>
+    <section className="parity-page-hero">
+      <div className="parity-page-hero-image about-hero-image" />
+      <div className="parity-gridlines" />
+      <div className="parity-page-hero-copy">
+        <div className="parity-status"><i /> CORPORATE IDENTITY // ACTIVE</div>
+        <p className="parity-eyebrow">BUILT FOR WHAT DOES NOT FIT</p>
+        <h1>VISION DESERVES<br /><em>ARCHITECTURE.</em></h1>
+        <p>BI POLARIZE ENTERPRISES, INC. is a business infrastructure and AI systems company engineered for founders, creators, and unconventional visionaries.</p>
+      </div>
+    </section>
+
+    <section className="parity-about-story">
+      <div>
+        <p className="parity-eyebrow">THE BUSINESS BEHIND THE BLUEPRINT</p>
+        <h2>WE SEE WHAT<br /><em>OTHERS DISMISS.</em></h2>
+        <p>Our mission is to identify unrealized potential within people, ideas, and emerging markets—and engineer the infrastructure needed to move beyond the limitations of any single individual.</p>
+        <p>Our vision is an entrepreneurial ecosystem where unconventional concepts are protected, documented, automation-ready, and positioned for sustainable growth.</p>
+      </div>
+      <div className="parity-founder-motion">
+        <DeferredVideo src="/media/sites/dal-j.mp4" poster="/brand/approved/BPEI_BRANDED_ENVIRONMENT_HD.png" label="Douglas Arnold Long Jr., founder of BI POLARIZE" />
+        <span>DOUGLAS ARNOLD LONG JR. // FOUNDER</span>
+      </div>
+    </section>
+
+    <section className="parity-brand-doctrine" aria-labelledby="brand-doctrine-title">
+      <div className="parity-doctrine-lead">
+        <p className="parity-eyebrow">CORPORATE DOCTRINE // VISUAL AUTHENTICATION</p>
+        <h2 id="brand-doctrine-title">BALANCING EXTREMES.<br /><em>CREATING POSSIBILITIES.</em></h2>
+        <p>The Bipolarization symbol represents the deliberate tension at the center of the company: creativity and discipline, spirit and strategy, human intelligence and machine capability.</p>
+      </div>
+      <figure className="parity-doctrine-wide">
+        <Image src="/brand/approved/BPEI_BRAND_PHILOSOPHY_APPROVED.png" alt="BI POLARIZE brand philosophy: Balancing Extremes. Creating Possibilities. Off the Wall and Out of the Box." fill sizes="(max-width: 900px) 100vw, 64vw" />
+      </figure>
+      <div className="parity-doctrine-pair">
+        <figure>
+          <Image src="/brand/approved/BPEI_EXECUTIVE_NAMEPLATE_APPROVED.png" alt="BI POLARIZE ENTERPRISES, INC. executive nameplate" fill sizes="(max-width: 640px) 100vw, 42vw" />
+        </figure>
+        <figure>
+          <Image src="/brand/bipolarization-symbol.png" alt="Official Bipolarization symbol" fill sizes="(max-width: 640px) 100vw, 42vw" />
+        </figure>
+      </div>
+    </section>
+
+    <section className="parity-values">
+      <article><span>01</span><h3>Creativity + discipline</h3><p>Original thought gets room to breathe and a structure strong enough to carry it.</p></article>
+      <article><span>02</span><h3>Spirit + strategy</h3><p>Purpose can guide the work without replacing research, evidence, or execution.</p></article>
+      <article><span>03</span><h3>Human + machine</h3><p>Knowledge is built for human clarity and clean machine-readable intelligence.</p></article>
+    </section>
+
+    <section className="parity-about-close">
+      <p className="parity-eyebrow">FROM MISUNDERSTOOD TO UNDENIABLE</p>
+      <h2>WE QUESTION IT. CHALLENGE IT.<br /><em>POLARIZE IT. THEN BUILD IT.</em></h2>
+      <p>Bring us the raw thought, complicated problem, unfinished concept, strange invention, unconventional solution, or big vision nobody else understands.</p>
+      <Link className="parity-button parity-primary" href="/contact">TELL US ABOUT YOUR THING™ <span>↗</span></Link>
+    </section>
+  </MarketingShell>;
+}

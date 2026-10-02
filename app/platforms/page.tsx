@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { MarketingShell } from "../components/MarketingShell";
 
@@ -27,6 +28,27 @@ export default function PlatformsPage() {
     <section className="parity-sequence">
       <span>PRODUCT LOGIC</span><b>EXTRACT → ASSESS → ARCHITECT → BUILD → OPERATE</b>
       <p>Public visitors can explore the system. Authenticated customers get operating access. Each platform is designed to produce a real artifact, record, route, or next action rather than another pretty dead end.</p>
+    </section>
+    <section className="parity-polar-functions" aria-labelledby="polar-functions-title">
+      <div className="parity-polar-functions-head">
+        <p className="parity-eyebrow">P.O.L.A.R. // OPERATING PRESENCE</p>
+        <h2 id="polar-functions-title">ONE INTELLIGENCE.<br/><em>THREE CUSTOMER FUNCTIONS.</em></h2>
+        <p>P.O.L.A.R. is not decorative brand chrome. It protects the operating environment, analyzes founder input, and guides each customer toward a real next action.</p>
+      </div>
+      <div className="parity-polar-functions-grid">
+        <Link href="/welcome?next=/dashboard">
+          <figure><Image src="/brand/approved/POLAR_FACILITY_GUARDIAN_APPROVED.jpg" alt="P.O.L.A.R. guarding the BI POLARIZE operating environment" fill sizes="(max-width: 760px) 100vw, 33vw" /></figure>
+          <span>01 // PROTECT</span><h3>Secure Client Operations</h3><p>Enter the authenticated dashboard, portal, assessment history, and Blueprint workspace.</p><b>OPEN CLIENT ACCESS →</b>
+        </Link>
+        <Link href="/intake">
+          <figure><Image src="/brand/approved/POLAR_HOLOGRAPHIC_SYSTEMS_APPROVED.jpg" alt="P.O.L.A.R. analyzing business intelligence and system data" fill sizes="(max-width: 760px) 100vw, 33vw" /></figure>
+          <span>02 // ANALYZE</span><h3>Extract the Real Idea</h3><p>Turn scattered founder knowledge into a saved analysis, routing decision, and Blueprint starting point.</p><b>START BLUEPRINT EXTRACTION →</b>
+        </Link>
+        <Link href="/contact">
+          <figure><Image src="/brand/approved/POLAR_HOLOGRAPHIC_PORTRAIT_APPROVED.png" alt="P.O.L.A.R. enterprise intelligence companion" fill sizes="(max-width: 760px) 100vw, 33vw" /></figure>
+          <span>03 // GUIDE</span><h3>Find the Right Build Lane</h3><p>Bring the raw version of the problem and let BPEI route it to the right platform, flagship, or division.</p><b>TELL US ABOUT YOUR THING™ →</b>
+        </Link>
+      </div>
     </section>
   </MarketingShell>;
 }
