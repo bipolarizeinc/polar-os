@@ -56,6 +56,7 @@ export default function CommandCenterPage() {
       recoveryToken: String(data.get("recoveryToken") ?? "").trim(),
     };
 
+    try {
     const response = await fetch("/api/intake/recover", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -75,7 +76,8 @@ export default function CommandCenterPage() {
     setCredential(nextCredential);
     setSession(body.session);
     setMessages([]);
-    setLoading(false);
+    } catch { setError("Unable to reach the recovery service. Please retry with your extraction ID and token."); }
+    finally { setLoading(false); }
   }
 
   async function askPolar(event: FormEvent<HTMLFormElement>) {

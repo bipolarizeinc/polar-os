@@ -38,6 +38,8 @@ export async function GET() {
 export async function POST() {
   try {
     const { token, user } = await auth();
+    const consent = await etsaRest<Array<{id:string}>>(`etsa_consent_records?user_id=eq.${user.id}&notice_version=eq.ETSA-DATA-1.0&select=id&limit=1`, token);
+    if (!consent.length) return NextResponse.json({ error: "Please acknowledge the assessment data notice before starting." }, { status: 403 });
     const allSessions = await etsaRest<Array<{id:string;status:string;started_at:string}>>(`etsa_assessment_sessions?user_id=eq.${user.id}&assessment_version=eq.ETSA-1.0&order=started_at.asc&select=id,status,started_at`, token);
     const active = [...allSessions].reverse().find(item => ["CREATED","IN_PROGRESS","PAUSED","SUBMITTED","SCORING","REVIEW_REQUIRED"].includes(item.status));
     if (active) {

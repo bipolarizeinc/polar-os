@@ -1,3 +1,4 @@
+import { validEtsaAnswer } from "@/app/lib/etsa/answer-validation";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { etsaRest } from "@/app/lib/etsa/data";
@@ -13,8 +14,11 @@ export async function POST(request: Request) {
     const assessmentId = String(body.assessmentId ?? "");
     if (!assessmentId) return NextResponse.json({ error: "Assessment ID required." }, { status: 400 });
 
-    const responses = await etsaRest<Array<{question_id:number}>>(`etsa_responses?assessment_id=eq.${assessmentId}&user_id=eq.${user.id}&select=question_id`, token);
-    const answered = new Set(responses.map(r => Number(r.question_id)));
+    const sessions = await etsaRest<Array<{id:string;status:string}>>(`etsa_assessment_sessions?id=eq.${encodeURIComponent(assessmentId)}&user_id=eq.${user.id}&select=id,status`, token);
+    if (!sessions.length) return NextResponse.json({ error: "Assessment not found." }, { status: 404 });
+    if (!["CREATED","IN_PROGRESS","PAUSED"].includes(sessions[0].status)) return NextResponse.json({ error: "This assessment has already been submitted." }, { status: 409 });
+    const responses = await etsaRest<Array<{question_id:number;answer_value:unknown;answer_text:string|null}>>(`etsa_responses?assessment_id=eq.${assessmentId}&user_id=eq.${user.id}&select=question_id,answer_value,answer_text`, token);
+    const answered = new Set(responses.filter(r => validEtsaAnswer(r.question_id, r.answer_value, r.answer_text)).map(r => Number(r.question_id)));
     const missing = Array.from({ length: 70 }, (_, i) => i + 1).filter(id => !answered.has(id));
     if (missing.length) return NextResponse.json({ error: "Assessment is incomplete.", missing }, { status: 400 });
 

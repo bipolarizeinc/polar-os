@@ -19,6 +19,13 @@ export function MobileNav() {
 
   useEffect(() => setOpen(false), [pathname]);
 
+  useEffect(() => {
+    if (!open) return;
+    const handleKey = (event: KeyboardEvent) => { if (event.key === "Escape") setOpen(false); };
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, [open]);
+
   const close = () => setOpen(false);
 
   return (
@@ -28,13 +35,14 @@ export function MobileNav() {
         className={styles.toggle}
         aria-label={open ? "Close navigation menu" : "Open navigation menu"}
         aria-expanded={open}
+        aria-controls="mobile-navigation"
         onClick={() => setOpen((value) => !value)}
       >
         <span />
         <span />
         <span />
       </button>
-      <div className={styles.panel} data-open={open ? "true" : "false"}>
+      <div id="mobile-navigation" inert={!open} className={styles.panel} data-open={open ? "true" : "false"}>
         <nav aria-label="Mobile navigation">
           <Link href="/" onClick={close}>Home</Link>
           <span className={styles.groupLabel}>FLAGSHIPS // FIVE-STAGE BUILD PATH</span>
@@ -42,6 +50,8 @@ export function MobileNav() {
           {links.slice(1).map(([label, href]) => (
             <Link key={`${label}-${href}`} href={href} onClick={close}>{label}</Link>
           ))}
+          <Link href="/platforms" onClick={close}>Platforms</Link>
+          <Link href="/command-center" onClick={close}>Recover Blueprint</Link>
           <Link href="/services" onClick={close}>Focused Services</Link>
           <Link href="/etsa" onClick={close}>ETSA™</Link>
           <Link href="/intake" className={styles.cta} onClick={close}>

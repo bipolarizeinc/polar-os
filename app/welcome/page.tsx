@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { customerDestination } from "../lib/customer-navigation";
 import Image from "next/image";
 import { CustomerAuthPanel } from "../components/CustomerAuthPanel";
 import styles from "./welcome.module.css";
@@ -10,10 +12,10 @@ export const metadata: Metadata = {
   alternates: { canonical: "/welcome" },
 };
 
-export default async function WelcomePage({ searchParams }: { searchParams: Promise<{ next?: string | string[]; reason?: string | string[] }> }) {
+export default async function WelcomePage({ searchParams }: { searchParams: Promise<{ next?: string | string[]; reason?: string | string[]; mode?: string | string[] }> }) {
   const params = await searchParams;
   const rawNext = Array.isArray(params.next) ? params.next[0] : params.next;
-  const nextPath = rawNext && rawNext.startsWith("/") && !rawNext.startsWith("//") ? rawNext : "/dashboard";
+  const nextPath = customerDestination(rawNext);
 
   return (
     <main className={styles.gateway}>
@@ -35,7 +37,7 @@ export default async function WelcomePage({ searchParams }: { searchParams: Prom
         <div className={styles.accessVisual}>
           <Image src="/brand/approved/BPEI_POLAR_TECH_INTERFACE_HD.png" alt="P.O.L.A.R. customer access interface" fill sizes="(max-width: 900px) 100vw, 46vw" />
         </div>
-        <CustomerAuthPanel nextPath={nextPath} />
+        <div>{params.reason === "session" && <p role="status">Your session has ended. Sign in to continue where you left off.</p>}<CustomerAuthPanel nextPath={nextPath} initialMode={params.mode === "register" ? "register" : "login"} /><Link href="/">← Back to BPEI</Link><p><Link href="/contact">Need help accessing your account?</Link></p></div>
       </section>
     </main>
   );

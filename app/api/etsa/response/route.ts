@@ -1,3 +1,4 @@
+import { validEtsaAnswer } from "@/app/lib/etsa/answer-validation";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { etsaRest } from "@/app/lib/etsa/data";
@@ -15,6 +16,11 @@ export async function PUT(request: Request) {
     if (!assessmentId || !Number.isInteger(questionId) || questionId < 1 || questionId > 70) {
       return NextResponse.json({ error: "Invalid assessment response." }, { status: 400 });
     }
+
+    if (!validEtsaAnswer(questionId, body.answerValue, body.answerText)) return NextResponse.json({ error: "Choose a valid answer or enter a response within the word limit." }, { status: 400 });
+    const sessions = await etsaRest<Array<{id:string;status:string}>>(`etsa_assessment_sessions?id=eq.${encodeURIComponent(assessmentId)}&user_id=eq.${user.id}&select=id,status`, token);
+    if (!sessions.length) return NextResponse.json({ error: "Assessment not found." }, { status: 404 });
+    if (!["CREATED","IN_PROGRESS","PAUSED"].includes(sessions[0].status)) return NextResponse.json({ error: "This assessment has been submitted. Open results to see its status." }, { status: 409 });
 
     const row = {
       assessment_id: assessmentId,

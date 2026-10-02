@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { setCustomerSession } from "@/app/lib/etsa/session-cookies";
 import { loginEtsaUser } from "@/app/lib/etsa/auth";
 
 export async function POST(request: Request) {
@@ -14,20 +15,7 @@ export async function POST(request: Request) {
     const session = await loginEtsaUser(email, password);
     const response = NextResponse.json({ ok: true, user: session.user });
 
-    response.cookies.set("etsa_access", session.access_token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "lax",
-      path: "/",
-      maxAge: session.expires_in || 3600
-    });
-    response.cookies.set("etsa_refresh", session.refresh_token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "lax",
-      path: "/",
-      maxAge: 60 * 60 * 24 * 30
-    });
+    setCustomerSession(response, session);
 
     return response;
   } catch (error) {

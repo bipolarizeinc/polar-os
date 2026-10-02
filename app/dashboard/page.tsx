@@ -6,6 +6,7 @@ import Link from "next/link";
 import { DashboardReviewPrompt } from "../components/DashboardReviewPrompt";
 import { PageShell } from "../components/SiteChrome";
 import { getEtsaUser } from "../lib/etsa/auth";
+import { etsaRest } from "../lib/etsa/data";
 import styles from "./dashboard.module.css";
 
 export const metadata: Metadata = {
@@ -33,6 +34,13 @@ export default async function DashboardPage() {
   } catch {
     redirect("/welcome?reason=session&next=/dashboard");
   }
+
+  let assessment: {status:string;current_question:number} | undefined;
+  let assessmentUnavailable = false;
+  try {
+    assessment = (await etsaRest<Array<{status:string;current_question:number}>>(`etsa_assessment_sessions?user_id=eq.${user.id}&order=started_at.desc&limit=1&select=status,current_question`, token))[0];
+  } catch { assessmentUnavailable = true; }
+  const assessmentPath = !assessment ? "/etsa/notice" : ["CREATED","IN_PROGRESS","PAUSED"].includes(assessment.status) ? "/etsa/assessment" : "/etsa/results";
 
   const displayName = String(user.user_metadata?.full_name || user.email?.split("@")[0] || "Client");
   const email = user.email ?? "Verified customer";
@@ -89,9 +97,13 @@ export default async function DashboardPage() {
           <span>04 ACTIVE PATHS</span>
         </div>
 
+        <section className={styles.support} aria-label="Your ETSA assessment">
+          <div><p>ETSA™ // YOUR ASSESSMENT</p><h2>{assessmentUnavailable ? "STATUS UNAVAILABLE" : assessment ? assessment.status.replaceAll("_", " ") : "READY TO BEGIN"}</h2><span>{assessmentUnavailable ? "We could not load your status. Retry through ETSA." : assessment ? `Saved progress: question ${assessment.current_question} of 70.` : "Your first assessment starts with the data notice."}</span></div>
+          <Link href={assessmentUnavailable ? "/etsa/results" : assessmentPath}>{assessment ? "CONTINUE ETSA →" : "OPEN ETSA →"}</Link>
+        </section>
         <div className={styles.actionGrid}>
           {actions.map(([number, title, href, description]) => (
-            <Link href={href} className={styles.actionCard} key={title}>
+            <Link href={number === "02" ? assessmentPath : href} className={styles.actionCard} key={title}>
               <span>{number}</span>
               <h3>{title}</h3>
               <p>{description}</p>
