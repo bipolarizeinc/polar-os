@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     founderSecurity: configured("POLAR_WEBAUTHN_RP_ID") && configured("POLAR_WEBAUTHN_ORIGIN"),
     connectorVault: configured("POLAR_CONNECTION_ENCRYPTION_KEY"),
     payments: configured("STRIPE_SECRET_KEY") && configured("STRIPE_WEBHOOK_SECRET"),
-    etsaPayments: configured("ETSA_REASSESSMENT_PAYMENT_URL"),
+    etsaPayments: configured("STRIPE_SECRET_KEY") && configured("STRIPE_WEBHOOK_SECRET") && configured("STRIPE_ETSA_REASSESSMENT_PRICE_ID"),
     automation: configured("MAKE_API_BASE_URL") && configured("MAKE_API_TOKEN"),
     skipAgent: configured("SKIP_AGENT_ID"),
     corporateMail: configured("ZOHO_CLIENT_ID") && configured("ZOHO_CLIENT_SECRET"),
