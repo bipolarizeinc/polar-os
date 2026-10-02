@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { customerRequest } from "@/app/lib/customer-request";
 import styles from "../etsa.module.css";
 
 type CandidateReport={
@@ -27,21 +28,23 @@ export default function EtsaResultsPage(){
   const [attemptNumber,setAttemptNumber]=useState(1);
   const [starting,setStarting]=useState(false);
 
-  useEffect(()=>{(async()=>{
-    const response=await fetch("/api/etsa/results");
-    if(response.status===401){router.replace("/etsa/login");return;}
+  useEffect(()=>{(async()=>{try {
+    const response=await customerRequest("/api/etsa/results");
+    if(response.status===401){router.replace("/welcome?mode=login&next=/etsa/results");return;}
     const body=await response.json().catch(()=>({}));
     if(!response.ok){setError(body.error||"Unable to load assessment result.");return;}
     if(!body.session){router.replace("/etsa");return;}
+    if(["CREATED","IN_PROGRESS","PAUSED"].includes(body.session.status)){router.replace("/etsa/assessment");return;}
     setStatus(body.session.status);
     setReport(body.report||null);
     setLocked(Boolean(body.locked));
     setAttemptNumber(Number(body.attemptNumber||1));
-  })();},[router]);
+  }catch(error){setError(error instanceof Error?error.message:"Unable to load assessment result.");}})();},[router]);
 
   async function startReassessment(){
     setStarting(true); setError("");
-    const response=await fetch("/api/etsa/session",{method:"POST"});
+    try {
+    const response=await customerRequest("/api/etsa/session",{method:"POST"});
     const body=await response.json().catch(()=>({}));
     setStarting(false);
     if(!response.ok){
@@ -49,13 +52,14 @@ export default function EtsaResultsPage(){
       setError(body.error||"Unable to start ETSA reassessment.");return;
     }
     router.push("/etsa/assessment");
+    }catch(error){setError(error instanceof Error?error.message:"Unable to start reassessment.");}finally{setStarting(false);}
   }
 
   return <main className={styles.shell}><div className={styles.wrap}>
     <div className={styles.eyebrow}>ETSA™ • Candidate Talent Profile</div>
-    <h1 className={styles.title}>{locked?"Your reassessment is complete.":report?"Your ETSA profile.":"Assessment complete."}</h1>
+    <h1 className={styles.title}>{locked?"Your reassessment is complete.":report?"Your ETSA profile.":status==="LOADING"?"Loading your assessment…":"Your assessment status."}</h1>
     <div className={styles.card}>
-      {error?<p className={styles.error}>{error}</p>:locked?<>
+      {error?<><p className={styles.error} role="alert">{error}</p><button className={styles.secondary} onClick={()=>window.location.reload()}>RETRY RESULTS</button></>:locked?<>
         <div className={styles.resultHero}>
           <span className={styles.sectionLabel}>ETSA Reassessment #{attemptNumber}</span>
           <strong>Your updated profile is ready.</strong>

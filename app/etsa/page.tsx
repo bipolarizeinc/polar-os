@@ -12,7 +12,7 @@ export default function EtsaPage(){
   return <main className={styles.shell}><div className={styles.wrap}>
     <div className={styles.eyebrow}>BI POLARIZE ENTERPRISES, INC. • FLAGSHIP INTELLIGENCE PLATFORM</div>
     <h1 className={styles.title}>ETSA™</h1>
-    <p className={styles.lead}>Enterprise Talent & Skills Alignment is BPEI's evidence-centered talent intelligence platform. It combines structured assessment, applied problem-solving, department alignment, readiness signals, and human review into a versioned candidate profile.</p>
+    <p className={styles.lead}>Enterprise Talent & Skills Alignment is BPEI&apos;s evidence-centered talent intelligence platform. It combines structured assessment, applied problem-solving, department alignment, readiness signals, and human review into a versioned candidate profile.</p>
 
     <div className={styles.card}>
       <div className={styles.grid}>
@@ -32,7 +32,7 @@ export default function EtsaPage(){
         <p className={styles.notice}>ETSA is designed as an operating system for talent evidence, not a personality quiz. It does not make autonomous final employment decisions. Applied challenges can require human calibration during the pilot, and candidate records remain versioned for reassessment.</p>
       </div>
       <div className={styles.actions}>
-        <Link className={styles.button} href="/welcome?next=/etsa/notice">ENTER ETSA™</Link>
+        <Link className={styles.button} href="/etsa/notice">ENTER ETSA™</Link>
         <Link className={styles.secondary} href="/intake?service=ETSA%E2%84%A2%20Talent%20Alignment&source=etsa-platform">DISCUSS ETSA FOR YOUR ORGANIZATION</Link>
         <Link className={styles.secondary} href="/platforms">VIEW ALL PLATFORMS</Link>
       </div>

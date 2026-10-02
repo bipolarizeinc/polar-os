@@ -11,6 +11,10 @@ export type EtsaAuthSession = {
   user: { id: string; email?: string };
 };
 
+export class CustomerAuthError extends Error {
+  constructor(message: string, public status: number) { super(message); }
+}
+
 async function authFetch<T>(path: string, init: RequestInit): Promise<T> {
   const response = await fetch(`${SUPABASE_URL}/auth/v1${path}`, {
     ...init,
@@ -29,7 +33,7 @@ async function authFetch<T>(path: string, init: RequestInit): Promise<T> {
       ?? (body as { error_description?: string }).error_description
       ?? (body as { message?: string }).message
       ?? "Authentication request failed.";
-    throw new Error(message);
+    throw new CustomerAuthError(message, response.status);
   }
   return body as T;
 }
@@ -67,4 +71,8 @@ export function getEtsaUser(accessToken: string) {
     method: "GET",
     headers: { Authorization: `Bearer ${accessToken}` }
   });
+}
+
+export function logoutEtsaUser(accessToken: string) {
+  return authFetch("/logout?scope=local", { method: "POST", headers: { Authorization: `Bearer ${accessToken}` } });
 }

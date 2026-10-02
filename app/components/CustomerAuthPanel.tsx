@@ -2,13 +2,15 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import { customerDestination } from "../lib/customer-navigation";
 import styles from "./CustomerAuthPanel.module.css";
 
-export function CustomerAuthPanel({ nextPath = "/dashboard" }: { nextPath?: string }) {
+export function CustomerAuthPanel({ nextPath = "/dashboard", initialMode = "login" }: { nextPath?: string; initialMode?: "register" | "login" }) {
   const router = useRouter();
-  const [mode, setMode] = useState<"register" | "login">("register");
+  const [mode, setMode] = useState<"register" | "login">(initialMode);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [notice, setNotice] = useState("");
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -49,11 +51,17 @@ export function CustomerAuthPanel({ nextPath = "/dashboard" }: { nextPath?: stri
         return;
       }
 
+      if (body.confirmationRequired) {
+        setMode("login");
+        setNotice(body.message);
+        return;
+      }
+
       try {
         sessionStorage.setItem("bpei_dashboard_login", "1");
       } catch {}
 
-      router.push(nextPath.startsWith("/") ? nextPath : "/dashboard");
+      router.push(customerDestination(nextPath));
       router.refresh();
     } catch {
       setLoading(false);
@@ -63,7 +71,7 @@ export function CustomerAuthPanel({ nextPath = "/dashboard" }: { nextPath?: stri
 
   return (
     <section className={styles.panel} aria-label="Customer access">
-      <div className={styles.tabs} role="tablist" aria-label="Account access mode">
+      <div className={styles.tabs} role="group" aria-label="Account access mode">
         <button type="button" data-active={mode === "register"} onClick={() => { setMode("register"); setError(""); }}>CREATE ACCOUNT</button>
         <button type="button" data-active={mode === "login"} onClick={() => { setMode("login"); setError(""); }}>SIGN IN</button>
       </div>
@@ -76,10 +84,11 @@ export function CustomerAuthPanel({ nextPath = "/dashboard" }: { nextPath?: stri
           : "Use the same email and password attached to your BPEI customer account."}</p>
       </div>
 
+      {notice && <p role="status">{notice}</p>}
       <form className={styles.form} onSubmit={submit}>
         {mode === "register" && <label>Full name<input name="fullName" autoComplete="name" required /></label>}
         <label>Email<input name="email" type="email" autoComplete="email" required /></label>
-        <label>Password<input name="password" type="password" minLength={8} autoComplete={mode === "login" ? "current-password" : "new-password"} required /></label>
+        <label>Password<input name="password" type="password" minLength={mode === "register" ? 8 : undefined} autoComplete={mode === "login" ? "current-password" : "new-password"} required /></label>
         {error && <div className={styles.error} role="alert">{error}</div>}
         <button className={styles.submit} disabled={loading}>
           {loading ? "AUTHENTICATING…" : mode === "register" ? "CREATE ACCESS & ENTER DASHBOARD" : "SIGN IN & ENTER DASHBOARD"}

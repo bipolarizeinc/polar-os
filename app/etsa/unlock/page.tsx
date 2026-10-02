@@ -10,21 +10,19 @@ export default async function EtsaUnlockPage(){
   const token=store.get("etsa_access")?.value;
   if(!token) redirect("/etsa/login?mode=login&next=/etsa/unlock");
 
+  let eligible = false;
   try {
     const user=await getEtsaUser(token);
     const sessions=await etsaRest<Array<{id:string;status:string}>>(
       `etsa_assessment_sessions?user_id=eq.${user.id}&assessment_version=eq.ETSA-1.0&order=started_at.asc&select=id,status`,
       token,
     );
-    if(sessions.length<2) redirect("/etsa/results");
-    const reassessment=sessions[1];
-    if(reassessment.status!=="COMPLETE") redirect("/etsa/results");
+    eligible = sessions.length >= 2 && sessions[1].status === "COMPLETE";
   } catch {
     redirect("/etsa/login?mode=login&next=/etsa/unlock");
   }
 
-  const checkoutUrl=process.env.ETSA_REASSESSMENT_PAYMENT_URL?.trim();
-  const checkoutReady=Boolean(checkoutUrl);
+  if (!eligible) redirect("/etsa/results");
 
   return <main className={styles.shell}><div className={styles.wrap}>
     <div className={styles.eyebrow}>ETSA™ • Reassessment Upgrade</div>
@@ -36,10 +34,10 @@ export default async function EtsaUnlockPage(){
         <p className={styles.notice}>Your second ETSA assessment is retained in your account. Payment unlocks the updated candidate talent profile and corresponding reassessment paperwork, including competency results, department alignment, readiness classification, development priorities, and the versioned reassessment record.</p>
       </div>
       <div className={styles.actions}>
-        {checkoutReady?<a className={styles.button} href={checkoutUrl}>PAY & UNLOCK ETSA REASSESSMENT</a>:<Link className={styles.button} href="/contact?service=ETSA%20Reassessment">PAY FOR ETSA REASSESSMENT</Link>}
+        <Link className={styles.button} href="/contact?service=ETSA%20Reassessment">REQUEST REASSESSMENT ACCESS</Link>
         <Link className={styles.secondary} href="/etsa/results">BACK TO RESULTS</Link>
       </div>
-      {!checkoutReady&&<p className={styles.muted}>Secure checkout is being connected. Your completed reassessment remains saved and will not be lost.</p>}
+      <p className={styles.muted}>Contact BPEI to arrange access. Online payment and automatic unlocking are not available yet. Your completed reassessment remains saved.</p>
     </div>
   </div></main>;
 }
