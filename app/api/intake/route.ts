@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 import { z } from "zod";
 import { analyzeIntake, type IntakeAnalysisInput } from "../../../lib/polar/analyze-intake";
 import { createRecoveryToken, getSupabaseConfig, normalizeEmail, supabaseRequest } from "../../lib/polar-memory";
+import { getEtsaUser } from "../../lib/etsa/auth";
 
 const requiredText = z.string().trim().min(1).max(5_000);
 const optionalText = z.string().trim().max(5_000).optional();
@@ -75,6 +77,15 @@ export async function POST(request: Request) {
   const analysis = analyzeIntake(analysisPayload);
   const recovery = createRecoveryToken();
   const config = getSupabaseConfig();
+  let customerUserId: string | null = null;
+  const accessToken = (await cookies()).get("etsa_access")?.value;
+  if (accessToken) {
+    try {
+      customerUserId = (await getEtsaUser(accessToken)).id;
+    } catch {
+      // Intake remains available when a stale customer cookie is present.
+    }
+  }
 
   if (!config) {
     return NextResponse.json(
@@ -95,6 +106,7 @@ export async function POST(request: Request) {
       headers: { Prefer: "return=minimal" },
       body: JSON.stringify({
         extraction_id: extractionId,
+        customer_user_id: customerUserId,
         status: "analyzed",
         founder_name: payload.founderName?.trim() || null,
         email: normalizeEmail(payload.email),

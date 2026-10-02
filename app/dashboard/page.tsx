@@ -7,6 +7,7 @@ import { DashboardReviewPrompt } from "../components/DashboardReviewPrompt";
 import { PageShell } from "../components/SiteChrome";
 import { getEtsaUser } from "../lib/etsa/auth";
 import { etsaRest } from "../lib/etsa/data";
+import { getSupabaseConfig, supabaseRequest } from "../lib/polar-memory";
 import styles from "./dashboard.module.css";
 
 export const metadata: Metadata = {
@@ -42,6 +43,24 @@ export default async function DashboardPage() {
   } catch { assessmentUnavailable = true; }
   const assessmentPath = !assessment ? "/etsa/notice" : ["CREATED","IN_PROGRESS","PAUSED"].includes(assessment.status) ? "/etsa/assessment" : "/etsa/results";
 
+  type Blueprint = { extraction_id: string; status: string; thing: string; recommended_module: string | null; submitted_at: string | null };
+  let blueprints: Blueprint[] = [];
+  try {
+    const config = getSupabaseConfig();
+    if (config) {
+      const query = new URLSearchParams({
+        customer_user_id: `eq.${user.id}`,
+        select: "extraction_id,status,thing,recommended_module,submitted_at",
+        order: "submitted_at.desc",
+        limit: "3"
+      });
+      blueprints = await supabaseRequest<Blueprint[]>(config, `polar_intake_sessions?${query}`);
+    }
+  } catch {
+    // Preserve dashboard access if Blueprint history is temporarily unavailable.
+  }
+  const latestBlueprint = blueprints[0];
+
   const displayName = String(user.user_metadata?.full_name || user.email?.split("@")[0] || "Client");
   const email = user.email ?? "Verified customer";
 
@@ -76,8 +95,14 @@ export default async function DashboardPage() {
           <div className={styles.blueprintCopy}>
             <p className={styles.kicker}>THE BIPOLARIZED BLUEPRINT™</p>
             <h2>YOUR THING<br /><em>STARTS HERE.</em></h2>
-            <p>No Blueprint engagement is attached to this account yet. That is an honest empty state—not fabricated progress data. Begin intake and we will create the operating record from your actual submission.</p>
-            <Link href="/intake?source=dashboard">INITIALIZE BLUEPRINT EXTRACTION →</Link>
+            {latestBlueprint ? <>
+              <p>Your latest operating record is <strong>{latestBlueprint.extraction_id}</strong>: {latestBlueprint.thing}. {latestBlueprint.recommended_module ? `P.O.L.A.R. routed it to ${latestBlueprint.recommended_module}.` : "Routing is in progress."}</p>
+              <p>{blueprints.length > 1 ? `${blueprints.length} recent Blueprint records are attached to this account.` : "This Blueprint record is attached to your customer account."}</p>
+              <Link href="/command-center">OPEN OR RECOVER BLUEPRINT →</Link>
+            </> : <>
+              <p>No Blueprint engagement is attached to this account yet. Begin intake and we will create the operating record from your actual submission.</p>
+              <Link href="/intake?source=dashboard">INITIALIZE BLUEPRINT EXTRACTION →</Link>
+            </>}
           </div>
           <div className={styles.blueprintVisual}>
             <Image

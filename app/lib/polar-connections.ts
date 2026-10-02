@@ -146,7 +146,7 @@ export const polarConnectionRegistry: Record<PolarConnectionKey, PolarConnection
     classification: "restricted",
     capabilities: ["read", "search", "create", "update"],
     approvalRequired: ["create", "update"],
-    secretRefs: ["STRIPE_SECRET_KEY", "STRIPE_WEBHOOK_SECRET", "ETSA_REASSESSMENT_PAYMENT_URL"],
+    secretRefs: ["STRIPE_SECRET_KEY", "STRIPE_WEBHOOK_SECRET", "STRIPE_ETSA_REASSESSMENT_PRICE_ID"],
     allowedDivisions: ["launchpad", "nexus", "blueprint"],
   },
   skip: {

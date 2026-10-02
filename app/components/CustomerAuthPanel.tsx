@@ -12,6 +12,27 @@ export function CustomerAuthPanel({ nextPath = "/dashboard", initialMode = "logi
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
 
+  async function requestReset() {
+    const emailInput = document.querySelector<HTMLInputElement>("#customer-email");
+    const email = emailInput?.value.trim() ?? "";
+    if (!email) {
+      setError("Enter your account email first, then request a reset link.");
+      emailInput?.focus();
+      return;
+    }
+    setLoading(true);
+    setError("");
+    const response = await fetch("/api/etsa/auth/reset-request", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email })
+    });
+    const body = await response.json().catch(() => ({}));
+    setLoading(false);
+    if (!response.ok) setError(String(body.error || "Unable to request a reset link."));
+    else setNotice(String(body.message));
+  }
+
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setLoading(true);
@@ -87,8 +108,9 @@ export function CustomerAuthPanel({ nextPath = "/dashboard", initialMode = "logi
       {notice && <p role="status">{notice}</p>}
       <form className={styles.form} onSubmit={submit}>
         {mode === "register" && <label>Full name<input name="fullName" autoComplete="name" required /></label>}
-        <label>Email<input name="email" type="email" autoComplete="email" required /></label>
+        <label>Email<input id="customer-email" name="email" type="email" autoComplete="email" required /></label>
         <label>Password<input name="password" type="password" minLength={mode === "register" ? 8 : undefined} autoComplete={mode === "login" ? "current-password" : "new-password"} required /></label>
+        {mode === "login" && <button className={styles.reset} type="button" onClick={requestReset} disabled={loading}>FORGOT PASSWORD?</button>}
         {error && <div className={styles.error} role="alert">{error}</div>}
         <button className={styles.submit} disabled={loading}>
           {loading ? "AUTHENTICATING…" : mode === "register" ? "CREATE ACCESS & ENTER DASHBOARD" : "SIGN IN & ENTER DASHBOARD"}

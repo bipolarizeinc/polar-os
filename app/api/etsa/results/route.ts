@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { getEtsaUser } from "@/app/lib/etsa/auth";
 import { etsaRest } from "@/app/lib/etsa/data";
+import { getPaidEtsaEntitlement } from "@/app/lib/etsa/entitlements";
 
 export async function GET(){
   try{
@@ -13,7 +14,7 @@ export async function GET(){
     if(!sessions.length)return NextResponse.json({session:null,report:null,attemptNumber:0,locked:false});
     const session=sessions[sessions.length-1];
     const attemptNumber=sessions.length;
-    const locked=attemptNumber>1;
+    const locked=attemptNumber>1 && !(await getPaidEtsaEntitlement(user.id,session.id));
 
     if(session.status!=="COMPLETE")return NextResponse.json({session,report:null,attemptNumber,locked:false});
 

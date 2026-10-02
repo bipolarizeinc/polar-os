@@ -54,3 +54,25 @@ export async function recoverPolarSession(input: {
 
   return rows[0] ?? null;
 }
+
+export async function claimPolarSession(input: {
+  extractionId?: string;
+  recoveryToken?: string;
+  userId: string;
+}) {
+  const session = await recoverPolarSession(input);
+  if (!session) return null;
+
+  const config = getSupabaseConfig();
+  if (!config) throw new Error("POLAR memory is not configured.");
+  const query = new URLSearchParams({
+    extraction_id: `eq.${session.extraction_id}`,
+    "or": `(customer_user_id.is.null,customer_user_id.eq.${input.userId})`
+  });
+  await supabaseRequest(config, `polar_intake_sessions?${query}`, {
+    method: "PATCH",
+    headers: { Prefer: "return=minimal" },
+    body: JSON.stringify({ customer_user_id: input.userId })
+  });
+  return session;
+}
