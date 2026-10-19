@@ -24,6 +24,11 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      {
+        source: "/intake",
+        destination: "https://your-thing-extractor.bipolarized.chatgpt.site",
+        permanent: false,
+      },
       { source: "/etas", destination: "/etsa", permanent: true },
       { source: "/ecosystem", destination: "/services", permanent: true },
       { source: "/products", destination: "/services", permanent: true },
