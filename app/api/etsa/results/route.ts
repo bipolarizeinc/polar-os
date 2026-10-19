@@ -10,13 +10,12 @@ export async function GET(){
     const token=store.get("etsa_access")?.value;
     if(!token)return NextResponse.json({error:"Authentication required."},{status:401});
     const user=await getEtsaUser(token);
-    const sessions=await etsaRest<Array<{id:string;status:string;assessment_version:string;completed_at:string|null;started_at:string}>>(`etsa_assessment_sessions?user_id=eq.${user.id}&assessment_version=eq.ETSA-1.0&order=started_at.asc&select=id,status,assessment_version,completed_at,started_at`,token);
+    const sessions=await etsaRest<Array<{id:string;status:string;assessment_version:string;completed_at:string|null;started_at:string}>>(`etsa_assessment_sessions?user_id=eq.${user.id}&assessment_version=eq.ETSA-1.0&order=attempt_number.asc&select=id,status,assessment_version,completed_at,started_at`,token);
     if(!sessions.length)return NextResponse.json({session:null,report:null,attemptNumber:0,locked:false});
     const session=sessions[sessions.length-1];
     const attemptNumber=sessions.length;
-    const locked=attemptNumber>1 && !(await getPaidEtsaEntitlement(user.id,session.id));
-
     if(session.status!=="COMPLETE")return NextResponse.json({session,report:null,attemptNumber,locked:false});
+    const locked=attemptNumber>1 && !(await getPaidEtsaEntitlement(user.id,session.id,token));
 
     if(locked){
       return NextResponse.json({

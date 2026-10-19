@@ -29,7 +29,7 @@ export async function etsaRest<T>(path: string, accessToken: string, init: Reque
 export async function ensureEtsaProfile(accessToken: string, userId: string, fullName: string) {
   return etsaRest("etsa_profiles?on_conflict=user_id", accessToken, {
     method: "POST",
-    headers: { Prefer: "resolution=merge-duplicates,return=representation" },
+    headers: { Prefer: "resolution=ignore-duplicates,return=representation" },
     body: JSON.stringify({ user_id: userId, full_name: fullName })
   });
 }

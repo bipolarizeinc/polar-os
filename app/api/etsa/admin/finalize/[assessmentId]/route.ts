@@ -1,49 +1,31 @@
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import { FOUNDER_COOKIE, validateFounderSession } from "@/app/lib/polar-founder-auth";
-import { getSupabaseConfig, supabaseRequest } from "@/app/lib/polar-memory";
+import { z } from "zod";
+import { validEtsaAnswer } from "@/app/lib/etsa/answer-validation";
 import { scoreEtsaAssessment } from "@/app/lib/etsa/engine";
+import { reviewerOperation, type ReviewDetail } from "@/app/lib/etsa/reviewer";
 
-export async function POST(_:Request, context:{params:Promise<{assessmentId:string}>}){
-  try{
-    const store=await cookies();
-    const founder=await validateFounderSession(store.get(FOUNDER_COOKIE)?.value);
-    if(!founder)return NextResponse.json({error:"Founder authorization required."},{status:401});
-    const config=getSupabaseConfig();
-    if(!config)throw new Error("ETSA result storage is not configured.");
-    const {assessmentId}=await context.params;
-    const sessions=await supabaseRequest<Array<{id:string;user_id:string;assessment_version:string;status:string}>>(config,`etsa_assessment_sessions?id=eq.${assessmentId}&select=id,user_id,assessment_version,status&limit=1`);
-    const session=sessions[0];
-    if(!session)return NextResponse.json({error:"Assessment not found."},{status:404});
-    const [responses,reviews]=await Promise.all([
-      supabaseRequest<Array<{question_id:number;answer_value:unknown;answer_text:string|null}>>(config,`etsa_responses?assessment_id=eq.${assessmentId}&order=question_id.asc&select=question_id,answer_value,answer_text`),
-      supabaseRequest<Array<{question_id:number;score:number;notes:string|null}>>(config,`etsa_review_scores?assessment_id=eq.${assessmentId}&reviewer_id=eq.${founder.id}&order=question_id.asc&select=question_id,score,notes`)
-    ]);
-    const required=[66,67,68,69,70];
-    const reviewed=new Set(reviews.map(r=>r.question_id));
-    const missing=required.filter(q=>!reviewed.has(q));
-    if(missing.length)return NextResponse.json({error:"All applied challenges must be scored before finalization.",missing},{status:400});
-    if(responses.length<70)return NextResponse.json({error:"Assessment response set is incomplete."},{status:400});
-
-    const result=scoreEtsaAssessment(responses,reviews);
-    const resultRows=await supabaseRequest<Array<{id:string}>>(config,"etsa_results?on_conflict=assessment_id",{
-      method:"POST",
-      headers:{Prefer:"resolution=merge-duplicates,return=representation"},
-      body:JSON.stringify({
-        assessment_id:assessmentId,user_id:session.user_id,assessment_version:session.assessment_version,scoring_engine_version:"ETSA-1.0",
-        dimension_scores:result.dimensionScores,layer_scores:result.layerScores,department_scores:result.departmentScores,evidence_confidence:result.evidenceConfidence,
-        readiness_level:result.readiness,primary_archetype:result.archetype,development_priority:result.developmentPriority,internal_flags:result.internalFlags
-      })
-    });
-    const resultId=resultRows[0]?.id;
-    if(!resultId)throw new Error("ETSA result record was not created.");
-    await Promise.all([
-      supabaseRequest(config,"etsa_candidate_reports?on_conflict=result_id",{method:"POST",headers:{Prefer:"resolution=merge-duplicates,return=representation"},body:JSON.stringify({result_id:resultId,user_id:session.user_id,report:result.candidateReport})}),
-      supabaseRequest(config,"etsa_internal_reports?on_conflict=result_id",{method:"POST",headers:{Prefer:"resolution=merge-duplicates,return=representation"},body:JSON.stringify({result_id:resultId,user_id:session.user_id,report:result.internalReport,review_status:"COMPLETE"})}),
-      supabaseRequest(config,`etsa_assessment_sessions?id=eq.${assessmentId}`,{method:"PATCH",body:JSON.stringify({status:"COMPLETE",completed_at:new Date().toISOString(),current_question:70})})
-    ]);
-    return NextResponse.json({ok:true,resultId,candidateReport:result.candidateReport});
-  }catch(error){
-    return NextResponse.json({error:error instanceof Error?error.message:"ETSA finalization failed."},{status:500});
+export async function POST(_: Request, context: { params: Promise<{ assessmentId: string }> }) {
+  const { assessmentId } = await context.params;
+  if (!z.uuid().safeParse(assessmentId).success) return NextResponse.json({ error: "Invalid assessment ID." }, { status: 400 });
+  try {
+    const detail = await reviewerOperation<ReviewDetail>("detail", assessmentId);
+    if (!detail.data) return NextResponse.json({ error: detail.error }, { status: detail.status });
+    const { session, responses, scores } = detail.data;
+    if (session.status !== "COMPLETE") {
+      if (session.status !== "REVIEW_REQUIRED") return NextResponse.json({ error: "Only submitted assessments can be finalized." }, { status: 409 });
+      const answered = new Set(responses.filter(r => validEtsaAnswer(r.question_id, r.answer_value, r.answer_text)).map(r => r.question_id));
+      if (answered.size !== 70) return NextResponse.json({ error: "Assessment response set is incomplete or invalid." }, { status: 400 });
+      if (![66, 67, 68, 69, 70].every(id => scores.some(r => r.question_id === id && Number.isInteger(r.score) && r.score >= 0 && r.score <= 5))) return NextResponse.json({ error: "Score all five applied challenges before finalization." }, { status: 400 });
+    }
+    const payload = session.status === "COMPLETE" ? {} : {
+      result: scoreEtsaAssessment(responses, scores),
+      // Compare the snapshot under the database row lock before publishing.
+      expected: { responses, scores }
+    };
+    const result = await reviewerOperation("finalize", assessmentId, payload);
+    return NextResponse.json(result.data ?? { error: result.error }, { status: result.status });
+  } catch (error) {
+    console.error("ETSA finalization unavailable", error);
+    return NextResponse.json({ error: "Reports could not be finalized. Your assessment remains saved; please retry." }, { status: 503 });
   }
 }

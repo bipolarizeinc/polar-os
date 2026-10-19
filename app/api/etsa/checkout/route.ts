@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { getEtsaUser } from "@/app/lib/etsa/auth";
 import { etsaRest } from "@/app/lib/etsa/data";
 import { getPaidEtsaEntitlement } from "@/app/lib/etsa/entitlements";
-import { getStripe } from "@/app/lib/stripe";
+import { etsaCheckoutConfigured, getStripe } from "@/app/lib/stripe";
 
 export async function POST(request: Request) {
   const origin = new URL(request.url).origin;
@@ -13,19 +13,19 @@ export async function POST(request: Request) {
   try {
     const user = await getEtsaUser(token);
     const sessions = await etsaRest<Array<{ id: string; status: string }>>(
-      `etsa_assessment_sessions?user_id=eq.${user.id}&assessment_version=eq.ETSA-1.0&order=started_at.asc&select=id,status`,
+      `etsa_assessment_sessions?user_id=eq.${user.id}&assessment_version=eq.ETSA-1.0&order=attempt_number.asc&select=id,status`,
       token
     );
     const reassessment = sessions[1];
     if (!reassessment || reassessment.status !== "COMPLETE") {
       return NextResponse.redirect(`${origin}/etsa/results`, 303);
     }
-    if (await getPaidEtsaEntitlement(user.id, reassessment.id)) {
+    if (await getPaidEtsaEntitlement(user.id, reassessment.id, token)) {
       return NextResponse.redirect(`${origin}/etsa/results`, 303);
     }
 
     const price = process.env.STRIPE_ETSA_REASSESSMENT_PRICE_ID?.trim();
-    if (!price) return NextResponse.redirect(`${origin}/etsa/unlock?checkout=unavailable`, 303);
+    if (!price || !etsaCheckoutConfigured()) return NextResponse.redirect(`${origin}/etsa/unlock?checkout=unavailable`, 303);
     const checkout = await getStripe().checkout.sessions.create({
       mode: "payment",
       line_items: [{ price, quantity: 1 }],
