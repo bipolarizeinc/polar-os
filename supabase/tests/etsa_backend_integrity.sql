@@ -68,6 +68,8 @@ do $$
 declare t record; q int; reply jsonb;
 begin
   select * into t from etsa_test_state;
+  reply := public.etsa_reviewer_operation(t.founder_hash,'queue');
+  if reply->>'status' <> '200' or not (reply->'data'->'queue' @> jsonb_build_array(jsonb_build_object('id',t.assessment_id))) then raise exception 'FAIL: submitted assessment missing from reviewer queue'; end if;
   for q in 66..70 loop
     reply := public.etsa_reviewer_operation(t.founder_hash,'score',t.assessment_id,jsonb_build_object('questionId',q,'score',3,'notes','Synthetic test score'));
     if reply->>'status' <> '200' then raise exception 'FAIL: score RPC %',reply; end if;

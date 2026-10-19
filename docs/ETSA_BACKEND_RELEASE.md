@@ -19,10 +19,12 @@ ETSA remains the approved 70-question ETSA-1.0 pilot. Questions 66–70 require 
 
 `supabase/tests/etsa_backend_integrity.sql` uses synthetic users inside a rolled-back transaction. It exercises the actual database permissions and triggers, review RPC, injected report-write failure/rollback, repeat finalization, both allowed attempts, paid access, refund/replay behavior, and expired founder sessions. No participant responses are used or changed by the fixture suite.
 
-The migration chain is additive and includes the follow-up transaction-name and stable-attempt-order fixes found during integration testing. Production changes were applied through the connected Supabase migration tool.
+The migration chain is additive and includes the follow-up transaction-name, reviewer-queue, and stable-attempt-order fixes found during integration testing. Production changes were applied through the connected Supabase migration tool.
+
+A live production API smoke test also passed registration, logout/login, consent enforcement, saved-answer recovery after signing back in, all 70 response saves, incomplete/locked-submission guards, the founder review queue, all five human scores, both report generations, idempotent finalization, the second assessment, reassessment paywall, checkout-readiness rejection, and the third-attempt limit. The temporary account, its assessments/reports, and its temporary founder session were removed afterward; the two pre-existing assessment sessions were retained. This was API/database verification; no visual browser test or real payment was performed.
 
 ## Payment configuration still required
 
-Production Vercel currently has the reassessment price identifier, but is missing `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `SUPABASE_URL`, and `SUPABASE_SERVICE_ROLE_KEY`. These must be configured privately in [Vercel project settings](https://vercel.com/bpei1/polar-os/settings/environment-variables), followed by a redeployment, before accepting payments. Do not paste secrets into chat or commit them.
+Production Vercel has the reassessment price identifier and the existing `SUPABASE_URL`, but is missing `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, and `SUPABASE_SERVICE_ROLE_KEY`. These must be configured privately in [Vercel project settings](https://vercel.com/bpei1/polar-os/settings/environment-variables), followed by a redeployment, before accepting payments. Do not paste secrets into chat or commit them.
 
 The webhook destination is `https://www.polarpaw.online/api/stripe/webhook`. Its signing secret must match the configured endpoint; it must receive checkout completion/asynchronous success and refund/dispute events. Test a complete sandbox checkout → signed webhook → report unlock/refund before treating the paid flow as verified. No real payment was made for this release.
