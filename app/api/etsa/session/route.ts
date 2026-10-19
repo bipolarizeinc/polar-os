@@ -23,10 +23,10 @@ async function auth() {
 export async function GET() {
   try {
     const { token, user } = await auth();
-    const sessions = await etsaRest<AssessmentSession[]>(`etsa_assessment_sessions?user_id=eq.${user.id}&assessment_version=eq.ETSA-1.0&order=started_at.desc&limit=1`, token);
+    const sessions = await etsaRest<AssessmentSession[]>(`etsa_assessment_sessions?user_id=eq.${user.id}&assessment_version=eq.ETSA-1.0&order=attempt_number.desc&limit=1`, token);
     if (!sessions.length) return NextResponse.json({ session: null, responses: [], attemptNumber: 0 });
     const session = sessions[0];
-    const allSessions = await etsaRest<Array<{id:string}>>(`etsa_assessment_sessions?user_id=eq.${user.id}&assessment_version=eq.ETSA-1.0&order=started_at.asc&select=id`, token);
+    const allSessions = await etsaRest<Array<{id:string}>>(`etsa_assessment_sessions?user_id=eq.${user.id}&assessment_version=eq.ETSA-1.0&order=attempt_number.asc&select=id`, token);
     const attemptNumber = Math.max(1, allSessions.findIndex(item => item.id === session.id) + 1);
     const responses = await etsaRest<AssessmentResponse[]>(`etsa_responses?assessment_id=eq.${session.id}&order=question_id.asc`, token);
     return NextResponse.json({ session, responses, attemptNumber });
@@ -40,7 +40,7 @@ export async function POST() {
     const { token, user } = await auth();
     const consent = await etsaRest<Array<{id:string}>>(`etsa_consent_records?user_id=eq.${user.id}&notice_version=eq.ETSA-DATA-1.0&select=id&limit=1`, token);
     if (!consent.length) return NextResponse.json({ error: "Please acknowledge the assessment data notice before starting." }, { status: 403 });
-    const allSessions = await etsaRest<Array<{id:string;status:string;started_at:string}>>(`etsa_assessment_sessions?user_id=eq.${user.id}&assessment_version=eq.ETSA-1.0&order=started_at.asc&select=id,status,started_at`, token);
+    const allSessions = await etsaRest<Array<{id:string;status:string;started_at:string}>>(`etsa_assessment_sessions?user_id=eq.${user.id}&assessment_version=eq.ETSA-1.0&order=attempt_number.asc&select=id,status,started_at`, token);
     const active = [...allSessions].reverse().find(item => ["CREATED","IN_PROGRESS","PAUSED","SUBMITTED","SCORING","REVIEW_REQUIRED"].includes(item.status));
     if (active) {
       const attemptNumber = allSessions.findIndex(item => item.id === active.id) + 1;

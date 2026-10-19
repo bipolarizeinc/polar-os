@@ -8,7 +8,7 @@ export type EtsaAuthSession = {
   refresh_token: string;
   expires_in: number;
   token_type: string;
-  user: { id: string; email?: string };
+  user: { id: string; email?: string; user_metadata?: Record<string, unknown> };
 };
 
 export class CustomerAuthError extends Error {

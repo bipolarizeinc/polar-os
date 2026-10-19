@@ -4,6 +4,7 @@ const SUPABASE_URL = "https://ymdcypufespbrmvrfunt.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_fZEenW98U72YnfIFcHRWgA_ivFGEO16";
 
 const ALLOWED_RPCS = new Set([
+  "etsa_reviewer_operation",
   "polar_exchange_founder_bootstrap",
   "polar_validate_founder_session",
   "polar_revoke_founder_session",

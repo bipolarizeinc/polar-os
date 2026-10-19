@@ -1,5 +1,6 @@
 import "server-only";
 import { getSupabaseConfig, supabaseRequest } from "../polar-memory";
+import { etsaRest } from "./data";
 
 export type EtsaEntitlement = {
   id: string;
@@ -10,9 +11,7 @@ export type EtsaEntitlement = {
   payment_intent_id: string | null;
 };
 
-export async function getPaidEtsaEntitlement(userId: string, assessmentId: string) {
-  const config = getSupabaseConfig();
-  if (!config) throw new Error("Entitlement storage is not configured.");
+export async function getPaidEtsaEntitlement(userId: string, assessmentId: string, accessToken: string) {
   const query = new URLSearchParams({
     user_id: `eq.${userId}`,
     assessment_id: `eq.${assessmentId}`,
@@ -20,7 +19,7 @@ export async function getPaidEtsaEntitlement(userId: string, assessmentId: strin
     select: "id,user_id,assessment_id,status,checkout_session_id,payment_intent_id",
     limit: "1"
   });
-  const rows = await supabaseRequest<EtsaEntitlement[]>(config, `etsa_reassessment_entitlements?${query}`);
+  const rows = await etsaRest<EtsaEntitlement[]>(`etsa_reassessment_entitlements?${query}`, accessToken);
   return rows[0] ?? null;
 }
 
