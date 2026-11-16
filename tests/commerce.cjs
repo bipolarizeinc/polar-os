@@ -33,8 +33,8 @@ function checkoutRoute({ activeTax = true, registrations = [{}], storageFails = 
   return { POST, created: () => createParams };
 }
 function paidSession(overrides = {}) {
-  return { id: "cs_live_paid", payment_status: "paid", payment_intent: "pi_paid", amount_subtotal: offer.amount, amount_total: offer.amount + 100, currency: "usd",
-    metadata: { product_key: "bpei_service_order", offer_slug: offer.slug, catalog_version: catalog.CATALOG_VERSION, base_amount: String(offer.amount) }, ...overrides };
+  return { id: "cs_live_paid", payment_status: "paid", payment_intent: "pi_paid", amount_subtotal: offer.amount, amount_total: offer.amount, currency: "usd", total_details: { amount_tax: 100, amount_discount: 0, amount_shipping: 0 },
+    metadata: { product_key: "bpei_service_order", offer_slug: offer.slug, catalog_version: catalog.CATALOG_VERSION, base_amount: String(offer.amount), tax_behavior: "inclusive", tax_code: offer.taxCode }, ...overrides };
 }
 test("unknown and prototype names cannot become offers", () => {
   assert.equal(catalog.getServiceOffer("__proto__"), undefined);
@@ -97,8 +97,8 @@ test("checkout parameters use tax, canonical return URLs, and authoritative quan
     assert.equal(params.automatic_tax.enabled, true);
     assert.equal(params.line_items[0].quantity, 1);
     assert.equal(params.line_items[0].price_data.unit_amount, 49900);
-    assert.equal(params.line_items[0].price_data.tax_behavior, "exclusive");
-    assert.equal(params.line_items[0].price_data.product_data.tax_code, "confirmed_test_classification");
+    assert.equal(params.line_items[0].price_data.tax_behavior, "inclusive");
+    assert.equal(params.line_items[0].price_data.product_data.tax_code, offer.taxCode);
     assert.equal(params.payment_method_types, undefined);
     assert.match(params.integration_identifier, /^bpei_services_[a-z]{8}$/);
     assert.equal(new URL(params.success_url).origin, "https://www.polarpaw.online");
@@ -125,7 +125,7 @@ test("fulfillment retries use insert-only conflict handling and record the charg
   for (const write of writes) {
     assert.match(write.path, /on_conflict=checkout_session_id/);
     assert.match(write.init.headers.Prefer, /resolution=ignore-duplicates/);
-    assert.equal(JSON.parse(write.init.body).amount_total, offer.amount + 100);
+    assert.equal(JSON.parse(write.init.body).amount_total, offer.amount);
   }
 });
 test("refund facts are recorded independently of checkout event ordering", async () => {
@@ -140,4 +140,25 @@ test("refund facts are recorded independently of checkout event ordering", async
   assert.match(write.path, /commerce_payment_adjustments/);
   assert.match(write.init.headers.Prefer, /resolution=ignore-duplicates/);
   assert.equal(JSON.parse(write.init.body).payment_intent_id, "pi_paid");
+});
+
+test("tax-inclusive orders reject added tax or surcharges above the advertised amount", () => {
+  const commerce = serviceModule();
+  assert.throws(() => commerce.paidServiceOffer(paidSession({ amount_total: offer.amount + 100 })), /catalog/);
+  assert.throws(() => commerce.paidServiceOffer(paidSession({ total_details: { amount_tax: 100, amount_discount: 1, amount_shipping: 0 } })), /catalog/);
+  assert.equal(commerce.paidServiceOffer(paidSession({ amount_subtotal: offer.amount - 100 })).slug, offer.slug);
+});
+test("an environment override cannot replace an offer's classification", () => {
+  const previous = process.env.STRIPE_COMMERCE_TAX_CODE;
+  process.env.STRIPE_COMMERCE_TAX_CODE = "incorrect-global-code";
+  try {
+    const commerce = serviceModule();
+    const site = catalog.getServiceOffer("five-page-website");
+    const artwork = catalog.getServiceOffer("logo-brand-kit");
+    const documents = catalog.getServiceOffer("operating-agreement");
+    assert.equal(commerce.commerceCheckoutParams(site).line_items[0].price_data.product_data.tax_code, "txcd_10701200");
+    assert.equal(commerce.commerceCheckoutParams(artwork).line_items[0].price_data.product_data.tax_code, "txcd_10505001");
+    assert.equal(commerce.commerceCheckoutParams(documents).line_items[0].price_data.product_data.tax_code, "txcd_10503000");
+    assert.throws(() => commerce.paidServiceOffer(paidSession({ metadata: { ...paidSession().metadata, tax_code: artwork.taxCode } })), /catalog/);
+  } finally { if (previous === undefined) delete process.env.STRIPE_COMMERCE_TAX_CODE; else process.env.STRIPE_COMMERCE_TAX_CODE = previous; }
 });

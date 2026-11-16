@@ -21,7 +21,7 @@ export default async function CheckoutPage({ params, searchParams }: {
     <p className="eyebrow">{offer.kind === "flagship" ? "FLAGSHIP ENGAGEMENT" : "INDIVIDUAL SERVICE"}</p>
     <h1>{offer.name}</h1>
     <p>{offer.description}</p>
-    <div className="commerce-summary"><span>{offer.reviewRequired ? "PUBLISHED ANNUAL FEE" : "BASE SERVICE FEE"}</span><strong>{offer.priceLabel}</strong><p>USD. Applicable tax is shown before payment. Government filing fees and third-party charges are separate. Additional scope requires a separate agreement.</p></div>
+    <div className="commerce-summary"><span>{offer.reviewRequired ? "PUBLISHED ANNUAL FEE" : "SERVICE PRICE"}</span><strong>{offer.priceLabel}</strong><p>USD. This service price includes applicable tax; checkout shows the tax breakdown without adding it to the listed service price. Government filing fees and third-party charges are separate. Additional scope requires a separate agreement.</p></div>
     <h2>What happens next</h2>
     <ol className="commerce-steps"><li>Review the listed service and terms.</li><li>When online purchasing is available, pay securely through Stripe.</li><li>Complete your service brief using the same email used at checkout. BPEI confirms the delivery scope, dependencies, and schedule before work begins.</li></ol>
     {status === "cancelled" && <p role="status" className="commerce-notice">You left checkout. You can review this service and try again.</p>}
