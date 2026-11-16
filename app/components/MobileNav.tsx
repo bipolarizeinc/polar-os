@@ -52,7 +52,8 @@ export function MobileNav() {
           ))}
           <Link href="/platforms" onClick={close}>Platforms</Link>
           <Link href="/command-center" onClick={close}>Recover Blueprint</Link>
-          <Link href="/services" onClick={close}>Focused Services</Link>
+          <Link href="/shop" onClick={close}>Services & Pricing</Link>
+          <Link href="/services" onClick={close}>Division Capabilities</Link>
           <Link href="/etsa" onClick={close}>ETSA™</Link>
           <Link href="/intake" className={styles.cta} onClick={close}>
             TELL US ABOUT YOUR THING

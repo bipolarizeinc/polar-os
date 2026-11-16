@@ -6,6 +6,7 @@ import { flagships } from "../brand-data";
 
 const links = [
   ["Home", "/"],
+  ["Services & Pricing", "/shop"],
   ["Divisions", "/divisions"],
   ["About", "/about"],
   ["Contact", "/contact"],

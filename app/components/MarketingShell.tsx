@@ -14,6 +14,7 @@ export function MarketingHeader() {
       <Link href="/">Home</Link>
       <div className="parity-nav-menu"><Link href="/flagships" aria-haspopup="true">Flagships <span>⌄</span></Link><div className="parity-nav-dropdown">{flagships.map((item)=><Link key={item.slug} href={`/flagships/${item.slug}`}><small>{item.step}</small>{item.shortName}</Link>)}</div></div>
       <div className="parity-nav-menu"><Link href="/platforms" aria-haspopup="true">Platforms <span>⌄</span></Link><div className="parity-nav-dropdown"><Link href="/intake"><small>01</small>Blueprint Extraction</Link><Link href="/etsa"><small>02</small>ETSA™</Link><Link href="/dashboard"><small>03</small>Client Operations</Link></div></div>
+      <Link href="/shop">Services & Pricing</Link>
       <Link href="/divisions">Divisions</Link>
       <div className="parity-nav-menu"><Link href="/about" aria-haspopup="true">Company <span>⌄</span></Link><div className="parity-nav-dropdown parity-company-dropdown"><Link href="/about"><small>01</small>About BPEI</Link><Link href="/contact"><small>02</small>Contact</Link></div></div>
     </nav>
