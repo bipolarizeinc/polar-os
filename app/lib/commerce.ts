@@ -1,23 +1,25 @@
 import "server-only";
 import { randomBytes } from "node:crypto";
 import type Stripe from "stripe";
-import { CATALOG_VERSION, type ServiceOffer, getServiceOffer } from "./service-catalog";
+import { CATALOG_VERSION, type ServiceOffer, getServiceOffer, serviceOffers } from "./service-catalog";
 import { getSupabaseConfig, supabaseRequest } from "./polar-memory";
 
 export function commerceCheckoutConfigured() {
   return process.env.COMMERCE_CHECKOUT_ENABLED === "true"
     && process.env.COMMERCE_TAX_READY === "true"
     && process.env.COMMERCE_ORDER_STORAGE_READY === "true"
-    && ["STRIPE_SECRET_KEY", "STRIPE_WEBHOOK_SECRET", "SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY", "STRIPE_COMMERCE_TAX_CODE"]
+    && serviceOffers.every(offer => offer.reviewRequired || /^txcd_[0-9]+$/.test(offer.taxCode))
+    && ["STRIPE_SECRET_KEY", "STRIPE_WEBHOOK_SECRET", "SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY"]
       .every(name => Boolean(process.env[name]?.trim()));
 }
 
 export function commerceCheckoutParams(offer: ServiceOffer): Stripe.Checkout.SessionCreateParams {
-  const taxCode = process.env.STRIPE_COMMERCE_TAX_CODE?.trim();
+  const taxCode = offer.taxCode;
   if (!taxCode || offer.reviewRequired) throw new Error("Offer requires configuration or review.");
   const metadata = {
     product_key: "bpei_service_order", offer_slug: offer.slug,
     catalog_version: CATALOG_VERSION, base_amount: String(offer.amount),
+    tax_behavior: "inclusive", tax_code: taxCode,
   };
   return {
     mode: "payment",
@@ -25,7 +27,7 @@ export function commerceCheckoutParams(offer: ServiceOffer): Stripe.Checkout.Ses
     line_items: [{
       quantity: 1,
       price_data: {
-        currency: "usd", unit_amount: offer.amount, tax_behavior: "exclusive",
+        currency: "usd", unit_amount: offer.amount, tax_behavior: "inclusive",
         product_data: { name: offer.name, description: offer.description, tax_code: taxCode },
       },
     }],
@@ -40,10 +42,17 @@ export function commerceCheckoutParams(offer: ServiceOffer): Stripe.Checkout.Ses
 export function paidServiceOffer(session: Stripe.Checkout.Session) {
   if (session.metadata?.product_key !== "bpei_service_order" || session.payment_status !== "paid") return null;
   const offer = getServiceOffer(session.metadata.offer_slug);
+  const tax = session.total_details?.amount_tax ?? 0;
+  const subtotal = session.amount_subtotal;
+  const hasExpectedSubtotal = Boolean(offer && (subtotal === offer.amount || subtotal === offer.amount - tax));
   if (!offer || offer.reviewRequired || session.metadata.catalog_version !== CATALOG_VERSION
     || session.metadata.base_amount !== String(offer.amount)
-    || session.currency !== "usd" || session.amount_subtotal !== offer.amount
-    || session.amount_total === null || session.amount_total < offer.amount) {
+    || session.metadata.tax_behavior !== "inclusive" || session.metadata.tax_code !== offer.taxCode
+    || session.currency !== "usd" || !hasExpectedSubtotal
+    || !Number.isSafeInteger(tax) || tax < 0 || tax > offer.amount
+    || (session.total_details?.amount_discount ?? 0) !== 0
+    || (session.total_details?.amount_shipping ?? 0) !== 0
+    || session.amount_total !== offer.amount) {
     throw new Error("Service order does not match the server catalog.");
   }
   return offer;
