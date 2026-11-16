@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { IntakeLink } from "../../components/IntakeLink";
 import { PageShell } from "../../components/SiteChrome";
 import { getServicePage, servicePages } from "../service-pages";
+import { serviceOffers } from "../../lib/service-catalog";
 
 const siteUrl = "https://www.polarpaw.online";
 
@@ -45,6 +46,7 @@ export default async function ServiceLandingPage({ params }: Props) {
   const page = getServicePage(slug);
   if (!page) notFound();
 
+  const purchaseOffer = serviceOffers.find(offer => offer.name === page.service);
   const pageUrl = `${siteUrl}/services/${page.slug}`;
   const structuredData = {
     "@context": "https://schema.org",
@@ -64,7 +66,7 @@ export default async function ServiceLandingPage({ params }: Props) {
         ],
         offers: {
           "@type": "Offer",
-          url: `${siteUrl}/intake?division=${page.division}&service=${encodeURIComponent(page.service)}&source=seo-service-page`,
+          url: purchaseOffer ? `${siteUrl}/checkout/${purchaseOffer.slug}` : `${siteUrl}/intake?division=${page.division}&service=${encodeURIComponent(page.service)}&source=seo-service-page`,
           priceSpecification: {
             "@type": "PriceSpecification",
             priceCurrency: "USD",
@@ -96,7 +98,7 @@ export default async function ServiceLandingPage({ params }: Props) {
         <p className="eyebrow">{page.eyebrow}</p>
         <h1>{page.title}</h1>
         <p>{page.intro}</p>
-        <IntakeLink division={page.division} service={page.service} source="seo-service-hero" />
+        <div className="commerce-actions">{purchaseOffer ? <Link className="primary-action" href={`/checkout/${purchaseOffer.slug}`}>REVIEW {purchaseOffer.name.toUpperCase()} →</Link> : <IntakeLink division={page.division} service={page.service} source="seo-service-hero">REQUEST SCOPE & PROPOSAL ↗</IntakeLink>}{page.slug === "branding-websites-ogden-utah" && <Link className="text-action" href="/checkout/five-page-website">REVIEW THE $650 WEBSITE →</Link>}</div>
       </section>
 
       <section className="section-shell catalog">
@@ -120,7 +122,7 @@ export default async function ServiceLandingPage({ params }: Props) {
             <h2>{page.startingAt}</h2>
             <p>Final scope, third-party fees, dependencies, and exclusions are confirmed before work begins.</p>
           </div>
-          <IntakeLink division={page.division} service={page.service} source="seo-service-offer" />
+          {purchaseOffer ? <Link className="primary-action" href={`/checkout/${purchaseOffer.slug}`}>REVIEW SERVICE & CHECKOUT →</Link> : <IntakeLink division={page.division} service={page.service} source="seo-service-offer">REQUEST A PROPOSAL ↗</IntakeLink>}
         </div>
 
         <div className="catalog-intro">

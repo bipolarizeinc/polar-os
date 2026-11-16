@@ -7,6 +7,7 @@ import "./globals.css";
 import "./brand-enhancements.css";
 import "./customer-experience.css";
 import "./sites-parity.css";
+import "./commerce.css";
 
 const siteUrl = "https://www.polarpaw.online";
 

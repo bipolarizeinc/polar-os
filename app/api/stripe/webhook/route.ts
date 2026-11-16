@@ -3,6 +3,7 @@ import type Stripe from "stripe";
 import { getSupabaseConfig, supabaseRequest } from "@/app/lib/polar-memory";
 import { grantEtsaEntitlement, revokeEtsaEntitlement } from "@/app/lib/etsa/entitlements";
 import { getStripe } from "@/app/lib/stripe";
+import { commerceCheckoutConfigured, fulfillServiceCheckout, recordServicePaymentAdjustment } from "@/app/lib/commerce";
 
 async function assessmentBelongsToCustomer(userId: string, assessmentId: string) {
   const config = getSupabaseConfig();
@@ -19,6 +20,10 @@ async function assessmentBelongsToCustomer(userId: string, assessmentId: string)
 }
 
 async function fulfillCheckout(session: Stripe.Checkout.Session) {
+  if (session.metadata?.product_key === "bpei_service_order") {
+    await fulfillServiceCheckout(session);
+    return;
+  }
   if (session.metadata?.product_key !== "etsa_reassessment_unlock") return;
   if (session.payment_status !== "paid" && session.payment_status !== "no_payment_required") return;
   const userId = session.metadata.user_id;
@@ -58,7 +63,15 @@ export async function POST(request: Request) {
     } else if (event.type === "charge.refunded" || event.type === "charge.dispute.created") {
       const charge = event.data.object;
       const paymentIntentId = typeof charge.payment_intent === "string" ? charge.payment_intent : charge.payment_intent?.id;
-      if (paymentIntentId) await revokeEtsaEntitlement(paymentIntentId, event.type === "charge.refunded" ? "refunded" : "disputed");
+      if (paymentIntentId) {
+        if (commerceCheckoutConfigured()) {
+          const intent = await getStripe().paymentIntents.retrieve(paymentIntentId);
+          if (intent.metadata.product_key === "bpei_service_order") {
+            await recordServicePaymentAdjustment(event.id, event.type, paymentIntentId, event.created);
+          }
+        }
+        await revokeEtsaEntitlement(paymentIntentId, event.type === "charge.refunded" ? "refunded" : "disputed");
+      }
     }
     return NextResponse.json({ received: true });
   } catch (error) {
