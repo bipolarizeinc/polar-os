@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { hasStripeCredentials } from "@/app/lib/stripe";
 
 export const dynamic = "force-dynamic";
 
@@ -21,7 +22,7 @@ export async function GET(request: NextRequest) {
     persistence: configured("SUPABASE_URL") && configured("SUPABASE_SERVICE_ROLE_KEY"),
     founderSecurity: configured("POLAR_WEBAUTHN_RP_ID") && configured("POLAR_WEBAUTHN_ORIGIN"),
     connectorVault: configured("POLAR_CONNECTION_ENCRYPTION_KEY"),
-    payments: configured("STRIPE_SECRET_KEY") && configured("STRIPE_WEBHOOK_SECRET"),
+    payments: hasStripeCredentials() && configured("STRIPE_WEBHOOK_SECRET"),
     etsaPayments: configured("STRIPE_SECRET_KEY") && configured("STRIPE_WEBHOOK_SECRET") && configured("STRIPE_ETSA_REASSESSMENT_PRICE_ID"),
     automation: configured("MAKE_API_BASE_URL") && configured("MAKE_API_TOKEN"),
     skipAgent: configured("SKIP_AGENT_ID"),

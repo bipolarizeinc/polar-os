@@ -3,13 +3,15 @@ import { randomBytes } from "node:crypto";
 import type Stripe from "stripe";
 import { CATALOG_VERSION, type ServiceOffer, getServiceOffer, serviceOffers } from "./service-catalog";
 import { getSupabaseConfig, supabaseRequest } from "./polar-memory";
+import { hasStripeCredentials } from "./stripe";
 
 export function commerceCheckoutConfigured() {
   return process.env.COMMERCE_CHECKOUT_ENABLED === "true"
     && process.env.COMMERCE_TAX_READY === "true"
     && process.env.COMMERCE_ORDER_STORAGE_READY === "true"
     && serviceOffers.every(offer => offer.reviewRequired || /^txcd_[0-9]+$/.test(offer.taxCode))
-    && ["STRIPE_SECRET_KEY", "STRIPE_WEBHOOK_SECRET", "SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY"]
+    && hasStripeCredentials()
+    && ["STRIPE_WEBHOOK_SECRET", "SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY"]
       .every(name => Boolean(process.env[name]?.trim()));
 }
 

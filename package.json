@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "node scripts/promote-approved-polar-intro.mjs && next dev",
-    "prebuild": "node scripts/promote-approved-polar-intro.mjs",
+    "prebuild": "node scripts/promote-approved-polar-intro.mjs && node scripts/verify-commerce-production.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",

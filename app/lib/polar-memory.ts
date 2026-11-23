@@ -44,7 +44,8 @@ export async function supabaseRequest<T>(
     ...init,
     headers: {
       apikey: config.serviceRoleKey,
-      Authorization: `Bearer ${config.serviceRoleKey}`,
+      // Modern secret keys are API keys, not JWTs. Keep Bearer only for legacy keys.
+      ...(config.serviceRoleKey.startsWith("sb_secret_") ? {} : { Authorization: `Bearer ${config.serviceRoleKey}` }),
       "Content-Type": "application/json",
       Prefer: "return=representation",
       ...(init.headers ?? {}),
