@@ -2,7 +2,7 @@ import "server-only";
 import Stripe from "stripe";
 
 export function hasStripeCredentials() {
-  return Boolean(process.env.STRIPE_SECRET_KEY?.trim() || process.env.payment?.trim());
+  return Boolean(process.env.STRIPE_SECRET_KEY?.trim() || process.env.sqsq?.trim() || process.env.payment?.trim());
 }
 
 export function etsaCheckoutConfigured() {
@@ -12,7 +12,7 @@ export function etsaCheckoutConfigured() {
 
 export function getStripe() {
   // Vercel sensitive-variable names cannot be edited; retain the owner-supplied alias.
-  const secretKey = process.env.STRIPE_SECRET_KEY?.trim() || process.env.payment?.trim();
+  const secretKey = process.env.STRIPE_SECRET_KEY?.trim() || process.env.sqsq?.trim() || process.env.payment?.trim();
   if (!secretKey) throw new Error("Stripe is not configured.");
   return new Stripe(secretKey, { apiVersion: "2026-08-26.dahlia" });
 }
