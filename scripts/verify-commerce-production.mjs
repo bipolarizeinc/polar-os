@@ -27,7 +27,7 @@ function fail(error) {
 async function main() {
   if (mode !== "read" && mode !== "delivery") return;
   requireCheck(process.env.VERCEL_ENV === "production", "PRODUCTION_ONLY");
-  const stripeKey = process.env.STRIPE_SECRET_KEY?.trim() || process.env.payment?.trim();
+  const stripeKey = process.env.STRIPE_SECRET_KEY?.trim() || process.env.sqsq?.trim() || process.env.payment?.trim();
   const dbKey = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
   const signingSecret = process.env.STRIPE_WEBHOOK_SECRET?.trim();
   requireCheck(/^([sr]k)_live_/.test(stripeKey ?? ""), "STRIPE_LIVE_SERVER_KEY_REQUIRED");
