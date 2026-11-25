@@ -12,6 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...["sav-vidzgen", "dr-docx", "blueprint", "brandforge", "launchpad", "nexus", "pulse", "vault", "cipher"].map((slug) => `/divisions/${slug}`),
     "/services",
     "/shop",
+    "/sample-blueprint",
     "/about",
     "/contact",
     "/intake",
