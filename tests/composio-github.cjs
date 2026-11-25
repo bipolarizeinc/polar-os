@@ -35,7 +35,9 @@ test("owner-supplied sensitive alias works with a masked canonical key and canon
 
 test("masked project credentials are rejected before an SDK request", async () => {
   const before = process.env.COMPOSIO_API_KEY;
+  const aliasBefore = process.env.composiom;
   process.env.COMPOSIO_API_KEY = "ak_****";
+  delete process.env.composiom;
   let constructed = false;
   const github = loader({ "@composio/core": { Composio: class { constructor() { constructed = true; } } } })(modulePath);
   try {
@@ -44,6 +46,8 @@ test("masked project credentials are rejected before an SDK request", async () =
   } finally {
     if (before === undefined) delete process.env.COMPOSIO_API_KEY;
     else process.env.COMPOSIO_API_KEY = before;
+    if (aliasBefore === undefined) delete process.env.composiom;
+    else process.env.composiom = aliasBefore;
   }
 });
 
