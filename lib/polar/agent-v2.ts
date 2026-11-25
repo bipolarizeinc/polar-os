@@ -123,8 +123,9 @@ function sessionToIntakeContext(session: PolarRecoveredSession) {
   };
 }
 
-function createPolarRunner() {
+function createPolarRunner(requestCredential?: string) {
   const gatewayCredential =
+    requestCredential?.trim() ||
     process.env.AI_GATEWAY_API_KEY?.trim() ||
     process.env.VERCEL_OIDC_TOKEN?.trim();
 
@@ -146,7 +147,11 @@ function createPolarRunner() {
   return { runner, modelProvider };
 }
 
-export async function runPolarAgentV2(message: string, session: PolarRecoveredSession) {
+export async function runPolarAgentV2(
+  message: string,
+  session: PolarRecoveredSession,
+  options?: { gatewayCredential?: string },
+) {
   const cleanMessage = message.trim();
   if (!cleanMessage) throw new Error("POLAR requires a message.");
   if (cleanMessage.length > 12_000) throw new Error("POLAR message exceeds the runtime safety limit.");
@@ -165,7 +170,7 @@ export async function runPolarAgentV2(message: string, session: PolarRecoveredSe
     intake: sessionToIntakeContext(session),
   };
 
-  const { runner, modelProvider } = createPolarRunner();
+  const { runner, modelProvider } = createPolarRunner(options?.gatewayCredential);
 
   try {
     const result = await runner.run(
