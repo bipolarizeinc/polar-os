@@ -36,7 +36,9 @@ export async function POST(request: Request) {
       );
     }
 
-    const result = await runPolarAgentV2(message, session);
+    const result = await runPolarAgentV2(message, session, {
+      gatewayCredential: request.headers.get("x-vercel-oidc-token") ?? undefined,
+    });
     return NextResponse.json(result, {
       status: 200,
       headers: {
