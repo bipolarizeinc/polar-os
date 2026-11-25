@@ -8,6 +8,8 @@ Use Node.js 22.22.3 or newer. Install dependencies with `npm ci`.
 
 Set `COMPOSIO_API_KEY` through the server's secret environment. For local work, use the ignored `.env.local` file. Never prefix this key with `NEXT_PUBLIC_` or commit it. Next.js loads it automatically; the verification command explicitly loads `.env.local`.
 
+The existing Vercel credential is saved as the Sensitive variable `composiom`. The server accepts this owner-supplied alias when the canonical variable is absent or masked, preserving its secret value without exporting or recreating it. A usable `COMPOSIO_API_KEY` takes precedence.
+
 If Composio is not configured yet, use the official CLI:
 
 ```sh

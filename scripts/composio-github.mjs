@@ -18,6 +18,11 @@ try {
   console.log(JSON.stringify({ ownerId, sessionId: session.sessionId, ...result }, null, 2));
 } catch (error) {
   // SDK errors may carry request headers. Never dump raw exceptions or credentials.
-  console.error(error?.name === "GitHubConnectionError" ? error.message : "Composio GitHub request failed. Check the Composio execution logs.");
+  const requestId = error?.requestId ?? error?.requestID ?? error?.request_id;
+  console.error(JSON.stringify({
+    error: error?.name === "GitHubConnectionError" ? error.message : "Composio GitHub request failed. Check the Composio execution logs.",
+    requestId: typeof requestId === "string" && /^[a-zA-Z0-9_-]{1,120}$/.test(requestId) ? requestId : undefined,
+    status: typeof error?.status === "number" ? error.status : undefined,
+  }));
   process.exitCode = 1;
 }

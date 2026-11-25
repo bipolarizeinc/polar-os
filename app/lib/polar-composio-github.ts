@@ -13,16 +13,22 @@ export class GitHubConnectionError extends Error {
   }
 }
 
+function projectKey() {
+  // Vercel cannot rename a Sensitive variable. Preserve the owner's saved alias.
+  return [process.env.COMPOSIO_API_KEY, process.env.composiom]
+    .map((key) => key?.trim())
+    .find((key) => key && !/[*•]/.test(key));
+}
+
 export function hasComposioGitHubCredentials() {
-  const key = process.env.COMPOSIO_API_KEY?.trim();
-  return Boolean(key && !/[*•]/.test(key));
+  return Boolean(projectKey());
 }
 
 function client() {
   if (!hasComposioGitHubCredentials()) {
     throw new GitHubConnectionError("GitHub connection is not configured in this environment.", 503);
   }
-  return new Composio();
+  return new Composio({ apiKey: projectKey() });
 }
 
 // The caller must resolve ownerId from validated FounderSession.authority_profile.

@@ -10,6 +10,29 @@ const githubImport = "../../../../lib/polar-composio-github";
 const authImport = "../../../../lib/polar-founder-auth";
 const activeConnection = { items: [{ slug: "github", connection: { isActive: true, connectedAccount: { id: "ca_founder", status: "ACTIVE" } } }] };
 
+test("owner-supplied sensitive alias works with a masked canonical key and canonical takes precedence", async () => {
+  const before = { canonical: process.env.COMPOSIO_API_KEY, alias: process.env.composiom };
+  process.env.COMPOSIO_API_KEY = "ak_****";
+  process.env.composiom = "alias-for-test-only";
+  let received;
+  const github = loader({ "@composio/core": { Composio: class {
+    constructor(options) { received = options.apiKey; }
+    create = async () => ({ sessionId: "test-session" });
+  } } })(modulePath);
+  try {
+    assert.equal(github.hasComposioGitHubCredentials(), true);
+    await github.getGitHubSession("founder");
+    assert.equal(received, process.env.composiom);
+    process.env.COMPOSIO_API_KEY = "canonical-for-test-only";
+    await github.getGitHubSession("founder");
+    assert.equal(received, process.env.COMPOSIO_API_KEY);
+  } finally {
+    for (const [name, value] of [["COMPOSIO_API_KEY", before.canonical], ["composiom", before.alias]]) {
+      if (value === undefined) delete process.env[name]; else process.env[name] = value;
+    }
+  }
+});
+
 test("masked project credentials are rejected before an SDK request", async () => {
   const before = process.env.COMPOSIO_API_KEY;
   process.env.COMPOSIO_API_KEY = "ak_****";
