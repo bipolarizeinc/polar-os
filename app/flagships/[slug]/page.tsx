@@ -1,12 +1,98 @@
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { flagships,getFlagship } from "../../brand-data";
+import { flagships, getFlagship } from "../../brand-data";
 import { IntakeLink } from "../../components/IntakeLink";
 import { MarketingShell } from "../../components/MarketingShell";
+import { flagshipLanding } from "../landing-copy";
+import styles from "../landing.module.css";
 
-type Props={params:Promise<{slug:string}>};
-export function generateStaticParams(){return flagships.map((item)=>({slug:item.slug}))}
-export async function generateMetadata({params}:Props):Promise<Metadata>{const {slug}=await params;const item=getFlagship(slug);if(!item)notFound();return{title:item.name,description:item.description,alternates:{canonical:`/flagships/${item.slug}`}}}
-export default async function FlagshipDetail({params}:Props){const {slug}=await params;const item=getFlagship(slug);if(!item)notFound();const index=flagships.findIndex((entry)=>entry.slug===item.slug);const next=flagships[index+1];return <MarketingShell><section className="parity-detail"><div className="parity-detail-media"><Image src={item.image} alt={`${item.name} visual`} fill priority sizes="(max-width: 900px) 100vw, 50vw"/></div><div className="parity-detail-copy"><div className="parity-status"><i/> FLAGSHIP {item.step} // ACTIVE</div><p className="parity-eyebrow">{item.eyebrow}</p><h1>{item.name}</h1><p className="parity-detail-lede">{item.headline}</p><p>{item.description}</p>{item.slug === "extraction" && <p>Extraction is the first step of the $499 Bipolarized Blueprint™, not a separate purchase. Start with a short intake or review the full engagement before paying.</p>}<div className="commerce-actions">{item.slug === "extraction" && <IntakeLink className="parity-button parity-primary" source="extraction-page">TELL US ABOUT YOUR THING™ <span aria-hidden="true">↗</span></IntakeLink>}{item.slug === "blueprint" || item.slug === "extraction" ? <Link className={`parity-button ${item.slug === "extraction" ? "parity-ghost" : "parity-primary"}`} href="/checkout/bipolarized-blueprint">REVIEW THE $499 BLUEPRINT <span>↗</span></Link> : <IntakeLink className="parity-button parity-primary" service={item.name} source="flagship-page">REQUEST SCOPE & PROPOSAL <span>↗</span></IntakeLink>}{(item.slug === "extraction" || item.slug === "blueprint") && <Link className="text-action" href="/sample-blueprint">SEE A SAMPLE BLUEPRINT →</Link>}<Link className="text-action" href="/shop#individual">INDIVIDUAL SERVICES →</Link></div></div></section><section className="parity-deliverables"><div><span>WHAT THIS STAGE CREATES</span><h2>THE OUTPUT IS<br/><em>USABLE.</em></h2></div><ol>{item.outcomes.map((outcome,i)=><li key={outcome}><span>0{i+1}</span><b>{outcome}</b></li>)}</ol></section><section className="parity-stage-context"><p className="parity-eyebrow">WHY THIS COMES {item.step==="01"?"FIRST":item.step==="05"?"LAST":"HERE"}</p><h2>{item.step==="01"?"CLARITY BEFORE CONSTRUCTION.":item.step==="02"?"ARCHITECTURE BEFORE ASSETS.":item.step==="03"?"INFRASTRUCTURE BEFORE THE ASK.":item.step==="04"?"READINESS BEFORE THE MONEY.":"ACTIVATE WHAT HAS BEEN BUILT."}</h2><p>{item.step==="04"?"A lender should not have to guess how the company works, where the money goes, or how repayment becomes possible. We close those gaps before the application.":"Every stage protects the work that came before it and creates the conditions required for the stage that follows."}</p>{next?<Link href={`/flagships/${next.slug}`}>NEXT: {next.name.toUpperCase()} →</Link>:<Link href="/divisions">MEET THE BUILD DIVISIONS →</Link>}</section></MarketingShell>}
+type Props = { params: Promise<{ slug: string }> };
+type Slug = keyof typeof flagshipLanding;
+const checkout = "/checkout/bipolarized-blueprint";
+
+export function generateStaticParams() {
+  return flagships.map(({ slug }) => ({ slug }));
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const item = getFlagship((await params).slug);
+  if (!item) notFound();
+  const { intro: description } = flagshipLanding[item.slug];
+  const url = `/flagships/${item.slug}`;
+  return {
+    title: item.name,
+    description,
+    alternates: { canonical: url },
+    openGraph: { title: item.name, description, url, images: [{ url: item.image, alt: item.name }] },
+  };
+}
+
+function NextAction({ slug }: { slug: Slug }) {
+  const { action } = flagshipLanding[slug];
+  const className = "parity-button parity-primary";
+  const label = <>{action} <span aria-hidden="true">↗</span></>;
+  return slug === "blueprint"
+    ? <Link className={className} href={checkout}>{label}</Link>
+    : <IntakeLink className={className} service={getFlagship(slug)?.name} source={`flagship-${slug}`} ariaLabel={action}>{label}</IntakeLink>;
+}
+
+export default async function FlagshipDetail({ params }: Props) {
+  const item = getFlagship((await params).slug);
+  if (!item) notFound();
+  const data = flagshipLanding[item.slug];
+  const next = flagships[flagships.findIndex(({ slug }) => slug === item.slug) + 1];
+  const startingStages = item.slug === "extraction" || item.slug === "blueprint";
+
+  return <MarketingShell>
+    <article className={styles.landing} style={{ "--stage-accent": data.accent } as CSSProperties}>
+      <section className={styles.hero} aria-labelledby="flagship-title">
+        <div className={styles.heroCopy}>
+          <nav className={styles.breadcrumb} aria-label="Breadcrumb"><Link href="/flagships">All flagships</Link><span aria-hidden="true"> / </span><span>{item.shortName}</span></nav>
+          <p className={styles.kicker}>Flagship {item.step} / 05 · {item.eyebrow}</p>
+          <h1 id="flagship-title">{item.name}</h1>
+          <p className={styles.promise}>{data.promise}</p>
+          <p className={styles.intro}>{data.intro}</p>
+          <div className={styles.actions}>
+            <NextAction slug={item.slug} />
+            {item.slug === "extraction" && <Link className="text-action" href={checkout}>Review the $499 Blueprint →</Link>}
+            {startingStages && <Link className="text-action" href="/sample-blueprint">See a sample Blueprint →</Link>}
+          </div>
+        </div>
+        <div className={styles.visual} aria-hidden="true">
+          <Image src={item.image} alt="" fill preload sizes="(max-width: 800px) 92vw, 43vw" className={item.slug === "extraction" ? styles.contain : undefined} />
+          <span>{item.step}</span>
+        </div>
+      </section>
+      <section className={styles.section} aria-labelledby="deliverables">
+        <p className={styles.kicker}>What you walk away with</p>
+        <h2 id="deliverables">The deliverables</h2>
+        <ol className={styles.cards}>
+          {data.deliverables.map(([title, details], i) => <li key={title}><span aria-hidden="true">0{i + 1}</span><h3>{title}</h3><p>{details}</p></li>)}
+        </ol>
+      </section>
+      <section className={styles.details} aria-label="Fit and scope">
+        <div><h2>Who it’s for</h2><p>{data.fit}</p></div>
+        <div><h2>What to bring</h2><p>{data.bring}</p></div>
+        <div><h2>What’s included</h2><p>{data.scope}</p></div>
+      </section>
+      <section className={styles.section} aria-labelledby="common-questions">
+        <p className={styles.kicker}>Before you start</p>
+        <h2 id="common-questions">Common questions</h2>
+        <div className={styles.faq}>
+          {data.questions.map(([q, a]) => <details key={q}><summary>{q}</summary><p>{a}</p></details>)}
+        </div>
+      </section>
+      <section className={styles.bottom} aria-label="Next steps">
+        <div><p className={styles.kicker}>Your next move</p><h2>{data.promise}</h2></div>
+        <div className={styles.actions}><NextAction slug={item.slug} /><Link className="text-action" href="/shop#individual">Shop individual services →</Link></div>
+      </section>
+      <nav className={styles.stageNav} aria-label="Flagship stages">
+        <Link href="/flagships">← All five flagships</Link>
+        {next && <Link href={`/flagships/${next.slug}`}>Next: {next.shortName} →</Link>}
+      </nav>
+    </article>
+  </MarketingShell>;
+}
