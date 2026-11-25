@@ -22,7 +22,6 @@ type Analysis = {
 
 type Result = {
   extractionId: string;
-  intakeMode?: "quick" | "full";
   recoveryToken?: string;
   recommendedModule: string;
   analysis?: Analysis;
@@ -39,7 +38,7 @@ const fields = [
   ["blocker", "WHAT IS BLOCKING IT RIGHT NOW?", "Name the confusion, risk, missing structure, resources, technology, funding, or bottleneck."],
   ["desiredOutcome", "WHAT SHOULD IT BECOME?", "Describe the functional outcome, business model, revenue goal, impact, or future."],
   ["existingAssets", "WHAT ALREADY EXISTS?", "Research, documents, prototypes, websites, branding, systems, partners, or prior work."],
-  ["requestedHelp", "WHAT KIND OF WORK ARE YOU LOOKING FOR?", "It is completely acceptable to be unsure."],
+  ["requestedHelp", "WHAT HELP DO YOU THINK YOU NEED?", "It is completely acceptable to be unsure."],
   ["constraints", "TIMELINE, BUDGET, OR CONSTRAINTS", "Deadlines, budget range, legal concerns, confidentiality needs, or non-negotiables."],
   ["additionalContext", "ANYTHING ELSE POLAR SHOULD KNOW?", "Contradictions, context, history, or details that do not fit neatly anywhere else."],
 ] as const;
@@ -92,16 +91,15 @@ export default function IntakePage() {
         <section className={styles.confirmation}>
           <p className={styles.status}>BLUEPRINT EXTRACTION ANALYZED</p>
           <h1>{result.extractionId}</h1>
-          <p>First-pass routing: <strong>{result.recommendedModule}</strong></p>
-          {result.intakeMode === "quick" && <p>This is a starting point, not the completed Blueprint or a final assessment. The working session is where we clarify your audience, priorities, and next steps.</p>}
+          <p>Primary routing recommendation: <strong>{result.recommendedModule}</strong></p>
           <p>{result.persisted ? "Your intake and analysis are secured in the POLAR memory layer." : result.message}</p>
 
           {result.analysis && (
             <>
-              {result.intakeMode !== "quick" && <div className={styles.identityGrid}>
+              <div className={styles.identityGrid}>
                 <div className={styles.question}><span>CLARITY SCORE</span><strong>{result.analysis.clarityScore}%</strong></div>
                 <div className={styles.question}><span>READINESS SCORE</span><strong>{result.analysis.readinessScore}%</strong></div>
-              </div>}
+              </div>
               <div className={styles.question}><span>ROUTING RATIONALE</span><p>{result.analysis.routingRationale}</p></div>
               <div className={styles.question}>
                 <span>FIRST-PASS BLUEPRINT BRIEF</span>
@@ -111,7 +109,7 @@ export default function IntakePage() {
                 <p><strong>Outcome:</strong> {result.analysis.blueprintBrief.outcome}</p>
                 <p><strong>Next step:</strong> {result.analysis.blueprintBrief.immediateNextStep}</p>
               </div>
-              {result.intakeMode !== "quick" && !!result.analysis.contradictionFlags.length && (
+              {!!result.analysis.contradictionFlags.length && (
                 <div className={styles.question}><span>CONTRADICTIONS REQUIRING RESOLUTION</span>{result.analysis.contradictionFlags.map((flag) => <p key={flag}>• {flag}</p>)}</div>
               )}
               <div className={styles.question}><span>POLAR PRIORITIES</span>{result.analysis.priorities.map((priority) => <p key={priority}>• {priority}</p>)}</div>
@@ -140,7 +138,7 @@ export default function IntakePage() {
       <header className={styles.header}>
         <p className={styles.status}>P.O.L.A.R. BLUEPRINT EXTRACTION // ACTIVE</p>
         <h1>TELL US ABOUT <em>YOUR THING.</em></h1>
-        <p>Start with three answers. No pitch deck needed. We’ll use this to understand your starting point. The Idea Extraction Session is the first step of the $499 Blueprint; sending this intake doesn’t purchase it.</p>
+        <p>Raw, incomplete, contradictory, and unconventional is welcome. POLAR needs the real version, not a pitch-deck version cleaned up for somebody else.</p>
         {(context.division || context.service) && (
           <p className={styles.status}>ROUTING CONTEXT // {[context.division, context.service].filter(Boolean).join(" · ")}</p>
         )}
@@ -150,41 +148,24 @@ export default function IntakePage() {
         <input type="hidden" name="requestedDivision" value={context.division} />
         <input type="hidden" name="requestedService" value={context.service} />
         <input type="hidden" name="referralSource" value={context.source} />
-        <input type="hidden" name="intakeMode" value="quick" />
-        <label className={styles.question}>
-          <span>01 // WHAT ARE YOU BUILDING?</span>
-          <small>Describe the idea, business, or project in your own words.</small>
-          <textarea name="thing" required rows={3} maxLength={5000} />
-        </label>
-        <label className={styles.question}>
-          <span>02 // WHAT’S BLOCKING YOU?</span>
-          <small>Tell us what’s keeping you from the next step.</small>
-          <textarea name="blocker" required rows={3} maxLength={5000} />
-        </label>
         <div className={styles.identityGrid}>
-          <label>03 // WHAT EMAIL SHOULD WE USE?<input name="email" type="email" required autoComplete="email" maxLength={320} /></label>
+          <label>NAME<input name="founderName" autoComplete="name" /></label>
+          <label>EMAIL<input name="email" type="email" autoComplete="email" /></label>
+          <label>PHONE<input name="phone" autoComplete="tel" /></label>
+          <label>COMPANY OR PROJECT<input name="companyName" /></label>
         </div>
-        <details className={styles.optionalDetails}>
-          <summary>Add more details (optional)</summary>
-          <div className={styles.optionalFields}>
-            <div className={styles.identityGrid}>
-              <label>NAME<input name="founderName" autoComplete="name" maxLength={200} /></label>
-              <label>PHONE<input name="phone" autoComplete="tel" maxLength={50} /></label>
-              <label>COMPANY OR PROJECT<input name="companyName" maxLength={200} /></label>
-            </div>
-            {fields.filter(([name]) => name !== "thing" && name !== "blocker").map(([name, title, guidance]) => (
-              <label className={styles.question} key={name}>
-                <span>{title}</span>
-                <small>{guidance}</small>
-                <textarea name={name} rows={3} maxLength={5000} />
-              </label>
-            ))}
-          </div>
-        </details>
 
-        {error && <p role="alert" className={styles.error}>{error}</p>}
+        {fields.map(([name, title, help], index) => (
+          <label className={styles.question} key={name}>
+            <span>{String(index + 1).padStart(2, "0")}{" // "}{title}</span>
+            <small>{help}</small>
+            <textarea name={name} required={index < 5} rows={5} />
+          </label>
+        ))}
+
+        {error && <p className={styles.error}>{error}</p>}
         <button className={styles.button} disabled={submitting} type="submit">
-          {submitting ? "POLAR IS ANALYZING..." : "SEND MY STARTING POINT"}
+          {submitting ? "POLAR IS ANALYZING..." : "INITIALIZE BLUEPRINT EXTRACTION"}
         </button>
       </form>
     </main>

@@ -66,3 +66,18 @@ test("configuration mode never reports a short intake as saved", async () => {
   assert.equal(body.intakeMode, "quick");
   assert.equal(stored, undefined);
 });
+
+test("public service inquiry is short, while the paid service brief and offer attribution are preserved", () => {
+  const catalog = loadTs()("app/lib/service-catalog.ts");
+  const offer = catalog.getServiceOffer("business-plan");
+  const inquiry = new URL(catalog.offerIntakeUrl(offer, "quick"), "https://www.polarpaw.online");
+  const brief = new URL(catalog.offerIntakeUrl(offer), "https://www.polarpaw.online");
+  assert.equal(inquiry.pathname, "/intake/start");
+  assert.equal(inquiry.searchParams.get("source"), "service-inquiry");
+  assert.equal(brief.pathname, "/intake");
+  assert.equal(brief.searchParams.get("source"), "service-order");
+  for (const url of [inquiry, brief]) {
+    assert.equal(url.searchParams.get("division"), offer.division);
+    assert.equal(url.searchParams.get("service"), offer.name);
+  }
+});

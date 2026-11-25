@@ -27,6 +27,6 @@ export default async function CheckoutPage({ params, searchParams }: {
     {status === "cancelled" && <p role="status" className="commerce-notice">You left checkout. You can review this service and try again.</p>}
     {(status === "error" || status === "unavailable") && <p role="alert" className="commerce-notice">Checkout is unavailable right now. Please request this service below; do not submit another payment.</p>}
     {ready ? <ServiceCheckoutForm slug={offer.slug} /> : <p className="commerce-notice">{offer.reviewRequired ? "Eligibility, address, and service capacity must be confirmed before payment. The published fee is annual; no automatic renewal is started here." : "Online purchasing for this service is being prepared. You can request the service now and receive payment instructions after availability is confirmed."}</p>}
-    <div className="commerce-actions"><Link className="primary-action" href={offerIntakeUrl(offer)}>{ready ? "ASK ABOUT THIS SERVICE" : offer.reviewRequired ? "REQUEST ELIGIBILITY REVIEW" : "REQUEST THIS SERVICE"} ↗</Link><Link className="text-action" href="/contact">ASK A QUESTION →</Link></div>
+    <div className="commerce-actions"><Link className="primary-action" href={offerIntakeUrl(offer, "quick")}>{ready ? "ASK ABOUT THIS SERVICE" : offer.reviewRequired ? "REQUEST ELIGIBILITY REVIEW" : "REQUEST THIS SERVICE"} ↗</Link><Link className="text-action" href="/contact">ASK A QUESTION →</Link></div>
   </section></PageShell>;
 }

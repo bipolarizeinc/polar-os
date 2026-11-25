@@ -201,7 +201,7 @@ export const serviceOffers: readonly ServiceOffer[] = [
 export function getServiceOffer(slug: string) {
   return serviceOffers.find(offer => offer.slug === slug);
 }
-export function offerIntakeUrl(offer: ServiceOffer) {
-  const query = new URLSearchParams({ division: offer.division, service: offer.name, source: "service-order" });
-  return `/intake?${query}`;
+export function offerIntakeUrl(offer: ServiceOffer, mode: "full" | "quick" = "full") {
+  const query = new URLSearchParams({ division: offer.division, service: offer.name, source: mode === "quick" ? "service-inquiry" : "service-order" });
+  return `${mode === "quick" ? "/intake/start" : "/intake"}?${query}`;
 }

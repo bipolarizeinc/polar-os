@@ -20,7 +20,7 @@ export default function ShopPage() {
       <div className="commerce-actions"><Link className="text-action" href="/sample-blueprint">SEE A SAMPLE BLUEPRINT →</Link>{flagships.filter(f => f.slug !== "blueprint").map(f => <Link className="text-action" key={f.slug} href={`/flagships/${f.slug}`}>{f.shortName}: VIEW SCOPE →</Link>)}</div>
       <div id="individual" className="catalog-intro"><div><p className="eyebrow">A FOCUSED PIECE OF THE SYSTEM</p><h2>GET THE SERVICE<br />YOU NEED.</h2></div><p>Published fees cover the listed base service. Published service prices include applicable tax; checkout shows the breakdown. Government fees, third-party charges, and expanded work are separate and require agreement.</p></div>
       <div className="service-grid">{serviceOffers.filter(o => o.kind === "service").map(offer => <article key={offer.slug}><h3>{offer.name}</h3><p>{offer.description}</p><div className="service-price"><span>SERVICE PRICE</span><b>{offer.priceLabel}</b></div><Link className="text-action" href={`/checkout/${offer.slug}`}>{offer.reviewRequired ? "CHECK ELIGIBILITY" : "REVIEW SERVICE & CHECKOUT"} →</Link></article>)}</div>
-      <div className="blueprint-offer"><div><h2>NEED A CUSTOM BUILD?</h2><p>Request the scope and proposal for automation, video, analytics, security, or a combination of services.</p></div><Link className="primary-action" href="/intake">TELL US ABOUT YOUR THING™ ↗</Link></div>
+      <div className="blueprint-offer"><div><h2>NEED A CUSTOM BUILD?</h2><p>Request the scope and proposal for automation, video, analytics, security, or a combination of services.</p></div><Link className="primary-action" href="/intake/start?source=shop">TELL US ABOUT YOUR THING™ ↗</Link></div>
     </section>
   </PageShell>;
 }
