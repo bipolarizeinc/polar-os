@@ -143,3 +143,23 @@
     padding-top: 5rem;
   }
 }
+
+.optionalDetails {
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius: 1rem;
+  padding: 0 1rem;
+}
+
+.optionalDetails summary {
+  min-height: 3rem;
+  padding-block: 0.85rem;
+  color: #00e5ff;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.optionalFields {
+  display: grid;
+  gap: 1rem;
+  padding-bottom: 1rem;
+}

@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { z } from "zod";
@@ -8,38 +9,42 @@ import { getEtsaUser } from "../../lib/etsa/auth";
 const requiredText = z.string().trim().min(1).max(5_000);
 const optionalText = z.string().trim().max(5_000).optional();
 
-const intakeSchema = z.object({
+const contactEmail = z.email().max(320);
+const commonFields = {
   thing: requiredText,
-  audience: requiredText,
-  problem: requiredText,
   blocker: requiredText,
-  desiredOutcome: requiredText,
   existingAssets: optionalText,
   requestedHelp: optionalText,
   constraints: optionalText,
   additionalContext: optionalText,
   founderName: z.string().trim().max(200).optional(),
-  email: z.union([z.literal(""), z.email().max(320)]).optional(),
   phone: z.string().trim().max(50).optional(),
   companyName: z.string().trim().max(200).optional(),
   requestedDivision: z.string().trim().max(100).optional(),
   requestedService: z.string().trim().max(200).optional(),
   referralSource: z.string().trim().max(200).optional(),
-});
-
-type IntakePayload = IntakeAnalysisInput & {
-  founderName?: string;
-  email?: string;
-  phone?: string;
-  companyName?: string;
-  requestedDivision?: string;
-  requestedService?: string;
-  referralSource?: string;
 };
+
+const fullIntakeSchema = z.object({
+  ...commonFields,
+  intakeMode: z.literal("full").optional(),
+  audience: requiredText,
+  problem: requiredText,
+  desiredOutcome: requiredText,
+  email: z.union([z.literal(""), contactEmail]).optional(),
+});
+const quickIntakeSchema = z.object({
+  ...commonFields,
+  intakeMode: z.literal("quick"),
+  audience: optionalText,
+  problem: optionalText,
+  desiredOutcome: optionalText,
+  email: contactEmail,
+});
 
 function createExtractionId() {
   const stamp = new Date().toISOString().slice(0, 10).replaceAll("-", "");
-  const suffix = crypto.randomUUID().slice(0, 8).toUpperCase();
+  const suffix = randomUUID().slice(0, 8).toUpperCase();
   return `BPX-${stamp}-${suffix}`;
 }
 
@@ -51,13 +56,15 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid JSON payload." }, { status: 400 });
   }
 
-  const parsed = intakeSchema.safeParse(input);
+  const isQuick = typeof input === "object" && input !== null && "intakeMode" in input && input.intakeMode === "quick";
+  const parsed = isQuick ? quickIntakeSchema.safeParse(input) : fullIntakeSchema.safeParse(input);
   if (!parsed.success) {
     const fields = [...new Set(parsed.error.issues.map((issue) => String(issue.path[0] ?? "request")))];
     return NextResponse.json({ error: "Invalid or missing intake fields.", fields }, { status: 400 });
   }
 
-  const payload: IntakePayload = parsed.data;
+  const payload = parsed.data;
+  const intakeMode = isQuick ? "quick" : "full";
 
   const routingContext = {
     division: payload.requestedDivision?.trim() || null,
@@ -91,6 +98,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         extractionId,
+        intakeMode,
         analysis,
         recommendedModule: analysis.recommendedModule,
         persisted: false,
@@ -113,10 +121,10 @@ export async function POST(request: Request) {
         phone: payload.phone?.trim() || null,
         company_name: payload.companyName?.trim() || null,
         thing: payload.thing,
-        audience: payload.audience,
-        problem: payload.problem,
+        audience: payload.audience ?? "",
+        problem: payload.problem ?? "",
         blocker: payload.blocker,
-        desired_outcome: payload.desiredOutcome,
+        desired_outcome: payload.desiredOutcome ?? "",
         existing_assets: payload.existingAssets,
         requested_help: analysisPayload.requestedHelp,
         constraints: payload.constraints,
@@ -127,7 +135,7 @@ export async function POST(request: Request) {
         progress_percent: 100,
         last_saved_at: new Date().toISOString(),
         submitted_at: new Date().toISOString(),
-        memory_state: { phase: "analysis", version: 3, routingContext },
+        memory_state: { phase: "analysis", version: 3, routingContext, intakeMode },
         analysis_snapshot: analysis,
         clarity_score: analysis.clarityScore,
         readiness_score: analysis.readinessScore,
@@ -145,6 +153,7 @@ export async function POST(request: Request) {
     {
       extractionId,
       recoveryToken: recovery.token,
+      intakeMode,
       recommendedModule: analysis.recommendedModule,
       analysis,
       persisted: true,

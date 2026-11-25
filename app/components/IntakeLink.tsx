@@ -22,5 +22,5 @@ export function IntakeLink({
   if (source) params.set("source", source);
   const query = params.toString();
   const accessibleName = ariaLabel ?? (service ? `Start ${service} intake` : undefined);
-  return <Link className={className} href={query ? `/intake?${query}` : "/intake"} aria-label={accessibleName}>{children}</Link>;
+  return <Link className={className} href={query ? `/intake/start?${query}` : "/intake/start"} aria-label={accessibleName}>{children}</Link>;
 }
