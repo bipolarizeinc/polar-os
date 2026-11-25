@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { runPolarAgentV2 } from "../../../../lib/polar/agent-v2";
 
-export async function GET() {
+export async function GET(request: Request) {
   if (process.env.VERCEL_ENV !== "preview") {
     return NextResponse.json({ error: "Not available." }, { status: 404 });
   }
@@ -32,6 +32,9 @@ export async function GET() {
       blueprint_brief: {},
       analysis_snapshot: {},
       last_saved_at: new Date().toISOString(),
+    },
+    {
+      gatewayCredential: request.headers.get("x-vercel-oidc-token") ?? undefined,
     },
   );
 
