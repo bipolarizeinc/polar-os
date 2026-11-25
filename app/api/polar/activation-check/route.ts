@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { runPolarAgentV2 } from "../../../../../lib/polar/agent-v2";
+import { runPolarAgentV2 } from "../../../../lib/polar/agent-v2";
 
 export async function GET() {
   if (process.env.VERCEL_ENV !== "preview") {
