@@ -31,11 +31,19 @@ type SecurityStatus = {
   passkeys: Passkey[];
 };
 
+type GitHubStatus = {
+  configured: boolean;
+  connected: boolean;
+  login?: string;
+  repository?: string;
+  verifiedAt?: string;
+};
+
 const CONNECTIONS: Connection[] = [
   { key: "gmail", label: "Gmail", status: "live-verified" },
   { key: "google-drive", label: "Google Drive", status: "live-verified" },
   { key: "google-calendar", label: "Google Calendar", status: "live-verified" },
-  { key: "github", label: "GitHub", status: "live-verified" },
+  { key: "github", label: "GitHub", status: "code-ready" },
   { key: "supabase", label: "Supabase", status: "live-verified" },
   { key: "vercel", label: "Vercel", status: "live-verified" },
   { key: "zoho-mail", label: "Zoho Mail", status: "code-ready", action: "zoho" },
@@ -57,12 +65,47 @@ export default function FounderControlPage() {
   const [busy, setBusy] = useState(false);
   const [expiresAt, setExpiresAt] = useState<string | null>(null);
   const [security, setSecurity] = useState<SecurityStatus | null>(null);
+  const [github, setGithub] = useState<GitHubStatus | null>(null);
 
   const counts = useMemo(() => ({
-    live: CONNECTIONS.filter((item) => item.status === "live-verified").length,
-    ready: CONNECTIONS.filter((item) => item.status === "code-ready").length,
+    live: CONNECTIONS.filter((item) => item.status === "live-verified").length + (github?.verifiedAt ? 1 : 0),
+    ready: CONNECTIONS.filter((item) => item.status === "code-ready").length - (github?.verifiedAt ? 1 : 0),
     planned: CONNECTIONS.filter((item) => item.status === "planned").length,
-  }), []);
+  }), [github?.verifiedAt]);
+
+  async function loadGithub() {
+    try {
+      const response = await fetch("/api/founder/connections/github", { cache: "no-store" });
+      if (!response.ok) {
+        setError("GitHub status could not be checked. Try again.");
+        return;
+      }
+      setGithub(await response.json());
+    } catch { setError("GitHub status could not be checked. Try again."); }
+  }
+
+  async function githubAction(action: "connect" | "verify") {
+    setBusy(true);
+    setError("");
+    try {
+      const response = await fetch("/api/founder/connections/github", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action }), cache: "no-store",
+      });
+      const body = await response.json();
+      if (!response.ok) {
+        setGithub((previous) => previous ? { ...previous, verifiedAt: undefined } : previous);
+        setError(body.error ?? "GitHub request failed.");
+        return;
+      }
+      if (body.authorizationUrl) {
+        window.location.assign(body.authorizationUrl);
+        return;
+      }
+      setGithub(body);
+    } catch { setError("GitHub request could not complete. Try again."); }
+    finally { setBusy(false); }
+  }
 
   async function loadSecurity() {
     const response = await fetch("/api/founder/security", { cache: "no-store" });
@@ -82,6 +125,7 @@ export default function FounderControlPage() {
         setExpiresAt(body.expiresAt ?? null);
         setAuth("authenticated");
         void loadSecurity();
+        void loadGithub();
       })
       .catch(() => setAuth("locked"));
   }, []);
@@ -109,6 +153,7 @@ export default function FounderControlPage() {
     setExpiresAt(body.expiresAt ?? null);
     setAuth("authenticated");
     await loadSecurity();
+    await loadGithub();
     setBusy(false);
   }
 
@@ -119,6 +164,7 @@ export default function FounderControlPage() {
     setAuth("locked");
     setExpiresAt(null);
     setSecurity(null);
+    setGithub(null);
     setBusy(false);
   }
 
@@ -158,6 +204,7 @@ export default function FounderControlPage() {
       setAuth("locked");
       setExpiresAt(null);
       setSecurity(null);
+      setGithub(null);
     }
   }
 
@@ -265,10 +312,22 @@ export default function FounderControlPage() {
         {CONNECTIONS.map((connection) => (
           <article key={connection.key} className={styles.card}>
             <div>
-              <span className={styles.status} data-status={connection.status}>{connection.status.replace("-", " ").toUpperCase()}</span>
+              <span className={styles.status} data-status={connection.key === "github" ? (github?.verifiedAt ? "live-verified" : "code-ready") : connection.status}>{connection.key === "github" ? (github?.verifiedAt ? "LIVE VERIFIED" : github?.connected ? "CONNECTED" : github ? "AWAITING CONNECTION" : "CHECKING") : connection.status.replace("-", " ").toUpperCase()}</span>
               <h2>{connection.label}</h2>
             </div>
-            {connection.action ? (
+            {connection.key === "github" ? (
+              <>
+                <p>{github?.verifiedAt
+                  ? `${github.login} · ${github.repository} · Verified ${new Date(github.verifiedAt).toLocaleString()}`
+                  : github?.connected ? "GitHub is connected. Verify repository access with a live read."
+                  : github?.configured === false ? "GitHub connection is not configured yet."
+                  : "Connect GitHub to verify access to polar-os."}</p>
+                <button onClick={() => githubAction(github?.connected ? "verify" : "connect")} disabled={busy || !github?.configured}>
+                  {github?.connected ? "VERIFY REPOSITORY ACCESS" : "CONNECT GITHUB"}
+                </button>
+                <button className={styles.secondary} onClick={loadGithub} disabled={busy}>REFRESH STATUS</button>
+              </>
+            ) : connection.action ? (
               <button onClick={() => connectProvider(connection.action!)} disabled={busy}>
                 CONNECT {connection.label.toUpperCase()}
               </button>

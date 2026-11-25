@@ -52,7 +52,7 @@ export const polarConnectionRegistry: Record<PolarConnectionKey, PolarConnection
     classification: "internal",
     capabilities: ["read", "search", "create", "update", "delete", "deploy"],
     approvalRequired: ["create", "update", "delete", "deploy"],
-    secretRefs: [],
+    secretRefs: ["COMPOSIO_API_KEY"],
     allowedDivisions: ["nexus", "cipher", "vault", "blueprint"],
   },
   vercel: {
