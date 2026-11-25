@@ -47,18 +47,23 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     console.error("POLAR agent runtime failed", error);
+    const errorMessage = error instanceof Error ? error.message : "";
     const configurationError =
-      error instanceof Error &&
-      (error.message.includes("not configured") || error.message.includes("API key"));
+      errorMessage.includes("not configured") || errorMessage.includes("API key");
+    const billingVerificationRequired =
+      errorMessage.includes("valid credit card") ||
+      errorMessage.includes("customer_verification_required");
 
     return NextResponse.json(
       {
-        error: configurationError
-          ? "POLAR intelligence services are not configured in this environment."
-          : "POLAR could not complete this run.",
+        error: billingVerificationRequired
+          ? "POLAR intelligence is configured, but the AI inference provider requires billing verification."
+          : configurationError
+            ? "POLAR intelligence services are not configured in this environment."
+            : "POLAR could not complete this run.",
       },
       {
-        status: configurationError ? 503 : 502,
+        status: configurationError || billingVerificationRequired ? 503 : 502,
         headers: { "Cache-Control": "no-store" },
       },
     );
