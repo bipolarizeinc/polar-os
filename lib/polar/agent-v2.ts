@@ -1,10 +1,13 @@
 import "server-only";
-import { Agent, run, tool } from "@openai/agents";
+import { Agent, OpenAIProvider, Runner, tool } from "@openai/agents";
 import { z } from "zod";
 import { evaluatePolarPolicy, type PolarAction } from "../../app/lib/polar-policy";
 import { researchWeb } from "./web-research";
 import { analyzeIntake } from "./analyze-intake";
 import type { PolarRecoveredSession } from "../../app/lib/polar-session";
+
+const POLAR_MODEL = "openai/gpt-5.6-sol";
+const POLAR_GATEWAY_BASE_URL = "https://ai-gateway.vercel.sh/v1";
 
 const baselineAnalysis = tool({
   name: "polar_baseline_analysis",
@@ -62,9 +65,6 @@ const authorityCheck = tool({
     ]),
   }),
   async execute(input) {
-    // This tool evaluates P.O.L.A.R.'s baseline institutional role only. It does
-    // not manufacture a human approval. Approval-gated actions therefore remain
-    // blocked until an execution tool receives a separately verified approval.
     return evaluatePolarPolicy({
       principal: {
         principalType: "agent",
@@ -85,7 +85,7 @@ const authorityCheck = tool({
 
 export const polarAgentV2 = new Agent({
   name: "P.O.L.A.R.",
-  model: "gpt-5.6",
+  model: POLAR_MODEL,
   instructions: `
 You are P.O.L.A.R., the operational intelligence layer for BI POLARIZE ENTERPRISES, INC.
 
@@ -123,6 +123,29 @@ function sessionToIntakeContext(session: PolarRecoveredSession) {
   };
 }
 
+function createPolarRunner() {
+  const gatewayCredential =
+    process.env.AI_GATEWAY_API_KEY?.trim() ||
+    process.env.VERCEL_OIDC_TOKEN?.trim();
+
+  if (!gatewayCredential) {
+    throw new Error("POLAR AI Gateway authentication is not configured.");
+  }
+
+  const modelProvider = new OpenAIProvider({
+    apiKey: gatewayCredential,
+    baseURL: POLAR_GATEWAY_BASE_URL,
+    useResponses: true,
+  });
+
+  const runner = new Runner({
+    modelProvider,
+    tracingDisabled: true,
+  });
+
+  return { runner, modelProvider };
+}
+
 export async function runPolarAgentV2(message: string, session: PolarRecoveredSession) {
   const cleanMessage = message.trim();
   if (!cleanMessage) throw new Error("POLAR requires a message.");
@@ -142,14 +165,22 @@ export async function runPolarAgentV2(message: string, session: PolarRecoveredSe
     intake: sessionToIntakeContext(session),
   };
 
-  const result = await run(
-    polarAgentV2,
-    `${cleanMessage}\n\nAUTHORIZED RECOVERED BLUEPRINT SESSION:\n${JSON.stringify(authorizedContext, null, 2)}`,
-    { maxTurns: 10 },
-  );
+  const { runner, modelProvider } = createPolarRunner();
 
-  return {
-    output: result.finalOutput,
-    agent: result.lastAgent?.name ?? polarAgentV2.name,
-  };
+  try {
+    const result = await runner.run(
+      polarAgentV2,
+      `${cleanMessage}\n\nAUTHORIZED RECOVERED BLUEPRINT SESSION:\n${JSON.stringify(authorizedContext, null, 2)}`,
+      { maxTurns: 10 },
+    );
+
+    return {
+      output: result.finalOutput,
+      agent: result.lastAgent?.name ?? polarAgentV2.name,
+      model: POLAR_MODEL,
+      gateway: "vercel-ai-gateway",
+    };
+  } finally {
+    await modelProvider.close();
+  }
 }
