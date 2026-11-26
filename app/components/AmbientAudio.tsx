@@ -5,6 +5,11 @@ import { usePathname } from "next/navigation";
 
 export function AmbientAudio() {
   const pathname = usePathname();
+  if (pathname === "/etsa" || pathname.startsWith("/etsa/") || pathname.startsWith("/dashboard") || pathname.startsWith("/portal") || pathname.startsWith("/admin")) return null;
+  return <AmbientAudioControl />;
+}
+
+function AmbientAudioControl() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [active, setActive] = useState(false);
 
@@ -32,8 +37,6 @@ export function AmbientAudio() {
       audio?.pause();
     };
   }, []);
-
-  if (pathname.startsWith("/dashboard") || pathname.startsWith("/portal") || pathname.startsWith("/admin")) return null;
 
   return (
     <>

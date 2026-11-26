@@ -30,6 +30,7 @@ export default function SampleBlueprint() {
         <li>Review the first week of requests, fix the biggest drop-off, then automate only the repetitive handoff.</li>
       </ol>
       <div className="blueprint-offer"><div><h2>BRING US YOUR THING.</h2><p>The $499 Blueprint starts with an Idea Extraction Session and covers the plan. Building the systems is separately scoped.</p></div><Link className="primary-action" href="/flagships/extraction">START WITH EXTRACTION ↗</Link></div>
+    <p>Want to see which strengths you can put behind the plan? <Link className="text-action" href="/etsa">Explore ETSA™ →</Link></p>
     </section>
   </PageShell>;
 }
