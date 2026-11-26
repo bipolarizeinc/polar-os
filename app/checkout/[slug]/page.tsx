@@ -20,6 +20,7 @@ export default async function CheckoutPage({ params, searchParams }: {
     <Link className="text-action" href="/shop">← ALL SERVICES</Link>
     <p className="eyebrow">{offer.kind === "flagship" ? "FLAGSHIP ENGAGEMENT" : "INDIVIDUAL SERVICE"}</p>
     <h1>{offer.name}</h1>
+    {offer.kind === "flagship" && <p><Link href="/etsa">Explore ETSA™</Link> to map the strengths you can bring to the Blueprint. ETSA is optional and not part of this purchase.</p>}
     <p>{offer.description}</p>
     <div className="commerce-summary"><span>{offer.reviewRequired ? "PUBLISHED ANNUAL FEE" : "SERVICE PRICE"}</span><strong>{offer.priceLabel}</strong><p>USD. This service price includes applicable tax; checkout shows the tax breakdown without adding it to the listed service price. Government filing fees and third-party charges are separate. Additional scope requires a separate agreement.</p></div>
     <h2>What happens next</h2>

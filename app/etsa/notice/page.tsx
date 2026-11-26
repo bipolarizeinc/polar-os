@@ -25,7 +25,7 @@ export default function EtsaNoticePage(){
     <div className={styles.eyebrow}>ETSA™ • Assessment Data Notice</div>
     <h1 className={styles.title}>Before we begin.</h1>
     <div className={styles.card}>
-      <div className={styles.notice}><p>ETSA™ stores your assessment responses, progress, scores, and generated talent profile so you can complete the assessment, access your results, and participate in future reassessments.</p><p>When ETSA is used for BPEI talent evaluation, authorized BPEI personnel may review your assessment results as one source of information for talent alignment, development, placement, or related organizational decisions.</p><p><strong>ETSA does not make autonomous final employment decisions.</strong></p></div>
+      <div className={styles.notice}><p>ETSA™ stores your assessment responses, progress, scores, and generated talent profile so you can complete the assessment, access your results, and participate in future reassessments.</p><p>Authorized reviewers may calibrate applied challenges to produce a report. Sharing that finalized report for BPEI placement or founder-offer review is a separate, optional choice in Results.</p><p><strong>ETSA does not make autonomous final employment decisions.</strong></p></div>
       <label className={styles.check}><input type="checkbox" checked={accepted} onChange={e=>setAccepted(e.target.checked)}/><span>I understand how my ETSA assessment information will be retained and used, and I agree to continue.</span></label>
       {error&&<p className={styles.error}>{error}</p>}
       <div className={styles.actions}><button className={styles.button} disabled={!accepted||loading} onClick={continueAssessment}>{loading?"SETTING UP…":"CONTINUE TO ASSESSMENT"}</button></div>

@@ -4,11 +4,11 @@ import { LegalFooter } from "../components/LegalFooter";
 export const metadata: Metadata = {
   title: "ETSA™ | Enterprise Talent & Skills Alignment",
   description:
-    "ETSA™ identifies where capabilities can create the greatest value across BI POLARIZE ENTERPRISES, INC. and maps development toward stronger role alignment.",
+    "ETSA™ turns structured questions and applied challenges into a talent profile with strengths, evidence confidence, role-alignment hypotheses, and next development steps.",
   alternates: { canonical: "/etsa" },
   openGraph: {
     title: "ETSA™ | BI POLARIZE",
-    description: "Enterprise Talent & Skills Alignment across nine BPEI divisions.",
+    description: "See your strengths, where to apply them, and what to develop next.",
     url: "/etsa",
   },
 };

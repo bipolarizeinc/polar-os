@@ -59,6 +59,7 @@ export default async function FlagshipDetail({ params }: Props) {
             <NextAction slug={item.slug} />
             {item.slug === "extraction" && <Link className="text-action" href={checkout}>Review the $499 Blueprint →</Link>}
             {startingStages && <Link className="text-action" href="/sample-blueprint">See a sample Blueprint →</Link>}
+            {startingStages && <Link className="text-action" href="/etsa">Pair the Blueprint with ETSA™ →</Link>}
           </div>
         </div>
         <div className={styles.visual} aria-hidden="true">
