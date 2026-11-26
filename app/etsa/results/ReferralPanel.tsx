@@ -61,7 +61,7 @@ export function ReferralPanel(){
     </div>}
     {!!placement&&<p className={styles.notice}>Placement review: {placement.decision==="invite"?"A BPEI reviewer invited you to talk.":placement.decision==="withdrawn"?"Withdrawn.":placement.decision==="closed"?"Review closed. This does not determine eligibility for any role.":"Awaiting human review."}</p>}
     {enabled&&placement?.decision==="invite"&&<div className={styles.actions}>
-      <a className={styles.button} href="tel:+18016868143">CALL THE BPEI TEAM ↗</a>
+      <a className={styles.button} href="tel:+18016868143">CALL THE BPEI TEAM</a>
       <form onSubmit={event=>{event.preventDefault();const form=new FormData(event.currentTarget);void request("PATCH",{kind:"placement",choice:"schedule",preferredTime:form.get("preferredTime"),timeZone:Intl.DateTimeFormat().resolvedOptions().timeZone});}}>
         <label>Preferred time (your local time) <input type="datetime-local" name="preferredTime" required/></label>
         <button className={styles.secondary} disabled={busy}>REQUEST A BETTER TIME</button>
@@ -70,7 +70,7 @@ export function ReferralPanel(){
     </div>}
     {!!founder&&<p className={styles.notice}>Founder offer: {founder.decision==="invite"?"A BPEI reviewer invited you to discuss a Blueprint offer. Ask the team for applicable terms before checkout.":founder.decision==="withdrawn"?"Withdrawn.":founder.decision==="closed"?"Review closed.":"Awaiting human review. No discount is applied automatically."}</p>}
     {rows.filter(row=>row.decision!=="withdrawn").map(row=><button key={row.kind} className={styles.secondary} disabled={busy} onClick={()=>void request("DELETE",{kind:row.kind,assessmentId:row.assessment_id})}>WITHDRAW {row.kind==="placement"?"PLACEMENT REQUEST":"FOUNDER OFFER REQUEST"}</button>)}
-    <p className={styles.muted}>Building a venture? <Link href="/flagships/blueprint">Explore the Bipolarized Blueprint™ ↗</Link></p>
+    <p className={styles.muted}>Building a venture? <Link href="/flagships/blueprint">Explore the Bipolarized Blueprint™</Link></p>
     {choice&&<form onSubmit={submit} key={choice}>
       <h3>{choice==="placement"?"BPEI placement review":"Founder offer review"}</h3>
       <div className={styles.grid}>{([["industry","Industry",industries],["roleFamily","Role family",roleFamilies],["workMode","Preferred working arrangement",workModes]] as const).map(([field,label,options])=><label key={field}>{label}<select name={field} defaultValue={intent[field]??""}><option value="">No preference yet</option>{options.map(item=><option key={item}>{item}</option>)}</select></label>)}</div>

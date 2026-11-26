@@ -22,6 +22,6 @@ export function Discovery({placementEnabled}:{placementEnabled:boolean}){
       {[["industry","What industry are you exploring?",industries],["roleFamily","What kind of work do you want to do?",roleFamilies],["workMode","How would you prefer to work?",workModes]].map(([name,label,options])=><label key={String(name)}>{label}<select name={String(name)} defaultValue=""><option value="">No preference yet</option>{(options as readonly string[]).map(option=><option key={option}>{option}</option>)}</select></label>)}
     </div>
     <p>These answers orient the conversation. They don’t change your ETSA score and aren’t shared with the placement team unless you choose to share them.</p>
-    <button className={styles.primary}>REVIEW THE DATA NOTICE & START <span aria-hidden="true">↗</span></button>
+    <button className={styles.primary}>REVIEW THE DATA NOTICE & START</button>
   </form>;
 }
