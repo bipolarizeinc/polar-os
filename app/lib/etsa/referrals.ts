@@ -1,4 +1,5 @@
 import "server-only";
+import {founderOfferStorageReady} from "./referral-gate";
 import {createHash} from "node:crypto";
 import type { SupabaseConfig } from "../polar-memory";
 import { supabaseRequest } from "../polar-memory";
@@ -14,11 +15,14 @@ export type Referral = {
   consent_at:string;
   email_notified_at:string|null;
   schedule_notified_at:string|null;
+  founder_offer_confirmed_at?:string|null;
+  founder_offer_invoice_reference?:string|null;
 };
 const fields="assessment_id,kind,preferences,decision,contact_choice,requested_time,requested_timezone,consent_at,email_notified_at,schedule_notified_at";
 
 export async function listReferrals(config:SupabaseConfig, assessmentId:string, includeContact=false){
-  return supabaseRequest<Referral[]>(config,`etsa_candidate_referrals?assessment_id=eq.${assessmentId}&select=${fields}${includeContact?",contact_email":""}&order=consent_at.asc`);
+  const offerFields=founderOfferStorageReady()?",founder_offer_confirmed_at"+(includeContact?",founder_offer_invoice_reference":""):"";
+  return supabaseRequest<Referral[]>(config,`etsa_candidate_referrals?assessment_id=eq.${assessmentId}&select=${fields}${includeContact?",contact_email":""}${offerFields}&order=consent_at.asc`);
 }
 
 export async function notifyReferral(config:SupabaseConfig, assessmentId:string, kind:Referral["kind"],event:"referral"|"schedule"="referral"){

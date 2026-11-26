@@ -3,11 +3,12 @@ import Link from "next/link";
 import { useEffect, useState, type FormEvent } from "react";
 import { customerRequest } from "@/app/lib/customer-request";
 import { discoveryKey, industries, roleFamilies, workModes } from "@/app/lib/etsa/discovery";
+import { BPEI_SMS_URL, FOUNDER_BLUEPRINT_PRICE } from "@/app/lib/etsa/founder-offer";
 import styles from "../etsa.module.css";
 
 type Kind="placement"|"founder";
 type Choice="as-soon-as-available"|"schedule";
-type Referral={assessment_id:string;kind:Kind;decision:"pending"|"invite"|"closed"|"withdrawn";contact_choice:Choice|null;requested_time:string|null;requested_timezone:string|null};
+type Referral={assessment_id:string;kind:Kind;decision:"pending"|"invite"|"closed"|"withdrawn";contact_choice:Choice|null;requested_time:string|null;requested_timezone:string|null;founder_offer_confirmed_at?:string|null};
 type Intent={intent?:string;industry?:string;roleFamily?:string;workMode?:string};
 
 export function ReferralPanel(){
@@ -61,14 +62,16 @@ export function ReferralPanel(){
     </div>}
     {!!placement&&<p className={styles.notice}>Placement review: {placement.decision==="invite"?"A BPEI reviewer invited you to talk.":placement.decision==="withdrawn"?"Withdrawn.":placement.decision==="closed"?"Review closed. This does not determine eligibility for any role.":"Awaiting human review."}</p>}
     {enabled&&placement?.decision==="invite"&&<div className={styles.actions}>
-      <a className={styles.button} href="tel:+18016868143">CALL THE BPEI TEAM</a>
+      <a className={styles.button} href={BPEI_SMS_URL}>SEND SMS MESSAGE NOW!</a>
+      <p className={styles.muted}>Opens your text messaging app. Nothing is sent until you press Send.</p>
       <form onSubmit={event=>{event.preventDefault();const form=new FormData(event.currentTarget);void request("PATCH",{kind:"placement",choice:"schedule",preferredTime:form.get("preferredTime"),timeZone:Intl.DateTimeFormat().resolvedOptions().timeZone});}}>
         <label>Preferred time (your local time) <input type="datetime-local" name="preferredTime" required/></label>
         <button className={styles.secondary} disabled={busy}>REQUEST A BETTER TIME</button>
       </form>
       {placement.contact_choice==="schedule"&&<p className={styles.muted}>You asked BPEI to coordinate a time. No appointment has been booked.</p>}
     </div>}
-    {!!founder&&<p className={styles.notice}>Founder offer: {founder.decision==="invite"?"A BPEI reviewer invited you to discuss a Blueprint offer. Ask the team for applicable terms before checkout.":founder.decision==="withdrawn"?"Withdrawn.":founder.decision==="closed"?"Review closed.":"Awaiting human review. No discount is applied automatically."}</p>}
+    {!!founder&&<p className={styles.notice}>Founder offer: {founder.decision==="invite"?(founder.founder_offer_confirmed_at?`A BPEI reviewer confirmed your ${FOUNDER_BLUEPRINT_PRICE} Bipolarized Blueprint™ offer. Contact the team to request your private invoice using this account’s email. This offer is not applied at public checkout.`:"A BPEI reviewer invited you to discuss a Blueprint offer. No discounted price has been confirmed."):founder.decision==="withdrawn"?"Withdrawn.":founder.decision==="closed"?"Review closed.":"Awaiting human review. No discount is applied automatically."}</p>}
+    {founder?.decision==="invite"&&founder.founder_offer_confirmed_at&&<Link className={styles.secondary} href="/contact?service=ETSA%20Founder%20Offer">CONTACT BPEI ABOUT MY PRIVATE INVOICE</Link>}
     {rows.filter(row=>row.decision!=="withdrawn").map(row=><button key={row.kind} className={styles.secondary} disabled={busy} onClick={()=>void request("DELETE",{kind:row.kind,assessmentId:row.assessment_id})}>WITHDRAW {row.kind==="placement"?"PLACEMENT REQUEST":"FOUNDER OFFER REQUEST"}</button>)}
     <p className={styles.muted}>Building a venture? <Link href="/flagships/blueprint">Explore the Bipolarized Blueprint™</Link></p>
     {choice&&<form onSubmit={submit} key={choice}>
