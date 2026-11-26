@@ -5,7 +5,7 @@ import Link from "next/link";
 
 type QueueItem={id:string;status:string;submitted_at:string|null;assessment_version:string;participant:{full_name:string;preferred_name:string|null}|null};
 
-type ReferralEntry={assessment_id:string;kind:string;decision:string;contact_choice:string|null;consent_at:string;email_notified_at:string|null};
+type ReferralEntry={assessment_id:string;kind:string;decision:string;contact_choice:string|null;consent_at:string;email_notified_at:string|null;founder_offer_confirmed_at?:string|null};
 
 export default function EtsaAdminPage(){
   const [referralsAvailable,setReferralsAvailable]=useState(false);
@@ -22,8 +22,8 @@ export default function EtsaAdminPage(){
     {!loading&&!error&&!queue.length&&<p style={{marginTop:28,color:"#8f9aa5"}}>No assessments are waiting for review.</p>}
     {(referralsAvailable||referralError)&&<section style={{marginTop:40}}><h2>Consented follow-up queue</h2>
       {referralError&&<p role="alert">{referralError}</p>}
-      {!referrals.length&&!referralError&&<p>No pending referrals or time requests.</p>}
-      <ul>{referrals.map(row=><li key={`${row.assessment_id}-${row.kind}`}><Link href={`/admin/etsa/${row.assessment_id}`}>{row.kind==="placement"?"Placement":"Founder offer"} · {row.contact_choice==="schedule"?"Time requested":row.decision} · {new Date(row.consent_at).toLocaleDateString()}</Link></li>)}</ul>
+      {!referrals.length&&!referralError&&<p>No pending referrals, time requests, or offers to invoice.</p>}
+      <ul>{referrals.map(row=><li key={`${row.assessment_id}-${row.kind}`}><Link href={`/admin/etsa/${row.assessment_id}`}>{row.kind==="placement"?"Placement":"Founder offer"} · {row.contact_choice==="schedule"?"Time requested":row.founder_offer_confirmed_at?"Confirmed offer / invoice needed":row.decision} · {new Date(row.consent_at).toLocaleDateString()}</Link></li>)}</ul>
     </section>}
   </div></main>;
 }
