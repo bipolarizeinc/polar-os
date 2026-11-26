@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { customerRequest } from "@/app/lib/customer-request";
 import styles from "../etsa.module.css";
+import { PrivateCareerEvidence } from "./PrivateCareerEvidence";
 import { ReferralPanel } from "./ReferralPanel";
 
 type CandidateReport={
@@ -78,6 +79,7 @@ export default function EtsaResultsPage(){
         <h2>Core Competencies</h2><div className={styles.grid}>{Object.entries(report.dimensionScores).map(([code,score])=><div className={styles.metric} key={code}><span>{dimensionNames[code]||code}</span><strong>{score}</strong><span>{report.evidenceConfidence[code]||""}</span></div>)}</div>
         <div className={styles.divider}/>
         <div className={styles.grid}><div className={styles.metric}><span>Current Readiness</span><strong>{report.readinessLevel}</strong><span>Current demonstrated responsibility</span></div><div className={styles.metric}><span>Development Priority</span><strong>{dimensionNames[report.developmentPriority]||report.developmentPriority}</strong><span>Highest-leverage next capability</span></div><div className={styles.metric}><span>Assessment Version</span><strong>{report.assessmentVersion}</strong><span>Versioned result</span></div></div>
+        <PrivateCareerEvidence/>
         <div className={styles.divider}/><ReferralPanel/>
         {attemptNumber===1&&<><div className={styles.divider}/><div className={styles.resultHero}><span className={styles.sectionLabel}>REASSESSMENT</span><strong>Want to see what changed?</strong><p className={styles.notice}>Your account includes one additional ETSA reassessment. You can complete the full assessment again. Updated paperwork from the reassessment is a paid unlock.</p></div><div className={styles.actions}><button className={styles.button} disabled={starting} onClick={startReassessment}>{starting?"STARTING…":"TAKE MY ETSA REASSESSMENT"}</button></div></>}
       </>:<div className={styles.resultHero}><strong>{status==="REVIEW_REQUIRED"?"Your responses are in review.":status.replaceAll("_"," ")}</strong><p className={styles.notice}>ETSA v1.0 includes applied challenges that require human calibration during the internal pilot. Your original responses are retained as a versioned assessment record. Your candidate-facing profile will appear here after review is finalized.</p><p className={styles.muted}>Assessment version: ETSA-1.0</p></div>}
