@@ -7,13 +7,13 @@ const id="5a496e6c-b207-4a92-96a6-2d86c704babe";
 const account="af1aa318-c7a2-43a3-b6d7-3b02ed5e14ce";
 const payload={kind:"placement",consent:true,industry:"Automotive & field services",roleFamily:"Operations & delivery"};
 const request=(data,origin=host)=>new Request(host+"/api/etsa/referral",{method:"POST",headers:{Origin:origin},body:JSON.stringify(data)});
-function candidate({auth=true,result=true,report=true,paid=true,attempts=1,decisionMatch=true,created=true,enabled=true}={}){
+function candidate({auth=true,result=true,report=true,paid=true,attempts=1,decisionMatch=true,created=true,enabled=true,storageReady=true}={}){
   const paths=[],calls=[],notifications=[];
   const route=load({
     "next/server":{NextResponse:{json:(data,options)=>({data,...options})}},
     "next/headers":{cookies:async()=>({get:()=>auth?{value:"authenticated"}:undefined})},
     "@/app/lib/etsa/auth":{getEtsaUser:async()=>({id:account,email:"participant@example.test"})},
-    "@/app/lib/etsa/referral-gate":{referralsEnabled:()=>enabled},
+    "@/app/lib/etsa/referral-gate":{referralsEnabled:()=>enabled,referralStorageReady:()=>storageReady},
     "@/app/lib/etsa/entitlements":{getPaidEtsaEntitlement:async()=>paid},
     "@/app/lib/etsa/data":{etsaRest:async path=>{
       paths.push(path);
@@ -71,4 +71,39 @@ test("server-side gate prevents submissions and time requests independently of c
   assert.equal(fixture.calls.length,0);
   assert.equal((await fixture.route.DELETE(request({kind:"placement",assessmentId:id}))).status,200);
   assert.equal(fixture.calls.length,1);
+});
+
+test("marketing-only rollout does not read unmigrated table",async()=>{
+  const fixture=candidate({storageReady:false,enabled:false});
+  const response=await fixture.route.GET();
+  assert.equal(response.data.enabled,false);
+  assert.equal(response.data.referrals.length,0);
+  assert.equal(fixture.paths.length,0);
+  assert.equal(fixture.calls.length,0);
+});
+
+test("notifications send fixed no-PII review links and separate event idempotency keys",async()=>{
+  const keys=[],mails=[],updates=[];
+  const prev={key:process.env.ETSA_RESEND_API_KEY,from:process.env.ETSA_NOTIFICATION_FROM};
+  process.env.ETSA_RESEND_API_KEY="resend-test";
+  process.env.ETSA_NOTIFICATION_FROM="alerts@example.test";
+  try{
+    const lib=load({
+      fetch:async(url,init)=>{assert.equal(url,"https://api.resend.com/emails");keys.push(init.headers["Idempotency-Key"]);mails.push(JSON.parse(init.body));return{ok:true};},
+      "../polar-memory":{supabaseRequest:async(_config,_path,init)=>updates.push(JSON.parse(init.body))}
+    })("app/lib/etsa/referrals.ts");
+    assert.equal(await lib.notifyReferral({},id,"placement","referral"),true);
+    assert.equal(await lib.notifyReferral({},id,"placement","schedule"),true);
+    assert.equal(await lib.notifyReferral({},id,"placement","schedule"),true);
+    assert.notEqual(keys[0],keys[1]);
+    assert.equal(keys[1],keys[2]);
+    assert.ok(keys.every(key=>!key.includes(id)));
+    assert.deepEqual(mails.map(x=>x.to),Array(3).fill(["yourthing@polarpaw.online"]));
+    assert.ok(mails.every(x=>x.text.endsWith("https://www.polarpaw.online/admin/etsa")&&!JSON.stringify(x).includes(id)));
+    assert.ok(updates[0].email_notified_at&&updates[1].schedule_notified_at);
+  }finally{
+    for(const [key,val] of [["ETSA_RESEND_API_KEY",prev.key],["ETSA_NOTIFICATION_FROM",prev.from]]){
+      if(val===undefined)delete process.env[key];else process.env[key]=val;
+    }
+  }
 });

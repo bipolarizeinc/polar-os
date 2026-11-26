@@ -6,7 +6,7 @@ import { etsaRest } from "@/app/lib/etsa/data";
 import { getPaidEtsaEntitlement } from "@/app/lib/etsa/entitlements";
 import { industries, roleFamilies, workModes } from "@/app/lib/etsa/discovery";
 import { getSupabaseConfig, supabaseRequest } from "@/app/lib/polar-memory";
-import { referralsEnabled } from "@/app/lib/etsa/referral-gate";
+import { referralStorageReady, referralsEnabled } from "@/app/lib/etsa/referral-gate";
 import { listReferrals, notifyReferral, type Referral } from "@/app/lib/etsa/referrals";
 
 const kind=z.enum(["placement","founder"]);
@@ -32,6 +32,7 @@ async function access(){
 }
 
 export async function GET(){
+  if(!referralStorageReady())return reply({enabled:false,referrals:[]});
   try{
     const context=await access();
     if(context.error)return context.error;
@@ -75,6 +76,7 @@ export async function PATCH(request:Request){
 
 
 export async function DELETE(request:Request){
+  if(!referralStorageReady())return reply({error:"Referral storage is not configured."},503);
   if(request.headers.get("origin")!==new URL(request.url).origin)return reply({error:"Invalid origin."},403);
   const input=z.object({kind,assessmentId:z.uuid()}).safeParse(await request.json().catch(()=>null));
   if(!input.success)return reply({error:"Choose the referral to withdraw."},400);
